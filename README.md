@@ -17,7 +17,7 @@ It is a Dungeons and Dragons inspired website that one can use customize a chara
 ## Getting Started
 The frontend is located in application/src while the backend is located in application/server.
 To set up the project:
-1. Run git clone https://github.com/Charlene999/CEN3031-Software-Engineering-Group-Project.git.
+1. Run git clone https://github.com/Charlene999/CEN3031-The-Perfect-Path.git.
 2. Install Node.js and NPM from https://nodejs.org/en/ (NPM is typically included with Node.js).
 3. Run npm install.
 4. This finishes the set up of the frontend. It can be run by entering application/ and running npm start.
