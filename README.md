@@ -1,10 +1,13 @@
 # CEN3031 Software Engineering Group Project (change this to our name)
 
 ## Authors
-Charlene Creighton - Frontend
-Kerry Hannigan - Backend
-Dylan Tosh - Frontend
-Connor Wojtak - Backend
+Frontend Developers
+Charlene Creighton
+Dylan Tosh
+
+Backend Developers
+Kerry Hannigan
+Connor Wojtak
 
 ## Description
 It is a Dungeons and Dragons inspired website that one can use customize a character's features and abilities. A user can search for keywords associated with certain spells, hero classes, and so on. Results are filtered based on keyword input. For example, if a user wants to find a high damage ability for a level 5 spellcaster, the user will select high damage from a drop-down bar and results will appear for spells with optional filters for classes or domains and so on. There is a login page, and the backend will store the current user’s customized characters.  
