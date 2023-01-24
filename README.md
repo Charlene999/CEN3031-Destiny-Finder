@@ -1,6 +1,6 @@
 # CEN3031 Software Engineering Group Project
 
-# Project Name - Personalized Paths
+# Project Name - The Perfect Path
 
 ## Project Members
 ### Frontend Engineers            
