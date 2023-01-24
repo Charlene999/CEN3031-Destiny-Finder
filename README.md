@@ -3,11 +3,11 @@
 # Project Name - Destiny Finder
 
 ## Authors
-### Frontend Developers            
+### Frontend Engineers            
 Charlene Creighton                   
 Dylan Tosh             
 
-### Backend Developers            
+### Backend Engineers            
 Kerry Hannigan             
 Connor Wojtak         
 
