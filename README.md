@@ -1,6 +1,6 @@
 # CEN3031 Software Engineering Group Project
 
-# Project Name - Destiny Finder
+# Project Name - Personalized Paths
 
 ## Project Members
 ### Frontend Engineers            
