@@ -1,6 +1,12 @@
-# CEN3031 Software Engineering Group Project
-### Authors: Charlene Creighton, Kerry Hannigan, Dylan Tosh, and Connor Wojtak
+# CEN3031 Software Engineering Group Project (change this to our name)
 
+## Authors
+Charlene Creighton, Kerry Hannigan, Dylan Tosh, and Connor Wojtak
+
+## Description
+(insert description here)
+
+## Getting Started
 The frontend is located in application/src while the backend is located in application/server.
 To set up the project:
 1. Run git clone https://github.com/Charlene999/CEN3031-Software-Engineering-Group-Project.git.
