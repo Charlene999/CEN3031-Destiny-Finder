@@ -1,4 +1,6 @@
-# CEN3031 Software Engineering Group Project (change this to our name)
+# CEN3031 Software Engineering Group Project
+
+# Project Name - Destiny Finder
 
 ## Authors
 ### Frontend Developers            
