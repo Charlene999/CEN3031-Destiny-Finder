@@ -1,1 +1,1 @@
-Sprint 1 First Meeting 1/27/2023
+First Meeting 1/27/2023
