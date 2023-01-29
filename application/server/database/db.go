@@ -29,7 +29,7 @@ func connectDB() (*gorm.DB) {
 	dbUser := goDotEnvVariable("DBUSER");
 	dbPass := goDotEnvVariable("DBPASS");
 
-	dsn := fmt.Sprintf("%s:%s@tcp(0.0.0.0:3306)/perfectpath?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
+	dsn := fmt.Sprintf("%s:%s@tcp(67.9.187.46:3306)/perfectpath?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
