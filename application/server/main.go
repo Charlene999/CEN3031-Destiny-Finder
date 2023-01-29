@@ -1,13 +1,12 @@
 //Derived from example code at https://github.com/gin-gonic/gin
-
 package main
 
 import (
 	"time"
 	"net/http"
-	
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"backend/controllers"
 )
 
 //Create a router for the backend, create endpoints, and run the server
@@ -16,10 +15,14 @@ func main() {
 	//Using documentation at github.com/gin-contrib/cors
 	var config = cors.DefaultConfig()
 	config.AllowOrigins = []string{"http://localhost:4200"}
-	
+
 	router.Use(cors.New(config))
 	
-	router.GET("/ping", ping)
+	//router.GET("/ping", ping)
+
+	userRepo := controllers.New()
+	router.POST("/users", userRepo.CreateUser)
+
 	router.Run()
 }
 
