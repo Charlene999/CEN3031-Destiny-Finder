@@ -6,18 +6,16 @@ import (
 
 type User struct {
 	gorm.Model
-	userId    int
-	name  string
-	username string
-	email string
-	password string
-	isAdmin bool
+	Name     string
+	Username string
+	Email    string
+	Password string
+	IsAdmin  bool
 }
 
-func CreateUser(db *gorm.DB, User *User) (err error) {
-	err = db.Create(User).Error
-	if err != nil {
-		return err
-	}
-	return nil
+type BuildUser struct {
+	Name     string
+	Username string
+	Email    string
+	Password string
 }

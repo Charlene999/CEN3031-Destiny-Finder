@@ -1,11 +1,12 @@
 package database
 
 import (
+	"fmt"
+	"os"
+
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"github.com/joho/godotenv"
-	"os"
-	"fmt"
 )
 
 func goDotEnvVariable(key string) string {
@@ -19,17 +20,18 @@ func goDotEnvVariable(key string) string {
 }
 
 var Db *gorm.DB
+
 func InitDb() *gorm.DB {
 	Db = connectDB()
 	return Db
 }
 
-func connectDB() (*gorm.DB) {
+func connectDB() *gorm.DB {
 	var err error
-	dbUser := goDotEnvVariable("DBUSER");
-	dbPass := goDotEnvVariable("DBPASS");
+	dbUser := goDotEnvVariable("DB_USERNAME")
+	dbPass := goDotEnvVariable("DB_PASSWORD")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(67.9.187.46:3306)/perfectpath?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
+	dsn := fmt.Sprintf("%s:%s@tcp(theperfectpath.cot5mnpozher.us-east-2.rds.amazonaws.com)/perfectpathdb?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
