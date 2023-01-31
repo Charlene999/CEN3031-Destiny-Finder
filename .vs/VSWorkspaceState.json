@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\application",
+    "\\application\\.angular",
+    "\\application\\server",
+    "\\application\\src",
+    "\\application\\src\\app"
+  ],
+  "SelectedNode": "\\application\\server\\main.go",
+  "PreviewInSolutionExplorer": false
+}
