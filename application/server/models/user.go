@@ -19,3 +19,8 @@ type BuildUser struct {
 	Email    string
 	Password string
 }
+
+type UserSignIn struct {
+	Username    string
+	Password string
+}

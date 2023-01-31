@@ -24,6 +24,7 @@ func main() {
 	userRepo := controllers.New()
 	router.POST("/users/create", userRepo.CreateUser)
 	router.GET("/users/get/:username", userRepo.GetUser)
+	router.POST("/users/login", userRepo.LogIn)
 
 	router.Run()
 }
