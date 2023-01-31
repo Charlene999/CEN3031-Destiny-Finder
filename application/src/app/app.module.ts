@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
+import { appRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './loginPageElements/login-page/login-page.component';
 
@@ -13,7 +13,8 @@ import { LoginPageComponent } from './loginPageElements/login-page/login-page.co
   ],
   imports: [
     BrowserModule,
-	HttpClientModule,
+    appRoutingModule,
+	  HttpClientModule,
     AppRoutingModule,
   ],
   providers: [],
