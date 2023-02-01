@@ -21,10 +21,13 @@ func main() {
 
 	//router.GET("/ping", ping)
 
-	userRepo := controllers.New()
-	router.POST("/users/create", userRepo.CreateUser)
-	router.GET("/users/get/:username", userRepo.GetUser)
-	router.POST("/users/login", userRepo.LogIn)
+	repos := controllers.New()
+	router.POST("/users/create", repos.CreateUser)
+	router.GET("/users/get", repos.GetUser)
+	router.POST("/users/login", repos.LogIn)
+
+	router.POST("/characters/create", repos.CreateCharacter)
+	router.GET("/characters/get", repos.GetCharacters)
 
 	router.Run()
 }
