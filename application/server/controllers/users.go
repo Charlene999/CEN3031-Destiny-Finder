@@ -2,33 +2,20 @@ package controllers
 
 import (
 	"fmt"
-	"os"
 
-	"backend/database"
 	"backend/models"
+	"backend/utilities"
 	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
-
-	"golang.org/x/crypto/bcrypt"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/joho/godotenv"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
-type UserRepo struct {
-	Db *gorm.DB
-}
-
-func New() *UserRepo {
-	db := database.InitDb()
-	db.AutoMigrate(&models.User{})
-	return &UserRepo{Db: db}
-}
-
-// create user
-func (repository *UserRepo) CreateUser(c *gin.Context) {
+// Create user
+func (repository *Repos) CreateUser(c *gin.Context) {
 	var buildUser models.BuildUser
 	err := c.ShouldBindJSON(&buildUser)
 	if err != nil {
@@ -46,13 +33,13 @@ func (repository *UserRepo) CreateUser(c *gin.Context) {
 
 	//Check to make sure there is no other user with the same username
 	var existingUser models.User
-	err = repository.Db.First(&existingUser, "username = ?", buildUser.Username).Error
+	err = repository.UserDb.First(&existingUser, "username = ?", buildUser.Username).Error
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": buildUser.Username})
 		return
 	}
 
-	err = repository.Db.Create(&user).Error
+	err = repository.UserDb.Create(&user).Error
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
@@ -60,39 +47,41 @@ func (repository *UserRepo) CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
-// get user by username
-func (repository *UserRepo) GetUser(c *gin.Context) {
-	//Get the id parameter
-	var username = c.Param("username")
+// Get user by token
+func (repository *Repos) GetUser(c *gin.Context) {
+	var getUser models.GetUser
+	err := c.ShouldBindJSON(&getUser)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
 
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(getUser.UserToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+
+	//Find the user
 	var user models.User
-	err := repository.Db.First(&user, "username = ?", username).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": username})
-		return
-	}
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 	c.JSON(http.StatusOK, user)
-}
-
-// I tried to put this in a new shared Utils package but the func was "undefined" ?
-func goDotEnvVariable(key string) string {
-	err := godotenv.Load()
-
-	if err != nil {
-		fmt.Println("Error loading .env file")
-	}
-
-	return os.Getenv(key)
 }
 
 // TODO: (KH) break apart into separate methods to be called by LogIn
-// i.e. method to CheckForExistingUser, method to CheckPassword, GenerateToken, etc. 
-// maybe put in shared Utils or Helpers package? 
-func (repository *UserRepo) LogIn(c *gin.Context) {
+// i.e. method to CheckForExistingUser, method to CheckPassword, GenerateToken, etc.
+// maybe put in shared Utils or Helpers package?
+func (repository *Repos) LogIn(c *gin.Context) {
 	var signInInput models.UserSignIn
 	err := c.ShouldBindJSON(&signInInput)
 	if err != nil {
@@ -101,7 +90,7 @@ func (repository *UserRepo) LogIn(c *gin.Context) {
 	}
 
 	var user models.User
-	err = repository.Db.First(&user, "username = ?", signInInput.Username).Error
+	err = repository.UserDb.First(&user, "username = ?", signInInput.Username).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": signInInput.Username})
 		return
@@ -113,7 +102,7 @@ func (repository *UserRepo) LogIn(c *gin.Context) {
 		return
 	}
 
-	secret := goDotEnvVariable("TOKEN_SECRET")
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"Username": signInInput.Username,
 	})
@@ -126,5 +115,5 @@ func (repository *UserRepo) LogIn(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"token":tokenString})
+	c.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
