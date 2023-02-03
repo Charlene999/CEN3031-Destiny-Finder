@@ -2,15 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\application",
-    "\\application\\server\\controllers",
-    "\\application\\server\\database",
-    "\\application\\server\\models",
     "\\application\\src",
-    "\\application\\src\\app",
     "\\application\\src\\app\\loginPageElements",
-    "\\application\\src\\app\\loginPageElements\\login-page",
-    "\\application\\src\\assets"
+    "\\application\\src\\app\\loginPageElements\\login-page"
   ],
-  "SelectedNode": "\\application\\src\\app\\loginPageElements\\login-page\\index.ts",
+  "SelectedNode": "\\application\\src\\images",
   "PreviewInSolutionExplorer": false
 }

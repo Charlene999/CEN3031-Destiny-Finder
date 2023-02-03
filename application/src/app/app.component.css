@@ -14,9 +14,14 @@ a {
   color: rgb(255, 180, 0);
   letter-spacing: 1px;
   text-align: center;
+  text-decoration: none;
 }
   a:hover {
     background-color: transparent;
+  }
+
+  a:active {
+    color: rgb(255, 120, 0);
   }
 
 text
