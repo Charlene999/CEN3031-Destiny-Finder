@@ -3,37 +3,25 @@ package controllers
 import (
 	"fmt"
 
-	"backend/database"
-	"backend/helpers"
 	"backend/models"
+	"backend/utilities"
 	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
-
 	"github.com/golang-jwt/jwt/v4"
+	"gorm.io/gorm"
 )
 
-type UserRepo struct {
-	Db *gorm.DB
-}
-
-func New() *UserRepo {
-	db := database.InitDb()
-	db.AutoMigrate(&models.User{})
-	return &UserRepo{Db: db}
-}
-
-func DoesUserExist(username string, repository *UserRepo, user *models.User) (bool, error) {
-	err := repository.Db.First(&user, "username = ?", username).Error
+func DoesUserExist(username string, repository *Repos, user *models.User) (bool, error) {
+	err := repository.UserDb.First(&user, "username = ?", username).Error
 
 	// returns t/f and always returns the err
 	return !errors.Is(err, gorm.ErrRecordNotFound), err
 }
 
-// create user
-func (repository *UserRepo) CreateUser(c *gin.Context) {
+// Create user
+func (repository *Repos) CreateUser(c *gin.Context) {
 	var buildUser models.BuildUser
 	err := c.ShouldBindJSON(&buildUser)
 	if err != nil {
@@ -41,7 +29,7 @@ func (repository *UserRepo) CreateUser(c *gin.Context) {
 		return
 	}
 
-	hashedPassword, err := helpers.HashPassword(buildUser.Password)
+	hashedPassword, err := utilities.HashPassword(buildUser.Password)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"Could not hash password": buildUser.Password})
 		return
@@ -57,7 +45,7 @@ func (repository *UserRepo) CreateUser(c *gin.Context) {
 		return
 	}
 
-	err = repository.Db.Create(&user).Error
+	err = repository.UserDb.Create(&user).Error
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -65,26 +53,38 @@ func (repository *UserRepo) CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
-// get user by username
-func (repository *UserRepo) GetUser(c *gin.Context) {
-	//Get the id parameter
-	var username = c.Param("username")
+// Get user by token
+func (repository *Repos) GetUser(c *gin.Context) {
+	var getUser models.GetUser
+	err := c.ShouldBindJSON(&getUser)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(getUser.UserToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+
+	//Find the user
 	var user models.User
-
-	userExists, err := DoesUserExist(username, repository, &user)
-
-	if !userExists {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"User not found": username})
-		return
-	}
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
 	c.JSON(http.StatusOK, user)
 }
 
-func (repository *UserRepo) LogIn(c *gin.Context) {
+func (repository *Repos) LogIn(c *gin.Context) {
 	var signInInput models.UserSignIn
 	err := c.ShouldBindJSON(&signInInput)
 	if err != nil {
@@ -103,9 +103,9 @@ func (repository *UserRepo) LogIn(c *gin.Context) {
 		return
 	}
 
-	helpers.CheckPassword(user.Password, signInInput.Password)
+	utilities.CheckPassword(user.Password, signInInput.Password)
 
-	secret := helpers.GoDotEnvVariable("TOKEN_SECRET")
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"Username": signInInput.Username,
 	})

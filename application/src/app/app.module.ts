@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { appRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './loginPageElements/login-page/login-page.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

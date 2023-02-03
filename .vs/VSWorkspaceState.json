@@ -2,11 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\application",
-    "\\application\\.angular",
-    "\\application\\server",
     "\\application\\src",
-    "\\application\\src\\app"
+    "\\application\\src\\app\\loginPageElements",
+    "\\application\\src\\app\\loginPageElements\\login-page"
   ],
-  "SelectedNode": "\\application\\server\\main.go",
+  "SelectedNode": "\\application\\src\\images",
   "PreviewInSolutionExplorer": false
 }

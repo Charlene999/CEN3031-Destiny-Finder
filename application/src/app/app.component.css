@@ -1,0 +1,29 @@
+.navbar-nav {
+  display: block;
+  width: 1500px;
+  margin: 0;
+  font-size: 22px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background-color: transparent;
+  offset-position: left;
+}
+a {
+  padding: 8px;
+  display: inline;
+  background-color: rgba(226, 88, 34, .36);
+  color: rgb(255, 180, 0);
+  letter-spacing: 1px;
+  text-align: center;
+  text-decoration: none;
+}
+  a:hover {
+    background-color: transparent;
+  }
+
+  a:active {
+    color: rgb(255, 120, 0);
+  }
+
+text
+{
+}

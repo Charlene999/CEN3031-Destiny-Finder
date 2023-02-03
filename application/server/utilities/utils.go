@@ -1,8 +1,9 @@
-package helpers
+package utilities
 
 import (
-	"os"
 	"fmt"
+	"os"
+
 	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"
 )

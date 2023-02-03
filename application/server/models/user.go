@@ -21,6 +21,10 @@ type BuildUser struct {
 }
 
 type UserSignIn struct {
-	Username    string
+	Username string
 	Password string
+}
+
+type GetUser struct {
+	UserToken string
 }

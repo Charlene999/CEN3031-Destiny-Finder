@@ -2,7 +2,8 @@ package database
 
 import (
 	"fmt"
-	"backend/helpers"
+
+	"backend/utilities"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -17,8 +18,8 @@ func InitDb() *gorm.DB {
 
 func connectDB() *gorm.DB {
 	var err error
-	dbUser := helpers.GoDotEnvVariable("DB_USERNAME")
-	dbPass := helpers.GoDotEnvVariable("DB_PASSWORD")
+	dbUser := utilities.GoDotEnvVariable("DB_USERNAME")
+	dbPass := utilities.GoDotEnvVariable("DB_PASSWORD")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(theperfectpath.cot5mnpozher.us-east-2.rds.amazonaws.com)/perfectpathdb?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
