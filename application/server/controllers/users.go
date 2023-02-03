@@ -103,7 +103,11 @@ func (repository *Repos) LogIn(c *gin.Context) {
 		return
 	}
 
-	utilities.CheckPassword(user.Password, signInInput.Password)
+	err = utilities.CheckPassword(user.Password, signInInput.Password)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadGateway, gin.H{"error": signInInput.Password})
+		return
+	}
 
 	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
