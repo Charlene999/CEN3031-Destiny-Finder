@@ -1,13 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-  background-image: url('D&Dbackground.jpg');
+  background-image: url('assets/images/D&Dbackground.jpg');
   background-position: revert;
-  background-size: cover;
-}
-
-label{
-    offset-position:center;
-}
-button{
-    background-color: transparent;
+  background-size:cover;
 }

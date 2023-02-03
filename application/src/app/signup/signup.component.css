@@ -24,16 +24,16 @@
   *margin-left: .3em;
 }
 
-  .btn:hover
-  {
+  .btn:hover {
   }
+
   .btn.active, .btn.disabled, .btn[disabled] {
-    
   }
-.btn:active
-{
+
+  .btn:active {
     background-color: transparent;
-}
+  }
+
 .btn-large {
   padding: 9px 14px;
   font-size: 15px;
@@ -87,7 +87,7 @@ html {
   overflow: hidden;
 }
 
-.login {
+.register {
   position: absolute;
   top: 50%;
   right: 5%;
@@ -96,7 +96,7 @@ html {
   height: 300px;
 }
 
-  .login h1 {
+  .register h1 {
     color: white;
     text-shadow: 0 0 10px rgba(0,0,0,0.7);
     letter-spacing: 1px;
