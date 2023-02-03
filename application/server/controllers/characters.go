@@ -16,7 +16,7 @@ func (repository *Repos) CreateCharacter(c *gin.Context) {
 	var buildCharacter models.BuildCharacter
 	err := c.ShouldBindJSON(&buildCharacter)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -28,7 +28,7 @@ func (repository *Repos) CreateCharacter(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -36,7 +36,7 @@ func (repository *Repos) CreateCharacter(c *gin.Context) {
 	var user models.User
 	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -45,7 +45,7 @@ func (repository *Repos) CreateCharacter(c *gin.Context) {
 
 	err = repository.CharacterDb.Create(&character).Error
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, character)
@@ -56,7 +56,7 @@ func (repository *Repos) GetCharacters(c *gin.Context) {
 	var getCharacters models.GetCharacters
 	err := c.ShouldBindJSON(&getCharacters)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -68,14 +68,14 @@ func (repository *Repos) GetCharacters(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	var user models.User
 	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -88,7 +88,7 @@ func (repository *Repos) GetCharacters(c *gin.Context) {
 		return
 	}
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
