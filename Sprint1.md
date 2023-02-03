@@ -16,12 +16,13 @@ We created the following 10 user stories:
 
 ## Issues Planned to Be Addressed
 We created issues during both of our Sprint 1 meetings on 01/27/2023 and 02/03/2023.
-For the backend, we planned to first set up the MySQL database hosted on AWS and GORM. Then, we planned to set up a basic Go project with Gin while also incorporating the GORM library. Then, we planned to implement a user creation endpoint that would take in a unique username along with an email address, name, and password and store the user in the database. In addition, we also planned to develop a login endpoint, where provided a correct username and password, a JSON web token describing that user would be returned. Afterwards, we planned to implement a get user endpoint that would return details about a user given a JSON web token.
+For the backend during Sprint 1, we planned to first set up the MySQL database hosted on AWS and GORM. Then, we planned to set up a basic Go project with Gin while also incorporating the GORM library. Then, we planned to implement a user creation endpoint that would take in a unique username along with an email address, name, and password and store the user in the database. In addition, we also planned to develop a login endpoint, where provided a correct username and password, a JSON web token describing that user would be returned. Afterwards, we planned to implement a get user endpoint that would return details about a user given a JSON web token.
 
 In addition to API endpoints for user management, we planned to develop endpoints for character management. Since characters belong to a user, each of the character API requests would have to be provided a JSON web token identifying the user. The get characters endpoint was planned to take this token and return all of the characters that a user has created. Meanwhile, the create characters endpoint was planned to get the name, level, and description of a character in addition to the token and create a new character for that user.
 
-Meanwhile, for the frontend, <FRONT END INSERT ISSUES HERE>
+Meanwhile, for the frontend during Sprint 1, <FRONT END INSERT ISSUES HERE>
 
 ## Successfully Resolved Issues
 
-## Unsuccessfully Resolved Issues
+## Problems with Resolving Issues
+While all of the backend issues planned for this sprint were successfully resolved, some aspects of the implementation may need to be revisited in the future. For example, the get characters and get user API requests are actually currently POST methods as a JSON web token identifying the user currently logged in is contained in the request body. In the future, we may provide the frontend with both a token and a user id to be saved as cookies so that these API endpoint requests may be converted into GET requests that send the user id as a parameter rather than a JSON web token in the body.
