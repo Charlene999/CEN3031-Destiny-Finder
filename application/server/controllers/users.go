@@ -10,38 +10,44 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
+
+func DoesUserExist(username string, repository *Repos, user *models.User) (bool, error) {
+	err := repository.UserDb.First(&user, "username = ?", username).Error
+
+	// returns t/f and always returns the err
+	return !errors.Is(err, gorm.ErrRecordNotFound), err
+}
 
 // Create user
 func (repository *Repos) CreateUser(c *gin.Context) {
 	var buildUser models.BuildUser
 	err := c.ShouldBindJSON(&buildUser)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(buildUser.Password), bcrypt.DefaultCost)
+	hashedPassword, err := utilities.HashPassword(buildUser.Password)
 	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": "Could not hash password"})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"Could not hash password": buildUser.Password})
 		return
 	}
 
 	user := models.User{Name: buildUser.Name, Username: buildUser.Username, Email: buildUser.Email, Password: string(hashedPassword), IsAdmin: false}
 
+	// _ means discard this err - if the user exists there will be an err, which is fine for this purpose
+	userExists, _ := DoesUserExist(buildUser.Username, repository, &user)
 	//Check to make sure there is no other user with the same username
-	var existingUser models.User
-	err = repository.UserDb.First(&existingUser, "username = ?", buildUser.Username).Error
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": buildUser.Username})
+	if userExists {
+		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"User already exists with this username": buildUser.Username})
 		return
 	}
 
 	err = repository.UserDb.Create(&user).Error
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, user)
@@ -52,7 +58,7 @@ func (repository *Repos) GetUser(c *gin.Context) {
 	var getUser models.GetUser
 	err := c.ShouldBindJSON(&getUser)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -64,7 +70,7 @@ func (repository *Repos) GetUser(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -72,35 +78,32 @@ func (repository *Repos) GetUser(c *gin.Context) {
 	var user models.User
 	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, user)
 }
 
-// TODO: (KH) break apart into separate methods to be called by LogIn
-// i.e. method to CheckForExistingUser, method to CheckPassword, GenerateToken, etc.
-// maybe put in shared Utils or Helpers package?
 func (repository *Repos) LogIn(c *gin.Context) {
 	var signInInput models.UserSignIn
 	err := c.ShouldBindJSON(&signInInput)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	var user models.User
-	err = repository.UserDb.First(&user, "username = ?", signInInput.Username).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": signInInput.Username})
+	userExists, err := DoesUserExist(signInInput.Username, repository, &user)
+	if !userExists {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"User not found": signInInput.Username})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(signInInput.Password))
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadGateway, gin.H{"error": signInInput.Password})
-		return
-	}
+	utilities.CheckPassword(user.Password, signInInput.Password)
 
 	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
