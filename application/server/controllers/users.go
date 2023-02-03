@@ -58,7 +58,7 @@ func (repository *Repos) GetUser(c *gin.Context) {
 	var getUser models.GetUser
 	err := c.ShouldBindJSON(&getUser)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -70,7 +70,7 @@ func (repository *Repos) GetUser(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -78,7 +78,7 @@ func (repository *Repos) GetUser(c *gin.Context) {
 	var user models.User
 	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, user)
