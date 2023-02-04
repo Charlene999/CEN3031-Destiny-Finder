@@ -18,8 +18,8 @@ export class LoginComponent {
         if (200) {
           alert("Successful login.");
           //console.log(res.token);
-          //Adds a redirect to localhost:4200/myprofile (the future user profile page)
-          this.router.navigateByUrl('http://localhost:4200/myprofile');
+          //Adds a redirect to localhost:4200//users/get (the user profile page)
+          this.router.navigateByUrl('/users/get');
         }
       }, (error) => {
         if (error.status === 404) {
