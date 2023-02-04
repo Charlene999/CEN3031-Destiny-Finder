@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './logout.component.html',
@@ -6,8 +7,13 @@ import { Component } from '@angular/core';
 })
 
 export class LogoutComponent {
+
+  constructor(private router:Router){ }
+  
   logout() {
     //Add functionality to delete JWT Token
+    
     //Redirect to home page
+    this.router.navigateByUrl('/');
   }
 }
