@@ -4,9 +4,11 @@
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="navbar-nav">
 
+      <!-- This is what changes the routing on the home page (localhost:4200)-->
+      <!-- NOTE: routerLink must match the path indicated in app.component.html-->
       <a class="nav-item nav-link" routerLink="/">Home</a>
-      <a class="nav-item nav-link" routerLink="/login">Login</a>
-      <a class="nav-item nav-link" routerLink="/signup">Sign Up</a>
+      <a class="nav-item nav-link" routerLink="/users/login">Login</a>
+      <a class="nav-item nav-link" routerLink="/users/create">Sign Up</a>
 
     </div>
 
