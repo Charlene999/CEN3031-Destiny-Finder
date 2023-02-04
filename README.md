@@ -15,13 +15,33 @@ Connor Wojtak
 The Perfect Path is a Dungeons and Dragons inspired website that one can use customize a character's features and abilities. A user can search for keywords associated with certain spells, hero classes, and so on. Results are filtered based on keyword input. For example, if a user wants to find a high damage ability for a level 5 spellcaster, the user will select high damage from a drop-down bar and results will appear for spells with optional filters for classes or domains and so on. There is a login page, and the backend will store the current user’s customized characters. A database will be used to store the levels of certain users, and the level of a user will determine what abilities and features are available to that user.
 
 ## Getting Started
-The frontend is located in application/src while the backend is located in application/server.
-To set up the project:
-1. Run git clone https://github.com/Charlene999/CEN3031-The-Perfect-Path.git.
-2. Install Node.js and NPM from https://nodejs.org/en/ (NPM is typically included with Node.js).
-3. Run npm install.
-4. This finishes the set up of the frontend. It can be run by entering application/ and running npm start.
-5. Install Go from https://go.dev/dl/.
-6. Run go install github.com/gin-contrib/cors@latest.
-7. Run go install github.com/gin-gonic/gin@latest.
-8. This finishes set up of the backend. It can be run by entering application/server and running go run main.go.
+Frontend is located in application/src.            
+Backend is located in application/server.            
+
+### Required Technologies            
+Install Node.js and NPM from https://nodejs.org/en/ (Note: NPM is typically included with Node.js).            
+Install Go from https://go.dev/dl/.            
+
+### Initial Project Setup            
+Run `git clone https://github.com/Charlene999/CEN3031-The-Perfect-Path.git` from a terminal or command line pathed into a designated folder.            
+Change directory into the newly created CEN3031-The-Perfect-Path folder.            
+Run `ng new application`.            
+	When it asks, add Angular routing and use CSS.            
+
+### Frontend Setup            
+Change directory into application/src.            
+Run `npm install -g @angular/cli`.            
+Run the frontend using the command `npm start` (Make sure you are within the application/src directory).            
+            
+### Backend Setup            
+Change directory into application/server.            
+Run `touch .env`.            
+Enter the following three lines into the .env file and replace with your chosen SQL database information:            
+  `DB_USERNAME=replacethiswithdatabaseusername`            
+  `DB_PASSWORD=replacethiswithdatabasepassword`            
+  `TOKEN_SECRET=replacethiswithdatabasetokenpassword`            
+Run `go get github.com/gin-contrib/cors`.            
+Run `go get github.com/gin-gonic/gin`.            
+Run `go get github.com/golang-jwt/jwt/v4`.            
+Run the backend using the command `go run main.go` (Make sure you are within the application/server directory).            
+
