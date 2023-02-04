@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './signup.component.html',
@@ -9,7 +10,7 @@ import { NgForm } from '@angular/forms';
 
 export class SignupComponent {
 
-  constructor(private http:HttpClient){ }
+  constructor(private http:HttpClient, private router:Router){ }
 
   onSubmit(f: NgForm) {
     const options = {headers: {'Content-Type': 'application/json'}};
@@ -17,6 +18,8 @@ export class SignupComponent {
     this.http.post('http://localhost:8080/users/create', JSON.stringify(f.value), options).subscribe((res: any)=> {
         if(200) {
           alert("Successful account creation.");
+          //Redirect back to home page to login
+          this.router.navigateByUrl('http://localhost:4200/');
         }
       }, (error) => {
         if (error.status === 404) {

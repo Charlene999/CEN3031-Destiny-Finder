@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 
-export class LoginPageComponent {
-
+export class LoginComponent {
   constructor(private http:HttpClient, private router:Router){ }
 
   onSubmit(f: NgForm) {
