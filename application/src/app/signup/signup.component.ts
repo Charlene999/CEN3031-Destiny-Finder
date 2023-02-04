@@ -12,6 +12,12 @@ export class SignupComponent {
 
   constructor(private http:HttpClient, private router:Router){ }
 
+  ngOnInit() {
+    if (localStorage.getItem('id_token') !== null) {
+      this.router.navigateByUrl('/');
+    }
+  }
+
   onSubmit(f: NgForm) {
     const options = {headers: {'Content-Type': 'application/json'}};
 

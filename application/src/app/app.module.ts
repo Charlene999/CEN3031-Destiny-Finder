@@ -11,7 +11,6 @@ import { ItemsComponent } from './items/items.component';
 import { CharactersComponent } from './characters/characters.component';
 import { ClassesComponent } from './classes/classes.component';
 import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
 import { UsersComponent } from './users/users.component';
 import { CreateCharactersComponent } from './characters/create-characters/create-characters/create-characters.component';
 
@@ -24,7 +23,6 @@ import { CreateCharactersComponent } from './characters/create-characters/create
     ItemsComponent,
     CharactersComponent,
     ClassesComponent,
-    LogoutComponent,
     UsersComponent,
     CreateCharactersComponent,
   ],

@@ -10,7 +10,13 @@ import { Router } from '@angular/router';
 
 export class CreateCharactersComponent {
 
-  constructor(private http:HttpClient, private router:Router){ }
+  constructor(private router:Router){ }
+
+  ngOnInit() {
+    if (localStorage.getItem('id_token') === null) {
+      this.router.navigateByUrl('/');
+    }
+  }
 
   onSubmit(f: NgForm) {
 

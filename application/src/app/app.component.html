@@ -5,29 +5,21 @@
   <!-- Navigation Bar with links<img class="mainlogo" src="assets/images/D&Dlogo.jpg">-->
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="navbar-nav">
-      <!-- This is what changes the routing on the home page (localhost:4200)-->
+      <!-- This is what changes the routing on the navigation bar-->
       <!-- NOTE: routerLink must match the path indicated in app.component.html-->
+
       <a class="nav-item nav-link" routerLink="/">Home</a>
-
-      <!-- TODO - Add following functionality:
-            If user not logged in, display login and create user tabs-->
-      <a class="nav-item nav-link" routerLink="/users/login">Login</a>
-      <a class="nav-item nav-link" routerLink="/users/create">Sign Up</a>
       
-      <!-- TODO - Add following functionality:
-            If user is logged in, display logout and profile tabs-->
-      <a class="nav-item nav-link" routerLink="/users/logout">Logout</a>
-      <a class="nav-item nav-link" routerLink="/users/get">Profile</a>
-
-      <!-- TODO - Make the following link available to navigate to, but not visible on the navbar -->
-      <a class="nav-item nav-link" routerLink="/users/create-character">Create Character</a>
-
-      <!-- TODO: Leaving this connection here for now. /users/characters will most likely 
-      be changed into /users/characters/:id and integrated into /users/myprofile.
-      <a class="nav-item nav-link" routerLink="/users/characters">Profile</a> -->
-      <a class="nav-item nav-link" routerLink="/classes">Classes</a>
-      <a class="nav-item nav-link" routerLink="/spells">Spells</a>
-      <a class="nav-item nav-link" routerLink="/items">Items</a>
+      <!--If user not logged in, display login and create user tabs-->
+      <a class="nav-item nav-link" routerLink="/users/login" *ngIf="!loggedIn()">Login</a>
+      <a class="nav-item nav-link" routerLink="/users/create" *ngIf="!loggedIn()">Sign Up</a>
+      
+      <!--If user is logged in, display all these tabs instead-->
+      <a class="nav-item nav-link" (click)="logout()" *ngIf="loggedIn()">Logout</a>
+      <a class="nav-item nav-link" routerLink="/users/get" *ngIf="loggedIn()">Profile</a>
+      <a class="nav-item nav-link" routerLink="/classes" *ngIf="loggedIn()">Classes</a>
+      <a class="nav-item nav-link" routerLink="/spells" *ngIf="loggedIn()">Spells</a>
+      <a class="nav-item nav-link" routerLink="/items" *ngIf="loggedIn()">Items</a>
     </div>
   </nav>
 
@@ -36,7 +28,8 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
-          <router-outlet></router-outlet>
+          <router-outlet>
+          </router-outlet>
         </div>
       </div>
     </div>
