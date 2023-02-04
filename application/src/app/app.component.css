@@ -2,28 +2,44 @@
   display: block;
   width: 1500px;
   margin: 0;
-  font-size: 22px;
+  font-size: 30px;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  background-color: transparent;
-  offset-position: left;
+  background-color: rgba(226, 88, 34, .36);
+  text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
 }
+
 a {
   padding: 8px;
   display: inline;
-  background-color: rgba(226, 88, 34, .36);
+  background-color: transparent;
   color: rgb(255, 180, 0);
   letter-spacing: 1px;
   text-align: center;
   text-decoration: none;
 }
+
   a:hover {
-    background-color: transparent;
+    color: rgb(255, 160, 0);
   }
 
   a:active {
     color: rgb(255, 120, 0);
   }
 
-text
-{
+.menu {
+  position: absolute;
+  width: 100px;
+  height: 55px;
+  top: -27%;
+  right: 5%;
+  background-color: transparent;
 }
+
+  .menu:hover {
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  .menu:active {
+    cursor: pointer;
+  }

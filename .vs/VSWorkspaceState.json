@@ -3,9 +3,12 @@
     "",
     "\\application",
     "\\application\\src",
+    "\\application\\src\\app",
     "\\application\\src\\app\\loginPageElements",
-    "\\application\\src\\app\\loginPageElements\\login-page"
+    "\\application\\src\\app\\loginPageElements\\login-page",
+    "\\application\\src\\assets",
+    "\\application\\src\\assets\\images"
   ],
-  "SelectedNode": "\\application\\src\\images",
+  "SelectedNode": "\\application\\src\\app\\loginPageElements\\login-page\\login-page.component.css",
   "PreviewInSolutionExplorer": false
 }
