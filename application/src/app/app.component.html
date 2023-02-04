@@ -3,15 +3,18 @@
 <router-outlet>
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="navbar-nav">
-
       <!-- This is what changes the routing on the home page (localhost:4200)-->
       <!-- NOTE: routerLink must match the path indicated in app.component.html-->
       <a class="nav-item nav-link" routerLink="/">Home</a>
       <a class="nav-item nav-link" routerLink="/users/login">Login</a>
       <a class="nav-item nav-link" routerLink="/users/create">Sign Up</a>
-
+      <!-- TODO: Leaving this connection here for now. /users/characters will most likely 
+      be changed into /users/characters/:id and integrated into /users/myprofile.
+      <a class="nav-item nav-link" routerLink="/users/characters">Profile</a> -->
+      <a class="nav-item nav-link" routerLink="/classes">Classes</a>
+      <a class="nav-item nav-link" routerLink="/spells">Spells</a>
+      <a class="nav-item nav-link" routerLink="/items">Items</a>
     </div>
-
   </nav>
 
   <!-- main content container -->
