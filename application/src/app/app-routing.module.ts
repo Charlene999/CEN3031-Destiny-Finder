@@ -6,29 +6,28 @@ import { ClassesComponent } from './classes/classes.component';
 import { ItemsComponent } from './items/items.component';
 import { SpellsComponent } from './spells/spells.component';
 import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
 import { UsersComponent } from './users/users.component';
 import { CreateCharactersComponent } from './characters/create-characters/create-characters/create-characters.component';
 
-//This is what changes the routing on the home page (localhost:4200)
+//This is what changes the routing on the navigation bar
 //NOTE: path must match the routerLink indicated in app.component.html
 const routes: Routes = [
-  //If user not logged in, display login and create user tabs
+  //If user not logged in, display login and create user tabs only
   { path: 'users/login', component: LoginComponent },
   { path: 'users/create', component: SignupComponent },
   
-  //If user is logged in, display logout and profile tabs
-  { path: 'users/logout', component: LogoutComponent },
-  { path: 'users/get', component: UsersComponent },
+  //If user is logged in, display the following tabs
+  { path: 'users/get', component: UsersComponent }, //Profile
+  { path: 'classes', component: ClassesComponent }, //Classes
+  { path: 'items', component: ItemsComponent }, //Items
+  { path: 'spells', component: SpellsComponent }, //Spells
+
+  //This is part of the profile page. It's where the Create A New Character button leads to
   { path: 'users/create-character', component: CreateCharactersComponent },
 
   //TODO: Leaving this connection here for now. users/characters will most likely 
   //be changed into users/characters/:id and integrated into users/myprofile.
   //{ path: 'users/characters', component: CharactersComponent },
-
-  { path: 'classes', component: ClassesComponent },
-  { path: 'items', component: ItemsComponent },
-  { path: 'spells', component: SpellsComponent },
 ];
 
 export const appRoutingModule = RouterModule.forRoot(routes);
