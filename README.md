@@ -26,20 +26,20 @@ Install Go from https://go.dev/dl/.
 Run `git clone https://github.com/Charlene999/CEN3031-The-Perfect-Path.git` from a terminal or command line pathed into a designated folder.            
 Change directory into the newly created CEN3031-The-Perfect-Path folder.            
 Run `ng new application`.            
-	When it asks, add Angular routing and use CSS.            
+&emsp; 	When it asks, add Angular routing and use CSS.            
 
 ### Frontend Setup            
-Change directory into application/src.            
+Change directory into application.            
 Run `npm install -g @angular/cli`.            
-Run the frontend using the command `npm start` (Make sure you are within the application/src directory).            
+Run the frontend using the command `npm start` (Make sure you are within the application directory).            
             
 ### Backend Setup            
 Change directory into application/server.            
 Run `touch .env`.            
 Enter the following three lines into the .env file and replace with your chosen SQL database information:            
-  `DB_USERNAME=replacethiswithdatabaseusername`            
-  `DB_PASSWORD=replacethiswithdatabasepassword`            
-  `TOKEN_SECRET=replacethiswithdatabasetokenpassword`            
+&emsp;   `DB_USERNAME=replacethiswithdatabaseusername`            
+&emsp;   `DB_PASSWORD=replacethiswithdatabasepassword`            
+&emsp;   `TOKEN_SECRET=replacethiswithdatabasetokenpassword`            
 Run `go get github.com/gin-contrib/cors`.            
 Run `go get github.com/gin-gonic/gin`.            
 Run `go get github.com/golang-jwt/jwt/v4`.            
