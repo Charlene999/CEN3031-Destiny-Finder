@@ -1,7 +1,24 @@
 <div class="characters">
   <h1></h1>
-  <!-- <form method="get" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+  <form method="post" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidat>
     <button class="submit">View Your Characters</button>
-  </form>-->
+  </form>
 
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let character of allChars">
+        <td>{{character.Name}}</td>
+        <td>{{character.Description}}</td>
+        <td>{{character.Level}}</td>
+      </tr>
+    </tbody>
+
+  </table>
 </div>
