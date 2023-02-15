@@ -2,17 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\application",
-    "\\application\\.angular",
-    "\\application\\.angular\\cache\\15.1.1",
-    "\\application\\.angular\\cache\\15.1.1\\angular-webpack",
     "\\application\\server",
+    "\\application\\server\\controllers",
+    "\\application\\server\\database",
+    "\\application\\server\\models",
     "\\application\\src",
     "\\application\\src\\app",
-    "\\application\\src\\app\\characters",
-    "\\application\\src\\app\\characters\\create-characters",
     "\\application\\src\\app\\login",
     "\\application\\src\\app\\signup"
   ],
-  "SelectedNode": "\\application\\src\\app\\characters\\create-characters\\create-characters\\create-characters.component.html",
+  "SelectedNode": "\\application\\src\\app\\characters\\characters.component.ts",
   "PreviewInSolutionExplorer": false
 }
