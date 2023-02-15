@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SignupComponent } from './signup';
-//import { CharactersComponent } from './characters/characters.component';
+import { CharactersComponent } from './characters/characters.component';
 import { ClassesComponent } from './classes/classes.component';
 import { ItemsComponent } from './items/items.component';
 import { SpellsComponent } from './spells/spells.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
 
   //TODO: Leaving this connection here for now. users/characters will most likely 
   //be changed into users/characters/:id and integrated into users/myprofile.
-  //{ path: 'users/characters', component: CharactersComponent },
+  { path: 'users/characters', component: CharactersComponent },
 ];
 
 export const appRoutingModule = RouterModule.forRoot(routes);

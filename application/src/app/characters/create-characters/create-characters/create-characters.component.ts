@@ -29,9 +29,9 @@ export class CreateCharactersComponent {
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/create', JSON.stringify(Character),options).subscribe((res: any)=> {
       if (200) {
-          alert("Successful character creation.");
+        alert("Successful character creation.");
           //Redirect back to home page to login
-          this.router.navigateByUrl('/users/get');
+          this.router.navigateByUrl('/characters/get');
         }
       }, (error) => {
         if (error.status === 404) {

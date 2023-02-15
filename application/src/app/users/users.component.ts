@@ -19,4 +19,8 @@ export class UsersComponent {
   createCharacter() {
     this.router.navigateByUrl("/users/create-character");
   }
+
+  getCharacters() {
+    this.router.navigateByUrl("/users/characters");
+  }
 }
