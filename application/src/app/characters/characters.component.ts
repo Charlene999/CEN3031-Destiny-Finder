@@ -30,13 +30,12 @@ export class CharactersComponent {
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {
       if (200) {
+        this.allChars.splice(0);
         var chars = JSON.parse(JSON.stringify(data));
         for (let i = 0; i < chars.length; i++) {
           var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].ID);
           this.allChars.push(char);
-          console.log("Character #", i + 1, "\nName: ", char.Name);
         }
-        alert("Successful view");
         //Redirect back to home page to login
       }
     }, (error) => {
@@ -57,6 +56,23 @@ export class CharactersComponent {
     );
   }
 
+  deleteCharacter(name: String, desc: String, level: Number) {
+    var Delete = confirm('Are you sure you want to delete a character?');
+    if (Delete === true) {
+      alert("Character " + name + " Deleted");
+    }
+
+    else {
+
+    }
+  }
+
+  editCharacter(name: string, desc: string, level: Number, index: Number) {
+      var ind: number = Number(index);
+      this.allChars.at(ind)!.Name = name;
+      this.allChars.at(ind)!.Description = desc;
+      this.allChars.at(ind)!.Level = level;
+  }
 }
 
 class character {
