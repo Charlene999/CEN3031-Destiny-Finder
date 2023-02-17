@@ -9,9 +9,10 @@ type Character struct {
 	Name        string
 	Description string
 	Level       uint
-	OwnerId     uint   //References a User by their unique Id
-	SpellIds    string //References Spells by their unique Ids (comma-separated)
-	ItemIds     string //References Items by their unique Ids (comma-separated)
+	OwnerID     int
+	Owner       User
+	Spells      []Spell `gorm:"many2many:character_spells;"`
+	Items       []Item  `gorm:"many2many:character_items;"`
 }
 
 type BuildCharacter struct {

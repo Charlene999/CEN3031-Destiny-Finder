@@ -41,7 +41,7 @@ func (repository *Repos) CreateCharacter(c *gin.Context) {
 	}
 
 	character := models.Character{Name: buildCharacter.Name, Description: buildCharacter.Description, Level: buildCharacter.Level,
-		OwnerId: user.ID, SpellIds: "", ItemIds: ""}
+		Owner: user}
 
 	err = repository.CharacterDb.Create(&character).Error
 	if err != nil {

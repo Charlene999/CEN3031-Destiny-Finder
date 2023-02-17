@@ -32,7 +32,7 @@ export class SignupComponent {
           alert('Resource not found.');
         }
         else if (error.status === 409) {
-          alert('Email already exists. Please try another one.');
+          alert('Username already exists. Please try another one.');
         }
         else if (error.status === 500) {
           alert('Server down.');
