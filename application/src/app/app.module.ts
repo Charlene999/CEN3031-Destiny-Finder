@@ -13,6 +13,7 @@ import { ClassesComponent } from './classes/classes.component';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { CreateCharactersComponent } from './characters/create-characters/create-characters/create-characters.component';
+import { ViewUsersComponent } from './view-users/view-users.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CreateCharactersComponent } from './characters/create-characters/create
     ClassesComponent,
     UsersComponent,
     CreateCharactersComponent,
+    ViewUsersComponent,
   ],
   imports: [
     BrowserModule,

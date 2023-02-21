@@ -15,7 +15,7 @@ export class UsersComponent {
       this.router.navigateByUrl('/');
     }
   }
-  
+
   createCharacter() {
     this.router.navigateByUrl("/users/create-character");
   }

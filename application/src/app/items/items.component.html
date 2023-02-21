@@ -1,7 +1,31 @@
 <div class="items">
   <h1></h1>
-  <form method="get">
-    <button class="submit">View Your Items</button>
-  </form>
+  
+  <button class="submit">View Your Items</button>
+  <select (click)="onSubmit()">hi
+    <option *ngFor="let character of allChars; let i = index" value=character.Name
+            class="Name" id="character" > {{character.Name}}
+      
+    </option>
+  </select>
 
+  <div class="tbl-content">
+    <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Add to Character</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of allItems">
+          <td class="Name">{{item.Name}}</td>
+          <td class="Description">{{item.Description}}</td>
+          <td class="Add">ADD</td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
 </div>

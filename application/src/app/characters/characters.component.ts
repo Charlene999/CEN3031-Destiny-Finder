@@ -30,12 +30,14 @@ export class CharactersComponent {
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {
       if (200) {
+        // All user characters put in a variable and local storage for user to be able to access
         this.allChars.splice(0);
         var chars = JSON.parse(JSON.stringify(data));
         for (let i = 0; i < chars.length; i++) {
-          var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].ID);
+          var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].OwnerID);
           this.allChars.push(char);
         }
+          localStorage.setItem('allUserChars', JSON.stringify(this.allChars));
         //Redirect back to home page to login
       }
     }, (error) => {
@@ -61,10 +63,6 @@ export class CharactersComponent {
     if (Delete === true) {
       alert("Character " + name + " Deleted");
     }
-
-    else {
-
-    }
   }
 
   editCharacter(name: string, desc: string, level: Number, index: Number) {
@@ -82,19 +80,9 @@ class character {
   ID: Number;
 
   constructor(name: string, level: Number, desc: string, id: Number) {
-
     this.Name = name;
     this.Level = level;
     this.Description = desc;
     this.ID = id;
-  }
-}
-
-class userChars {
-
-  allChars: character[];
-
-  constructor(allchars: character[]) {
-    this.allChars = allchars;
   }
 }
