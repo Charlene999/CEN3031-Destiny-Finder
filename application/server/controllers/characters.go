@@ -128,7 +128,7 @@ func (repository *Repos) DeleteCharacter(c *gin.Context) {
 	err = repository.CharacterDb.Find(&characters, "id = ?", deleteCharacter.CharacterID).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": user.ID})
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": deleteCharacter.CharacterID})
 		return
 	}
 	if err != nil {
