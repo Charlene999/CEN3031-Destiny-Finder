@@ -9,4 +9,6 @@ type Item struct {
 	gorm.Model
 	Name        string
 	Description string
+	LevelReq    uint
+	ClassReq    uint
 }
