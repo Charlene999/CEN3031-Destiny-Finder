@@ -28,6 +28,7 @@ func main() {
 
 	router.POST("/characters/create", repos.CreateCharacter)
 	router.POST("/characters/get", repos.GetCharacters)
+	router.DELETE("/characters/delete", repos.DeleteCharacter)
 
 	router.Run()
 }

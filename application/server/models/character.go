@@ -9,8 +9,9 @@ type Character struct {
 	Name        string
 	Description string
 	Level       uint
-	OwnerID     int
-	Owner       User
+	ClassType   uint
+	OwnerID     uint
+	Owner       User    `gorm:"foreignkey:OwnerID"`
 	Spells      []Spell `gorm:"many2many:character_spells;"`
 	Items       []Item  `gorm:"many2many:character_items;"`
 }
@@ -24,4 +25,9 @@ type BuildCharacter struct {
 
 type GetCharacters struct {
 	OwnerToken string
+}
+
+type DeleteCharacter struct {
+	OwnerToken  string
+	CharacterID uint
 }
