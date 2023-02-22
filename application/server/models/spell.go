@@ -4,11 +4,27 @@ import (
 	"gorm.io/gorm"
 )
 
-// The following struct is not currently in use
 type Spell struct {
 	gorm.Model
 	Name        string
 	Description string
 	LevelReq    uint
 	ClassReq    uint
+}
+
+type BuildSpell struct {
+	AdminToken	string
+	Name        string
+	Description string
+	LevelReq    uint
+	ClassReq    uint
+}
+
+type GetSpells struct {
+	AdminToken 	string
+}
+
+type DeleteSpell struct {
+	AdminToken 	string
+	SpellID 	uint
 }

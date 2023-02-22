@@ -10,6 +10,8 @@ import (
 type Repos struct {
 	UserDb      *gorm.DB
 	CharacterDb *gorm.DB
+	SpellDb     *gorm.DB
+	ItemDb      *gorm.DB
 }
 
 func New() *Repos {
@@ -19,5 +21,11 @@ func New() *Repos {
 	characterdb := database.InitDb()
 	characterdb.AutoMigrate(&models.Character{})
 
-	return &Repos{UserDb: userdb, CharacterDb: characterdb}
+	spelldb := database.InitDb()
+	spelldb.AutoMigrate(&models.Spell{})
+
+	itemdb := database.InitDb()
+	itemdb.AutoMigrate(&models.Item{})
+
+	return &Repos{UserDb: userdb, CharacterDb: characterdb, SpellDb: spelldb, ItemDb: itemdb}
 }
