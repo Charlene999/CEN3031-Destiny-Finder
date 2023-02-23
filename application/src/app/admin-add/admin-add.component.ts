@@ -78,4 +78,8 @@ export class AdminAddComponent {
     }
     );
   }
+
+  deletePage() {
+    this.router.navigateByUrl('/admin/delete');
+  }
 }

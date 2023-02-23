@@ -1,0 +1,70 @@
+<div class="items">
+  <form method="post" #f="ngForm" (ngSubmit)="ViewItems()" novalidate>
+    <button class="submit">{{Itemtext}}</button>
+  </form>
+  <h1></h1>
+
+  <!--<button class="submit">View Your Items</button>-->
+
+  <div class="tbl-content">
+    <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Level Required</th>
+          <th>Class Required</th>
+          <th>Delete Item</th>
+          <th>Edit Item</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of allItems">
+          <td class="Name">{{item.name}}</td>
+          <td class="Description">{{item.description}}</td>
+          <td class="Level">{{item.levelReq}}</td>
+          <td class="Class">{{item.classReq}}</td>
+          <td (click)="DeleteItem()"class="delete">DELETE</td>
+          <td class="edit">EDIT</td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+</div>
+
+<div class="spells">
+  <form method="post" #f="ngForm" (ngSubmit)="ViewSpells()" novalidate>
+    <button class="submit">{{Spelltext}}</button>
+  </form>
+  <h1></h1>
+
+  <!--<button class="submit">View Your Items</button>-->
+
+  <div class="tbl-content">
+    <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Level Required</th>
+          <th>Class Required</th>
+          <th>Delete Item</th>
+          <th>Edit Item</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let spell of allSpells">
+          <td class="Name">{{spell.name}}</td>
+          <td class="Description">{{spell.description}}</td>
+          <td class="Level">{{spell.levelReq}}</td>
+          <td class="Class">{{spell.classReq}}</td>
+          <td (click)="DeleteSpell()" class="delete">DELETE</td>
+          <td class="edit">EDIT</td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+</div>
+

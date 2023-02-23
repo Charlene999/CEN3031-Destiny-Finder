@@ -1,15 +1,4 @@
-.itemSect
-{
-    width: 300px;
-}
-
-.delete
-{
-    position:absolute;
-    right: 35.3%;
-    top: 310%;
-}
-.item, .deleteButton {
+.submit {
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -36,11 +25,17 @@
   *margin-left: .3em;
 }
 
-  .item:active, .deleteButton:active {
+  .submit:hover {
+  }
+
+  .submit.active, .btn.disabled, .btn[disabled] {
+  }
+
+  .submit:active {
     background-color: transparent;
   }
 
-.item, .deleteButton {
+.submit {
   padding: 9px 14px;
   font-size: 15px;
   line-height: normal;
@@ -49,7 +44,7 @@
   border-radius: 5px;
 }
 
-  .item:hover, .deleteButton:hover {
+  .submit:hover {
     color: #333333;
     text-decoration: none;
     background-position: 0 -15px;
@@ -59,13 +54,13 @@
     transition: background-position 0.1s linear;
   }
 
-  .item:hover, .deleteButton:hover {
+  .submit:hover {
     background-color: rgba(226, 88, 34, .36);
     text-shadow: 0 0 10px rgba(0,0,0,1);
     color: rgb(255, 180, 0);
   }
 
-.item, .deleteButton {
+.submit {
   color: white;
   background-color: rgb(255, 180, 0);
   background-repeat: repeat-x;
@@ -74,22 +69,17 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-  .item:active, .deleteButton:active {
+  .submit:active, .btn-primary.active, .submit.disabled, .submit[disabled] {
     color: white;
     background-color: rgb(255, 180, 0);
     filter: none;
   }
 
-.item {
+.submit {
   width: 100%;
   display: block;
 }
 
-.deleteButton
-{
-    position:center;
-    width: 300px;
-}
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -102,7 +92,7 @@ html {
   overflow: hidden;
 }
 
-.addItem{
+.items {
   position: absolute;
   top: 500%;
   left: 65%;
@@ -110,14 +100,22 @@ html {
   height: 300px;
 }
 
-.addItem h1 {
-  color: rgb(255, 180, 0);
-  text-shadow: 0 0 10px rgba(0,0,0,1);
-  letter-spacing: 1px;
-  text-align: center;
+  .items h1 {
+    color: rgb(255, 180, 0);
+    text-shadow: 0 0 10px rgba(0,0,0,1);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+.spells {
+  position: absolute;
+  top: 500%;
+  right: 65%;
+  width: 300px;
+  height: 300px;
 }
-  .delete h1 {
-      position:center;
+
+  .spells h1 {
     color: rgb(255, 180, 0);
     text-shadow: 0 0 10px rgba(0,0,0,1);
     letter-spacing: 1px;
@@ -147,97 +145,97 @@ input {
     box-shadow: inset 0 -5px 45px rgba(100,100,100,0.05), 0 1px 1px rgba(255,255,255,0.1);
   }
 
-.spellSect {
-  width: 300px;
+h1 {
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-.spell {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  padding: 4px 10px 4px;
-  margin-bottom: 0;
-  font-size: 13px;
+table {
+  width: 10%;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  line-height: 18px;
+  border-color: rgb(255,180,0);
+  text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
+}
+
+.tbl-header {
+  background-color: rgba(226, 88, 34, .36);
   text-align: center;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  vertical-align: middle;
-  background-color: transparent;
-  background-repeat: repeat-x;
-  border-color: #e6e6e6 #e6e6e6 #e6e6e6;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  border: 1px solid #e6e6e6;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  *margin-left: .3em;
 }
 
-  .spell:active {
-    background-color: transparent;
-  }
-
-.spell {
-  padding: 9px 14px;
-  font-size: 15px;
-  line-height: normal;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-  .spell:hover {
-    color: #333333;
-    text-decoration: none;
-    background-position: 0 -15px;
-    -webkit-transition: background-position 0.1s linear;
-    -moz-transition: background-position 0.1s linear;
-    -o-transition: background-position 0.1s linear;
-    transition: background-position 0.1s linear;
-  }
-
-  .spell:hover {
-    background-color: rgba(226, 88, 34, .36);
-    text-shadow: 0 0 10px rgba(0,0,0,1);
-    color: rgb(255, 180, 0);
-  }
-
-.spell {
-  color: white;
-  background-color: rgb(255, 180, 0);
-  background-repeat: repeat-x;
-  border: 1px solid #ff8c00;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-  .spell:active, .btn-primary.active, .submit.disabled, .submit[disabled] {
-    color: white;
-    background-color: rgb(255, 180, 0);
-    filter: none;
-  }
-
-.spell {
-  width: 100%;
-  display: block;
-}
-
-.addSpell {
+.tbl-content {
   position: absolute;
-  top: 500%;
-  right: 65%;
-  width: 300px;
+  left: -46%;
   height: 300px;
-}
-
-.addSpell h1 {
-  color: rgb(255, 180, 0);
-  text-shadow: 0 0 10px rgba(0,0,0,1);
-  letter-spacing: 1px;
+  margin-top: 0px;
+  background-color: rgba(226, 88, 34, .36);
+  border: 1px solid rgba(255,180,0,1.0);
+  text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
+  overflow-y: auto;
   text-align: center;
 }
+
+th {
+  padding: 20px 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  border: 1px solid rgba(255,180,0,0.9);
+  text-shadow: 0 0 10px rgba(0,0,0,1);
+  text-transform: uppercase;
+}
+
+td {
+  color: rgb(255, 180, 0);
+  padding: 15px;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 300;
+  font-size: 12px;
+  border: 1px solid rgb(255,180,0);
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+  text-shadow: 0 0 10px rgba(0,0,0,1);
+  overflow-x: auto;
+  text-transform: uppercase;
+}
+
+
+/* demo styles */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+
+body {
+  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+  background: linear-gradient(to right, #25c481, #25b7c4);
+  font-family: 'Roboto', sans-serif;
+}
+
+.delete {
+  font-size: 18px;
+}
+
+  .delete:hover {
+    cursor: pointer;
+    color: rgb(255, 0, 0);
+  }
+
+  .delete:active {
+    color: rgb(255, 120, 0);
+  }
+
+.edit {
+  font-size: 18px;
+}
+
+  .edit:hover {
+    cursor: pointer;
+    color: rgb(255, 255, 0);
+  }
+
+  .edit:active {
+    color: rgb(255, 120, 0);
+  }
