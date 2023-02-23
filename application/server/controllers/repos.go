@@ -14,17 +14,17 @@ type Repos struct {
 	ItemDb      *gorm.DB
 }
 
-func New() *Repos {
-	userdb := database.InitDb()
+func New(test bool) *Repos {
+	userdb := database.InitDb(test)
 	userdb.AutoMigrate(&models.User{})
 
-	characterdb := database.InitDb()
+	characterdb := database.InitDb(test)
 	characterdb.AutoMigrate(&models.Character{})
 
-	spelldb := database.InitDb()
+	spelldb := database.InitDb(test)
 	spelldb.AutoMigrate(&models.Spell{})
 
-	itemdb := database.InitDb()
+	itemdb := database.InitDb(test)
 	itemdb.AutoMigrate(&models.Item{})
 
 	return &Repos{UserDb: userdb, CharacterDb: characterdb, SpellDb: spelldb, ItemDb: itemdb}

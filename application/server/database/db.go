@@ -11,17 +11,22 @@ import (
 
 var Db *gorm.DB
 
-func InitDb() *gorm.DB {
-	Db = connectDB()
+func InitDb(test bool) *gorm.DB {
+	Db = connectDB(test)
 	return Db
 }
 
-func connectDB() *gorm.DB {
+func connectDB(test bool) *gorm.DB {
 	var err error
 	dbUser := utilities.GoDotEnvVariable("DB_USERNAME")
 	dbPass := utilities.GoDotEnvVariable("DB_PASSWORD")
 
 	dsn := fmt.Sprintf("%s:%s@tcp(theperfectpath.cot5mnpozher.us-east-2.rds.amazonaws.com)/perfectpathdb?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
+
+	if test {
+		dsn = fmt.Sprintf("%s:%s@tcp(theperfectpath.cot5mnpozher.us-east-2.rds.amazonaws.com)/perfectpathtesting?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
+	}
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
