@@ -9,17 +9,21 @@
       <!-- NOTE: routerLink must match the path indicated in app.component.html-->
 
       <a class="nav-item nav-link" routerLink="/">Home</a>
-      
+
       <!--If user not logged in, display login and create user tabs-->
       <a class="nav-item nav-link" routerLink="/users/login" *ngIf="!loggedIn()">Login</a>
       <a class="nav-item nav-link" routerLink="/users/create" *ngIf="!loggedIn()">Sign Up</a>
-      
+
       <!--If user is logged in, display all these tabs instead-->
       <a class="nav-item nav-link" (click)="logout()" *ngIf="loggedIn()">Logout</a>
       <a class="nav-item nav-link" routerLink="/users/get" *ngIf="loggedIn()">Profile</a>
       <a class="nav-item nav-link" routerLink="/classes" *ngIf="loggedIn()">Classes</a>
       <a class="nav-item nav-link" routerLink="/spells" *ngIf="loggedIn()">Spells</a>
       <a class="nav-item nav-link" routerLink="/items" *ngIf="loggedIn()">Items</a>
+
+      <!--If user admin, also display all these tabs -->
+      <a class="nav-item nav-link" routerLink="/admin/view-users" *ngIf="isAdmin()">View All Users</a>
+      <a class="nav-item nav-link" routerLink="/admin/add" *ngIf="isAdmin()">Administrator</a>
     </div>
   </nav>
 

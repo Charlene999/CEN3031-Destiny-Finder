@@ -1,0 +1,28 @@
+<button (click) ="View()"class="submit">{{text}}</button>
+  <div class="tbl-content">
+
+      <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>ID</th>
+            <th>Admin</th>
+            <th>Delete User</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of Users; let i = index">
+            <td class="Name">{{user.Name}}</td>
+            <td class="Username">{{user.Username}}</td>
+            <td class="Email">{{user.Email}}</td>
+            <td class="ID">{{user.ID}}</td>
+            <td class="Admin">{{user.adm}}</td>
+            <td (click)="Delete(user.ID, user.Username)" class="delete">Delete</td>
+          </tr>
+        </tbody>
+
+      </table>
+    
+  </div>

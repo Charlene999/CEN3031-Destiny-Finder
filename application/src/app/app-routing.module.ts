@@ -8,6 +8,8 @@ import { SpellsComponent } from './spells/spells.component';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { CreateCharactersComponent } from './characters/create-characters/create-characters/create-characters.component';
+import { ViewUsersComponent } from './view-users/view-users.component'
+import { AdminAddComponent } from './admin-add/admin-add.component'
 
 //This is what changes the routing on the navigation bar
 //NOTE: path must match the routerLink indicated in app.component.html
@@ -21,6 +23,10 @@ const routes: Routes = [
   { path: 'classes', component: ClassesComponent }, //Classes
   { path: 'items', component: ItemsComponent }, //Items
   { path: 'spells', component: SpellsComponent }, //Spells
+
+  //If user is admin, display following tabs
+  { path: 'admin/view-users', component: ViewUsersComponent },
+  { path: 'admin/add', component: AdminAddComponent},
 
   //This is part of the profile page. It's where the Create A New Character button leads to
   { path: 'users/create-character', component: CreateCharactersComponent },
