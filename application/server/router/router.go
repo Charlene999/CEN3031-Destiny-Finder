@@ -9,14 +9,14 @@ import (
 
 var Router = gin.Default()
 
-func PrepareRouter() *gin.Engine {
+func PrepareRouter(test bool) *gin.Engine {
 	//Using documentation at github.com/gin-contrib/cors
 	var config = cors.DefaultConfig()
 	config.AllowOrigins = []string{"http://localhost:4200"}
 
 	Router.Use(cors.New(config))
 
-	repos := controllers.New()
+	repos := controllers.New(test)
 	Router.GET("/ping", controllers.Ping)
 
 	Router.POST("/users/create", repos.CreateUser)

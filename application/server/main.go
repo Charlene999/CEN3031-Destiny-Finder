@@ -7,5 +7,5 @@ import (
 
 // Create a router for the backend, create endpoints, and run the server
 func main() {
-	router.PrepareRouter().Run()
+	router.PrepareRouter(false).Run()
 }
