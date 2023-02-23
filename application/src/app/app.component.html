@@ -23,6 +23,7 @@
 
       <!--If user admin, also display all these tabs -->
       <a class="nav-item nav-link" routerLink="/admin/view-users" *ngIf="isAdmin()">View All Users</a>
+      <a class="nav-item nav-link" routerLink="/admin/add" *ngIf="isAdmin()">Administrator</a>
     </div>
   </nav>
 

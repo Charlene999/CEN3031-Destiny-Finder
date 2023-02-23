@@ -23,9 +23,10 @@ export class LoginComponent {
 
     this.http.post('http://localhost:8080/users/login', JSON.stringify(f.value), options).subscribe((res: any)=> {
       if (200) {
-        this.isAnAdmin(res.token);
-          //alert("Successful login.");
-          //console.log(res.token);
+          // Set admin true or false
+          this.isAnAdmin(res.token);
+
+          // Log user in using token
           localStorage.setItem('id_token', res.token);
           //Adds a redirect to localhost:4200//users/get (the user profile page)
           this.router.navigateByUrl('/users/get');
@@ -53,16 +54,21 @@ export class LoginComponent {
       this.http.post('http://localhost:8080/users/get', JSON.stringify(User), options).subscribe(data => {
         var userInf = JSON.parse(JSON.stringify(data));
         if (200) {
-          // Determine if user is admin on login
-          var user = new myUser(userInf.ID, userInf.IsAdmin);
-          localStorage.setItem('User', JSON.stringify(userInf));
-          localStorage.setItem('Admin', JSON.stringify(user));
+          // Store user info and if they are admin or not in local storage
+          var admin = new adM(userInf.ID, userInf.IsAdmin);
+          var user = new myUser(userInf.Name, userInf.Username, userInf.Email);
+          localStorage.setItem('User', JSON.stringify(user));
+          localStorage.setItem('Admin', JSON.stringify(admin));
+          if (admin.IsAdmin === true) {
+            alert("Welcome Administrator");
+          }
         }
       });
   }
 }
 
-class myUser {
+// Stores if user is admin or not
+class adM {
   ID: number;
   IsAdmin: boolean;
 
@@ -72,3 +78,16 @@ class myUser {
   }
 }
 
+// Stores necessary user info
+class myUser {
+  Name: string;
+  Username: string;
+  Email: string;
+
+  constructor(name: string, username: string, email: string) {
+
+    this.Name = name;
+    this.Username = username;
+    this.Email = email;
+  }
+}

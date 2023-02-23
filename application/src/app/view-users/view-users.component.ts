@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-view-users',
   templateUrl: './view-users.component.html',
@@ -33,9 +34,21 @@ export class ViewUsersComponent {
       this.text = "Hide All Users";
       this.view = true;
       var User = JSON.parse(localStorage.getItem('User')!);
-      var curUser = new myUser(User.Name, User.Username, User.Email, User.ID, User.IsAdmin);
+      var Admin = JSON.parse(localStorage.getItem('Admin')!);
+      var curUser = new myUser(User.Name, User.Username, User.Email, Admin.ID, Admin.IsAdmin);
       this.Users.push(curUser);
       return;
+    }
+  }
+  // Admin can click to delete user
+  Delete(id: number, username: string)
+  {
+    if (confirm("Are you sure you want to permanently delete this user?")) {
+      alert("User " + username + " deleted permanently");
+    }
+
+    else {
+      alert("User deletion canceled");
     }
   }
 }

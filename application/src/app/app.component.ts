@@ -23,8 +23,7 @@ export class AppComponent {
   logout() {
     //alert("Successful logout.");
     //Add functionality to delete JWT Token
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('Admin');
+    localStorage.clear();
     //Redirect to home page
     this.router.navigateByUrl('/');
   }
@@ -36,7 +35,10 @@ export class AppComponent {
       return false;
 
     var user = JSON.parse(localStorage.getItem('Admin')!);
-    console.log(user);
+
+    if (user === null)
+      return false;
+
     if (user.IsAdmin === true) {
       return true;
     }
