@@ -26,7 +26,9 @@ const routes: Routes = [
 
   //If user is admin, display following tabs
   { path: 'admin/view-users', component: ViewUsersComponent },
-  { path: 'admin/add', component: AdminAddComponent},
+  { path: 'admin/add', component: AdminAddComponent },
+  { path: 'items/create', component: AdminAddComponent },
+  { path: 'spells/create', component: AdminAddComponent },
 
   //This is part of the profile page. It's where the Create A New Character button leads to
   { path: 'users/create-character', component: CreateCharactersComponent },

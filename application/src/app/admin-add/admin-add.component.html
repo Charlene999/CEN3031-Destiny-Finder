@@ -1,1 +1,27 @@
+<div class="addItem">
 
+  <section class="itemSect">
+    <h1>Add an Item</h1>
+    <form method="post" #f="ngForm" (ngSubmit)="submitItem(f)" novalidate>
+      <input name="name" type="text" placeholder="Item Name" required="required" ngModel>
+      <input name="description" type="text" placeholder="Item Description" required="required" ngModel>
+      <input name="level" type="text" placeholder="Level: Required" required="required" ngModel>
+      <input name="class" type="text" placeholder="Class: Required" required="required" ngModel>
+      <button class="item">Add Item</button>
+    </form>
+  </section>
+
+</div>
+<div class="addSpell">
+
+  <section class = "spellSect">
+    <h1>Add a Spell</h1>
+    <form method="post" #f="ngForm" (ngSubmit)="submitSpell(f)" novalidate>
+      <input name="name" type="text" placeholder="Spell Name" required="required" ngModel>
+      <input name="description" type="text" placeholder="Spell Description" required="required" ngModel>
+      <input name="level" type="text" placeholder="Level: Required" required="required" ngModel>
+      <input name="class" type="text" placeholder="Class: Required" required="required" ngModel>
+      <button class="spell">Add Spell</button>
+    </form>
+  </section>
+</div>
