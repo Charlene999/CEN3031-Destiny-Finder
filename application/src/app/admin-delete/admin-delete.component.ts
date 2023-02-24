@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 @Component({
   selector: 'app-admin-delete',
   templateUrl: './admin-delete.component.html',
@@ -45,7 +45,7 @@ export class AdminDeleteComponent {
           this.allItems.splice(0);
           var AllItems = JSON.parse(JSON.stringify(data));
           for (let i = 0; i < AllItems.length; i++) {
-            var item = new Items(AllItems[i].Name,AllItems[i].Description, AllItems[i].LevelReq, AllItems[i].ClassReq);
+            var item = new Items(AllItems[i].Name, AllItems[i].Description, AllItems[i].LevelReq, AllItems[i].ClassReq, AllItems[i].ID);
             this.allItems.push(item);
           }
           localStorage.setItem('allUserItems', JSON.stringify(this.allItems));
@@ -71,6 +71,7 @@ export class AdminDeleteComponent {
     );
   }
 
+  // Allow admin to show and hide ALL spells
   ViewSpells() {
 
     let spells = {
@@ -93,7 +94,7 @@ export class AdminDeleteComponent {
           this.allSpells.splice(0);
           var AllSpells = JSON.parse(JSON.stringify(data));
           for (let i = 0; i < AllSpells.length; i++) {
-            var spell = new Items(AllSpells[i].Name, AllSpells[i].Description, AllSpells[i].LevelReq, AllSpells[i].ClassReq);
+            var spell = new Items(AllSpells[i].Name, AllSpells[i].Description, AllSpells[i].LevelReq, AllSpells[i].ClassReq, AllSpells[i].ID);
             this.allSpells.push(spell);
           }
           localStorage.setItem('allUserSpells', JSON.stringify(this.allSpells));
@@ -120,12 +121,141 @@ export class AdminDeleteComponent {
 
   }
 
-  DeleteItem() {
+  // Delete Item
+  DeleteItem(id: number, name: string) {
 
+    console.log("ITEM ID: " + id);
+    // If admin cancels delete request, it should not delete
+    if (!confirm("Are you sure you want to delete item " + name + "?")) {
+      alert("Deletion of item " + name + " canceled");
+      return;
+    }
+
+    let items = {
+      "AdminToken": localStorage.getItem('id_token'),
+    };
+
+    const options = { headers: { 'Content-Type': 'application/json' } };
+
+    this.http.post('http://localhost:8080/items/get', JSON.stringify(items), options).subscribe(data => {
+      if (200) {
+
+        // Get Item Id to delete
+        localStorage.setItem('DeleteID', JSON.stringify(id));        
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Item not found.');
+      }
+      else if (error.status === 409) {
+        alert('Item already exists. Please try another one.');
+      }
+      else if (error.status === 500) {
+
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    }
+    );
+
+    // Store admin token and item ID in options to send to delete request
+    const opts = {
+      headers: { 'Content-Type': 'application/json' }, body: { "ItemID": id, "AdminToken": localStorage.getItem('id_token')!}
+    };
+    this.http.delete('http://localhost:8080/items/delete', opts).subscribe(data => {
+
+      if (200 || 202 || 204) {
+        // Item successfully deleted
+        localStorage.removeItem('DeleteID');
+        alert("Item " + name + " deleted");
+        //this.ViewItems();
+        window.location.reload();
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Item not found.');
+      }
+      else if (error.status === 409) {
+        alert('Item already deleted. Please try to delete another one.');
+      }
+      else if (error.status === 500) {
+
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    });
+    
   }
 
-  DeleteSpell() {
+  // Delete Spell
+  DeleteSpell(id: number, name: string) {
+    // If admin cancels delete request, it should not delete
+    if (!confirm("Are you sure you want to delete spell " + name + "?")) {
+      alert("Deletion of spell " + name + " canceled");
+      return;
+    }
 
+    let items = {
+      "AdminToken": localStorage.getItem('id_token'),
+    };
+
+    const options = { headers: { 'Content-Type': 'application/json' } };
+
+    this.http.post('http://localhost:8080/spells/get', JSON.stringify(items), options).subscribe(data => {
+      if (200) {
+
+        // Get Spell Id to delete
+        localStorage.setItem('DeleteSpell', JSON.stringify(id));
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Spell not found.');
+      }
+      else if (error.status === 409) {
+        alert('Spell already exists. Please try another one.');
+      }
+      else if (error.status === 500) {
+
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    }
+    );
+
+    // Store admin token and item ID in options to send to delete request
+    const opts = {
+      headers: { 'Content-Type': 'application/json' }, body: { "SpellID": id, "AdminToken": localStorage.getItem('id_token')! }
+    };
+    this.http.delete('http://localhost:8080/spells/delete', opts).subscribe(data => {
+
+      if (200 || 202 || 204) {
+        // Spell successfully deleted
+        localStorage.removeItem('DeleteSpell');
+        alert("Spell " + name + " deleted");
+        //this.ViewSpells();
+        window.location.reload();
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Spell not found.');
+      }
+      else if (error.status === 409) {
+        alert('Spell already deleted. Please try to delete another one.');
+      }
+      else if (error.status === 500) {
+
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    });
   }
 }
 
@@ -134,12 +264,14 @@ class Items {
   description: string;
   levelReq: number;
   classReq: number;
+  id: number;
 
-  constructor(Name: string, Description: string, LevelReq: number, ClassReq: number) {
+  constructor(Name: string, Description: string, LevelReq: number, ClassReq: number, ID: number) {
     this.name = Name;
     this.description = Description;
     this.levelReq = LevelReq;
     this.classReq = ClassReq;
+    this.id = ID;
   }
 }
 
@@ -148,12 +280,33 @@ class Spells {
   description: string;
   levelReq: number;
   classReq: number;
+  id: number;
 
-  constructor(Name: string, Description: string, LevelReq: number, ClassReq: number) {
+  constructor(Name: string, Description: string, LevelReq: number, ClassReq: number, ID: number) {
     this.name = Name;
     this.description = Description;
     this.levelReq = LevelReq;
     this.classReq = ClassReq;
+    this.id = ID;
   }
 }
 
+class deleteItem {
+  Token: string;
+  ID: number;
+
+  constructor(token: string, id: number) {
+    this.Token = token;
+    this.ID = id;
+  }
+}
+
+class deleteSpell {
+  Token: string;
+  ID: number;
+
+  constructor(token: string, id: number) {
+    this.Token = token;
+    this.ID = id;
+  }
+}

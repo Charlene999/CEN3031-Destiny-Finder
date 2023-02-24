@@ -19,12 +19,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of allItems">
+        <tr *ngFor="let item of allItems; let i = index">
           <td class="Name">{{item.name}}</td>
           <td class="Description">{{item.description}}</td>
           <td class="Level">{{item.levelReq}}</td>
           <td class="Class">{{item.classReq}}</td>
-          <td (click)="DeleteItem()"class="delete">DELETE</td>
+          <td (click)="DeleteItem(item.id, item.name)"class="delete">DELETE</td>
           <td class="edit">EDIT</td>
         </tr>
       </tbody>
@@ -54,12 +54,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let spell of allSpells">
+        <tr *ngFor="let spell of allSpells; let i = index">
           <td class="Name">{{spell.name}}</td>
           <td class="Description">{{spell.description}}</td>
           <td class="Level">{{spell.levelReq}}</td>
           <td class="Class">{{spell.classReq}}</td>
-          <td (click)="DeleteSpell()" class="delete">DELETE</td>
+          <td (click)="DeleteSpell(spell.id, spell.name)" class="delete">DELETE</td>
           <td class="edit">EDIT</td>
         </tr>
       </tbody>

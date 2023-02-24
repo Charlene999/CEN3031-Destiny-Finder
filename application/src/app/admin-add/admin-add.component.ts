@@ -50,20 +50,20 @@ export class AdminAddComponent {
   }
 
   // New Spell Submitted
-  submitSpell(f: NgForm) {
+  submitSpell(g: NgForm) {
     const options = { headers: { 'Content-Type': 'application/json' } };
     let BuildSpell =
     {
       "AdminToken": localStorage.getItem('id_token'),
-      "Name": f.value.name,
-      "Description": f.value.description,
-      "LevelReq": Number(f.value.level),
-      "ClassReq": Number(f.value.class),
+      "Name": g.value.name,
+      "Description": g.value.description,
+      "LevelReq": Number(g.value.level),
+      "ClassReq": Number(g.value.class),
     }
     this.http.post('http://localhost:8080/spells/create', JSON.stringify(BuildSpell), options).subscribe((res: any) => {
       if (200) {
         // Show spell as created
-        alert("Spell " + f.value.name + " Successfully Created");
+        alert("Spell " + g.value.name + " Successfully Created");
       }
     }, (error) => {
       if (error.status === 404) {

@@ -21,7 +21,7 @@
 
   <section class = "spellSect">
     <h1>Add a Spell</h1>
-    <form method="post" #f="ngForm" (ngSubmit)="submitSpell(f)" novalidate>
+    <form method="post" #g="ngForm" (ngSubmit)="submitSpell(g)" novalidate>
       <input name="name" type="text" placeholder="Spell Name" required="required" ngModel>
       <input name="description" type="text" placeholder="Spell Description" required="required" ngModel>
       <input name="level" type="text" placeholder="Level: Required" required="required" ngModel>
