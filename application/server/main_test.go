@@ -191,3 +191,341 @@ func TestDeleteCharacter(t *testing.T) {
 	var items []models.Item
 	assert.Equal(t, items, results.Items)
 }
+
+func TestCreateItem_201(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"Name": "Test item",
+		"Description": "It's the best item",
+		"LevelReq": 2,
+		"ClassReq": 5
+	}`)
+
+	req, _ := http.NewRequest("POST", "/items/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Item{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 201, res.Code)
+	assert.Equal(t, "Test item", results.Name)
+	assert.Equal(t, "It's the best item", results.Description)
+	assert.Equal(t, uint(2), results.LevelReq)
+	assert.Equal(t, uint(5), results.ClassReq)
+}
+
+func TestCreateItem_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// The token is for a non-existent user, will cause a 500 failure
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ",
+		"Name": "Test item",
+		"Description": "It's the best item",
+		"LevelReq": 2,
+		"ClassReq": 5
+	}`)
+
+	req, _ := http.NewRequest("POST", "/items/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestCreateItem_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// The token is for an existing non-admin user, will cause a 403 forbidden status
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU",
+		"Name": "Test item",
+		"Description": "It's the best item",
+		"LevelReq": 2,
+		"ClassReq": 5
+	}`)
+
+	req, _ := http.NewRequest("POST", "/items/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestGetItems_200(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/items/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.Item{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, "Test item", (*results)[0].Name)
+	assert.Equal(t, "It's the best item", (*results)[0].Description)
+	assert.Equal(t, uint(2), (*results)[0].LevelReq)
+	assert.Equal(t, uint(5), (*results)[0].ClassReq)
+}
+
+func TestGetItems_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-existent user token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/items/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.Item{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestGetItems_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-admin token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/items/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.Item{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestDeleteItem_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"ItemID": 1
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/items/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 202, res.Code)
+}
+
+func TestDeleteItem_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-existent user token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ",
+		"ItemID": 1
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/items/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestDeleteItem_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-admin token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU",
+		"ItemID": 1
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/items/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestCreateSpell_201(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"Name": "Test spell",
+		"Description": "It's the best spell",
+		"LevelReq": 2,
+		"ClassReq": 5
+	}`)
+
+	req, _ := http.NewRequest("POST", "/spells/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 201, res.Code)
+	assert.Equal(t, "Test spell", results.Name)
+	assert.Equal(t, "It's the best spell", results.Description)
+	assert.Equal(t, uint(2), results.LevelReq)
+	assert.Equal(t, uint(5), results.ClassReq)
+}
+
+func TestCreateSpell_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-existent user token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ",
+		"Name": "Test spell",
+		"Description": "It's the best spell",
+		"LevelReq": 2,
+		"ClassReq": 5
+	}`)
+
+	req, _ := http.NewRequest("POST", "/spells/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestCreateSpell_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-admin token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU",
+		"Name": "Test spell",
+		"Description": "It's the best spell",
+		"LevelReq": 2,
+		"ClassReq": 5
+	}`)
+
+	req, _ := http.NewRequest("POST", "/spells/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestGetSpells_200(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/spells/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, "Test spell", (*results)[0].Name)
+	assert.Equal(t, "It's the best spell", (*results)[0].Description)
+	assert.Equal(t, uint(2), (*results)[0].LevelReq)
+	assert.Equal(t, uint(5), (*results)[0].ClassReq)
+}
+
+func TestGetSpells_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-existent user token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/spells/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestGetSpells_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-admin token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/spells/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestDeleteSpell_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"SpellID": 1
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/spells/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 202, res.Code)
+}
+
+func TestDeleteSpell_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-existent user token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ",
+		"SpellID": 1
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/spells/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestDeleteSpell_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// non-admin token
+	body := []byte(`{
+		"AdminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU",
+		"SpellID": 1
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/spells/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 403, res.Code)
+}

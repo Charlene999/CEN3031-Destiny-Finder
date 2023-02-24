@@ -40,8 +40,7 @@ func (repository *Repos) CreateSpell(c *gin.Context) {
 	}
 
 	if !user.IsAdmin {
-		// I'm not sure why this fails with a 500 error when not admin
-		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusForbidden, "User is not an admin")
 		return
 	}
 
@@ -83,8 +82,7 @@ func (repository *Repos) GetSpells(c *gin.Context) {
 	}
 
 	if !user.IsAdmin {
-		// I'm not sure why this fails with a 500 error when not admin
-		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusForbidden, "User is not an admin")
 		return
 	}
 
@@ -132,8 +130,7 @@ func (repository *Repos) DeleteSpell(c *gin.Context) {
 	}
 
 	if !user.IsAdmin {
-		// I'm not sure why this fails with a 500 error when not admin
-		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusForbidden, "User is not an admin")
 		return
 	}
 
