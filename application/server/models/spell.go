@@ -13,18 +13,14 @@ type Spell struct {
 }
 
 type BuildSpell struct {
-	AdminToken	string
+	AdminToken  string
 	Name        string
 	Description string
 	LevelReq    uint
 	ClassReq    uint
 }
 
-type GetSpells struct {
-	AdminToken 	string
-}
-
 type DeleteSpell struct {
-	AdminToken 	string
-	SpellID 	uint
+	AdminToken string
+	SpellID    uint
 }

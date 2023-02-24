@@ -55,43 +55,12 @@ func (repository *Repos) CreateSpell(c *gin.Context) {
 }
 
 func (repository *Repos) GetSpells(c *gin.Context) {
-	var getSpells models.GetSpells
-	err := c.ShouldBindJSON(&getSpells)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	//Identify the user from the provided token
-	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
-	claims := jwt.MapClaims{}
-	_, err = jwt.ParseWithClaims(getSpells.AdminToken, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(secret), nil
-	})
-
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	var user models.User
-	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	if !user.IsAdmin {
-		c.AbortWithStatusJSON(http.StatusForbidden, "User is not an admin")
-		return
-	}
-
 	// just get all of them for listing, later we'll add an endpoint to get individual ones
 	var spells []models.Spell
-	err = repository.SpellDb.Find(&spells).Error
+	err := repository.SpellDb.Find(&spells).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": user.ID})
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "No spells were found in the database"})
 		return
 	}
 	if err != nil {

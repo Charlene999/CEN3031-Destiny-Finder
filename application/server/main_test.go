@@ -22,7 +22,7 @@ func TestMain(m *testing.M) {
 
 // Ping the server until it responds, then execute the rest of the unit tests
 // Test based on documentation at https://gin-gonic.com/docs/testing/
-func TestAvailability(t *testing.T) {
+func TestAvailability_200(t *testing.T) {
 	res := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/ping", nil)
 	router.Router.ServeHTTP(res, req)
@@ -31,7 +31,7 @@ func TestAvailability(t *testing.T) {
 	assert.Equal(t, "hello", res.Body.String())
 }
 
-func TestCreateUser(t *testing.T) {
+func TestCreateUser_201(t *testing.T) {
 	res := httptest.NewRecorder()
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
@@ -55,7 +55,38 @@ func TestCreateUser(t *testing.T) {
 	assert.Equal(t, false, results.IsAdmin)
 }
 
-func TestGetUser(t *testing.T) {
+func TestCreateUser_409(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"Name": "A copy of Testing Admin",
+		"Username": "testingadmin",
+		"Email": "fail@gmail.com",
+		"Password": "abc"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 409, res.Code)
+}
+
+func TestCreateUser_400(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"FakeEntry": "this request is malformed"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 400, res.Code)
+}
+
+func TestGetUser_200(t *testing.T) {
 	res := httptest.NewRecorder()
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
@@ -77,7 +108,21 @@ func TestGetUser(t *testing.T) {
 	assert.Equal(t, true, results.IsAdmin)
 }
 
-func TestLogin(t *testing.T) {
+func TestGetUser_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"UserToken": "this is a totally legit token"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestLogin_200(t *testing.T) {
 	res := httptest.NewRecorder()
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
@@ -99,7 +144,37 @@ func TestLogin(t *testing.T) {
 	assert.Equal(t, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo", results.Token)
 }
 
-func TestCreateCharacter(t *testing.T) {
+func TestLogin_404(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"Username": "this user doesn't exist in our database",
+		"Password": "passw0rd"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/login", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 404, res.Code)
+}
+
+func TestLogin_502(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"Username": "testingadmin",
+		"Password": "a very, very incorrect password"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/login", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 502, res.Code)
+}
+
+func TestCreateCharacter_201(t *testing.T) {
 	res := httptest.NewRecorder()
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
@@ -128,7 +203,39 @@ func TestCreateCharacter(t *testing.T) {
 	assert.Equal(t, items, results.Items)
 }
 
-func TestGetCharacters(t *testing.T) {
+func TestCreateCharacter_400(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "hi"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/characters/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 400, res.Code)
+}
+
+func TestCreateCharacter_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"Name": "Test Hero",
+		"Description": "The most heroic hero in all of testing land",
+		"Level": 50,
+		"ClassType": 0,
+		"OwnerToken": "definitely a legit token"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/characters/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestGetCharacters_200(t *testing.T) {
 	res := httptest.NewRecorder()
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
@@ -166,7 +273,21 @@ func TestGetCharacters(t *testing.T) {
 	assert.Equal(t, items, (*results)[testHero].Items)
 }
 
-func TestDeleteCharacter(t *testing.T) {
+func TestGetCharacters_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "A totally legit token"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/characters/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestDeleteCharacter_202(t *testing.T) {
 	res := httptest.NewRecorder()
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
@@ -190,6 +311,36 @@ func TestDeleteCharacter(t *testing.T) {
 	assert.Equal(t, spells, results.Spells)
 	var items []models.Item
 	assert.Equal(t, items, results.Items)
+}
+
+func TestDeleteCharacter_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "real token",
+		"CharacterID": 2
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestDeleteCharacter_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
+		"CharacterID": 4
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
 }
 
 func TestCreateItem_201(t *testing.T) {
