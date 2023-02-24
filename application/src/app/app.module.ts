@@ -15,6 +15,7 @@ import { UsersComponent } from './users/users.component';
 import { CreateCharactersComponent } from './characters/create-characters/create-characters/create-characters.component';
 import { ViewUsersComponent } from './view-users/view-users.component';
 import { AdminAddComponent } from './admin-add/admin-add.component';
+import { AdminDeleteComponent } from './admin-delete/admin-delete.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AdminAddComponent } from './admin-add/admin-add.component';
     CreateCharactersComponent,
     ViewUsersComponent,
     AdminAddComponent,
+    AdminDeleteComponent,
   ],
   imports: [
     BrowserModule,
