@@ -88,14 +88,14 @@ Example Request:
 ```
 {
     "AdminToken" : "adminToken",
-    "SpellID" : 2
+    "ItemID" : 2
 }
 ```
 
 Example Response (202):
 ```
 {
-    "Successfully deleted spell": 2
+    "Successfully deleted item": 2
 }
 ```
 
