@@ -62,14 +62,7 @@ Example Response (201):
 ```
 
 #### POST /items/get 
-Gets all the items for listing and returns a 200 OK status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred. Note that currently there is no endpoint to get a single item. 
-
-Example Request:
-```
-{
-    "AdminToken" : "adminToken"
-}
-```
+Gets all the items for listing and returns a 200 OK status, or fails with a 500 status if the user could not be found or unexpected errors ocurred. Note that currently there is no endpoint to get a single item. The request body should be empty, no admin token is required. 
 
 Example Response (200):
 ```
@@ -106,9 +99,9 @@ Example Response (202):
 }
 ```
 
-### Skill API Endpoints   
-#### POST /skills/create 
-Creates and returns the skill with a 201 Created status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred. The ```LevelReq``` and ```ClassReq``` values should correspond to what level and class the character must have before obtaining this skill.
+### Spell API Endpoints   
+#### POST /spells/create 
+Creates and returns the spell with a 201 Created status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred. The ```LevelReq``` and ```ClassReq``` values should correspond to what level and class the character must have before obtaining this spell.
 
 Example Request:
 ```
@@ -135,15 +128,8 @@ Example Response (201):
 }
 ```
 
-#### POST /skills/get 
-Gets all the skills for listing and returns a 200 OK status if the user is an admin, otherwise returns a 403 Forbidden status.  The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. Note that currently there is no endpoint to get a single skill. 
-
-Example Request:
-```
-{
-    "AdminToken" : "adminToken"
-}
-```
+#### POST /spells/get 
+Gets all the spells for listing and returns a 200 OK status, or fails with a 500 status if the user could not be found or unexpected errors ocurred. Note that currently there is no endpoint to get a single spell. The request body should be empty, no admin token is required. 
 
 Example Response (200):
 ```
@@ -162,8 +148,8 @@ Example Response (200):
 ]
 ```
 
-#### POST /skills/delete
-Deletes the specified skill by its ID and returns a 202 Accepted status if the user is an admin, otherwise returns a 403 Forbidden status.  The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. 
+#### POST /spells/delete
+Deletes the specified spell by its ID and returns a 202 Accepted status if the user is an admin, otherwise returns a 403 Forbidden status.  The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. 
 
 Example Request:
 ```
