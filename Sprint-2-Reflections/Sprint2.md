@@ -84,7 +84,7 @@ Example Response (200):
         "LevelReq": 2,
         "ClassReq": 3
     },
-    { .... }
+    { ... }
 ]
 ```
 
