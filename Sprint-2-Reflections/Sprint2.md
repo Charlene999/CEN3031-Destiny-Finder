@@ -62,7 +62,7 @@ Example Response (201):
 ```
 
 #### POST /items/get 
-Gets all the items for listing and returns a 200 OK status, or fails with a 500 status if unexpected errors ocurred. Note that currently there is no endpoint to get a single item. The request body should be empty, no admin token is required. 
+Gets all the items for listing and returns a 200 OK status, or fails with a 500 status if unexpected errors ocurred. Note that currently there is no endpoint to get a single item. The request body should be empty; no admin token is required. 
 
 Example Response (200):
 ```
@@ -129,7 +129,7 @@ Example Response (201):
 ```
 
 #### POST /spells/get 
-Gets all the spells for listing and returns a 200 OK status, or fails with a 500 status if unexpected errors ocurred. Note that currently there is no endpoint to get a single spell. The request body should be empty, no admin token is required. 
+Gets all the spells for listing and returns a 200 OK status, or fails with a 500 status if unexpected errors ocurred. Note that currently there is no endpoint to get a single spell. The request body should be empty; no admin token is required. 
 
 Example Response (200):
 ```
