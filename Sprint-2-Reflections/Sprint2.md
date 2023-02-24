@@ -88,7 +88,7 @@ Example Response (200):
 ]
 ```
 
-#### POST /items/delete/:id
+#### POST /items/delete
 Deletes the specified item by its ID and returns a 202 Accepted status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred.
 
 Example Request:
@@ -162,7 +162,7 @@ Example Response (200):
 ]
 ```
 
-#### POST /skills/delete/:id
+#### POST /skills/delete
 Deletes the specified skill by its ID and returns a 202 Accepted status if the user is an admin, otherwise returns a 403 Forbidden status.  The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. 
 
 Example Request:
