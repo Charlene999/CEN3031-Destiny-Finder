@@ -13,18 +13,14 @@ type Item struct {
 }
 
 type BuildItem struct {
-	AdminToken 	string
+	AdminToken  string
 	Name        string
 	Description string
 	LevelReq    uint
 	ClassReq    uint
 }
 
-type GetItems struct {
-	AdminToken 	string
-}
-
 type DeleteItem struct {
-	AdminToken 	string
-	ItemID uint
+	AdminToken string
+	ItemID     uint
 }
