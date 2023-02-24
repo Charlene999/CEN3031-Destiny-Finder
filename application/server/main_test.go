@@ -31,6 +31,74 @@ func TestAvailability(t *testing.T) {
 	assert.Equal(t, "hello", res.Body.String())
 }
 
+func TestCreateUser(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"Name": "Tester5",
+		"Username": "tester5",
+		"Email": "tester5@gmail.com",
+		"Password": "password"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/create", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 201, res.Code)
+	assert.Equal(t, "Tester5", results.Name)
+	assert.Equal(t, "tester5", results.Username)
+	assert.Equal(t, "tester5@gmail.com", results.Email)
+	assert.Equal(t, false, results.IsAdmin)
+}
+
+func TestGetUser(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"UserToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/get", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, "Testing Admin", results.Name)
+	assert.Equal(t, "testingadmin", results.Username)
+	assert.Equal(t, "testing.admin@gmail.com", results.Email)
+	assert.Equal(t, "$2a$10$OBbdUQsZQiVohVwG8AzyZeyvlZfNuyRH/NaSrgKFNAtv6v8B/K2JO", results.Password)
+	assert.Equal(t, true, results.IsAdmin)
+}
+
+func TestLogin(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"Username": "testingadmin",
+		"Password": "password"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/login", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	type GrabToken struct {
+		Token string `json:"token"`
+	}
+	results := &GrabToken{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo", results.Token)
+}
+
 func TestCreateCharacter(t *testing.T) {
 	res := httptest.NewRecorder()
 
@@ -40,7 +108,7 @@ func TestCreateCharacter(t *testing.T) {
 		"Description": "The most heroic hero in all of testing land",
 		"Level": 50,
 		"ClassType": 0,
-		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImN3b2p0YWsifQ.KtDbVzT6fMA5CykVwJeHxJB-7BHO1vlfdUdo0nLITu0"
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo"
 	}`)
 
 	req, _ := http.NewRequest("POST", "/characters/create", bytes.NewBuffer(body))
@@ -65,7 +133,7 @@ func TestGetCharacters(t *testing.T) {
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
 	body := []byte(`{
-		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImN3b2p0YWsifQ.KtDbVzT6fMA5CykVwJeHxJB-7BHO1vlfdUdo0nLITu0"
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo"
 	}`)
 
 	req, _ := http.NewRequest("POST", "/characters/get", bytes.NewBuffer(body))
@@ -103,8 +171,8 @@ func TestDeleteCharacter(t *testing.T) {
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
 	body := []byte(`{
-		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImN3b2p0YWsifQ.KtDbVzT6fMA5CykVwJeHxJB-7BHO1vlfdUdo0nLITu0",
-		"CharacterID":
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"CharacterID": 2
 	}`)
 
 	req, _ := http.NewRequest("DELETE", "/characters/delete", bytes.NewBuffer(body))
@@ -113,7 +181,7 @@ func TestDeleteCharacter(t *testing.T) {
 	results := &models.Character{}
 	json.NewDecoder(res.Body).Decode(results)
 
-	assert.Equal(t, 201, res.Code)
+	assert.Equal(t, 202, res.Code)
 	assert.Equal(t, "Test Hero", results.Name)
 	assert.Equal(t, "The most heroic hero in all of testing land", results.Description)
 	assert.Equal(t, uint(50), results.Level)
@@ -122,18 +190,6 @@ func TestDeleteCharacter(t *testing.T) {
 	assert.Equal(t, spells, results.Spells)
 	var items []models.Item
 	assert.Equal(t, items, results.Items)
-}
-
-func TestCreateUser(t *testing.T) {
-
-}
-
-func TestGetUser(t *testing.T) {
-
-}
-
-func TestLogin(t *testing.T) {
-
 }
 
 func TestCreateItem_201(t *testing.T) {
