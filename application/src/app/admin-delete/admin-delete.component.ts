@@ -124,41 +124,11 @@ export class AdminDeleteComponent {
   // Delete Item
   DeleteItem(id: number, name: string) {
 
-    console.log("ITEM ID: " + id);
     // If admin cancels delete request, it should not delete
     if (!confirm("Are you sure you want to delete item " + name + "?")) {
       alert("Deletion of item " + name + " canceled");
       return;
     }
-
-    let items = {
-      "AdminToken": localStorage.getItem('id_token'),
-    };
-
-    const options = { headers: { 'Content-Type': 'application/json' } };
-
-    this.http.post('http://localhost:8080/items/get', JSON.stringify(items), options).subscribe(data => {
-      if (200) {
-
-        // Get Item Id to delete
-        localStorage.setItem('DeleteID', JSON.stringify(id));        
-      }
-    }, (error) => {
-      if (error.status === 404) {
-        alert('Item not found.');
-      }
-      else if (error.status === 409) {
-        alert('Item already exists. Please try another one.');
-      }
-      else if (error.status === 500) {
-
-        alert('Server down.');
-      }
-      else if (error.status === 502) {
-        alert('Bad gateway.');
-      }
-    }
-    );
 
     // Store admin token and item ID in options to send to delete request
     const opts = {
@@ -167,10 +137,9 @@ export class AdminDeleteComponent {
     this.http.delete('http://localhost:8080/items/delete', opts).subscribe(data => {
 
       if (200 || 202 || 204) {
+
         // Item successfully deleted
-        localStorage.removeItem('DeleteID');
         alert("Item " + name + " deleted");
-        //this.ViewItems();
         window.location.reload();
       }
     }, (error) => {
@@ -188,45 +157,16 @@ export class AdminDeleteComponent {
         alert('Bad gateway.');
       }
     });
-    
   }
 
   // Delete Spell
   DeleteSpell(id: number, name: string) {
+
     // If admin cancels delete request, it should not delete
     if (!confirm("Are you sure you want to delete spell " + name + "?")) {
       alert("Deletion of spell " + name + " canceled");
       return;
     }
-
-    let items = {
-      "AdminToken": localStorage.getItem('id_token'),
-    };
-
-    const options = { headers: { 'Content-Type': 'application/json' } };
-
-    this.http.post('http://localhost:8080/spells/get', JSON.stringify(items), options).subscribe(data => {
-      if (200) {
-
-        // Get Spell Id to delete
-        localStorage.setItem('DeleteSpell', JSON.stringify(id));
-      }
-    }, (error) => {
-      if (error.status === 404) {
-        alert('Spell not found.');
-      }
-      else if (error.status === 409) {
-        alert('Spell already exists. Please try another one.');
-      }
-      else if (error.status === 500) {
-
-        alert('Server down.');
-      }
-      else if (error.status === 502) {
-        alert('Bad gateway.');
-      }
-    }
-    );
 
     // Store admin token and item ID in options to send to delete request
     const opts = {
@@ -235,10 +175,9 @@ export class AdminDeleteComponent {
     this.http.delete('http://localhost:8080/spells/delete', opts).subscribe(data => {
 
       if (200 || 202 || 204) {
+
         // Spell successfully deleted
-        localStorage.removeItem('DeleteSpell');
         alert("Spell " + name + " deleted");
-        //this.ViewSpells();
         window.location.reload();
       }
     }, (error) => {
@@ -291,22 +230,3 @@ class Spells {
   }
 }
 
-class deleteItem {
-  Token: string;
-  ID: number;
-
-  constructor(token: string, id: number) {
-    this.Token = token;
-    this.ID = id;
-  }
-}
-
-class deleteSpell {
-  Token: string;
-  ID: number;
-
-  constructor(token: string, id: number) {
-    this.Token = token;
-    this.ID = id;
-  }
-}
