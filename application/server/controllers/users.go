@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	"backend/models"
 	"backend/utilities"
 	"errors"
@@ -26,6 +24,11 @@ func (repository *Repos) CreateUser(c *gin.Context) {
 	err := c.ShouldBindJSON(&buildUser)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if buildUser.Email == "" || buildUser.Name == "" || buildUser.Password == "" || buildUser.Username == "" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing an email, name, password, or username"})
 		return
 	}
 
@@ -114,8 +117,6 @@ func (repository *Repos) LogIn(c *gin.Context) {
 		"Username": signInInput.Username,
 	})
 	tokenString, err := token.SignedString([]byte(secret))
-
-	fmt.Printf("%v", err)
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Could not generate token"})

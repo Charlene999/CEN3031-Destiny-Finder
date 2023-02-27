@@ -1,13 +1,60 @@
 # Sprint 2 Report
 
 ## Work Completed
-### Frontend
+As almost all functionality planned in Sprint 1 was completed, our team moved forward in completing new issues related to character creating, viewing, and deletion along with the implementation of creating, viewing, and deleting spells and items that characters can be given. Most of the frontend and backend functionality for user, character, item, and spell creation, viewing, deletion, etc. has been connected by this point.
 
-### Backend
+### Frontend Accomplishments
+
+### Backend Accomplishments
+Firstly, the delete character endpoint (/characters/delete) was added to finish character API functionality in the backend for now. Then, the router creation was reorganized to allow for the creation of a new testing entry point in addition to the main entry point. A special testing database was set up and implemented in order to separate testing from the main database. 
+Furthermore, item and spell schemas were updated, and item and spell creation, getting, and deletion endpoints (6 in total) were added to the backend. 
+Finally, multiple unit tests were written for each endpoint created so far.
 
 ## Frontend Cypress and Unit Tests
 
 ## Backend API Unit Tests
+Unit tests were designed in order to test the functionality of each server endpoint. To faciliate this, the tests first start the router and controllers in the same fashion as during regular operation, but a connection to the special testing database is made rather than the main database. Each of the unit tests is contained in a singular function; they are listed below.
+
+### Miscellaneous Tests
+- TestAvailability_200 - Tests for a 200 OK status response to the /ping endpoint to ensure that the server is running and serving requests.
+
+### User Tests
+- TestCreateUser_201 - Tests to ensure that users can be created as expected.
+
+- TestCreateUser_409 - Tests attempting to erroneously create a user with a username that already exists in the database.
+
+- TestCreateUser_400 - Tests attempting to send a malformed request to the create user endpoint.
+
+- TestGetUser_200 - Tests to ensure that infromation about users can be obtained as expected.
+
+- TestGetUser_500 - Tests to ensure that the get user endpoint can gracefully handle a malformed JWT.
+
+- TestLogin_200 - Tests to ensure that users can sucessfully login and receive a JWT.
+
+- TestLogin_404 - Tests to ensure that a 404 Not Found status is returned in the event a user is not found in the database while logging in.
+
+- TestLogin_502 - Tests to ensure that the server will reject an invalid username/password combination.
+
+### Character Tests
+- TestCreateCharacter_201 - Tests to ensure that a character can be created as expected.
+
+- TestCreateCharacter_400 - Tests to ensure that the create user endpoint can gracefully handle a malformed request.
+
+- TestCreateCharacter_500 - Tests to ensure that the create user endpoint can gracefully handle a malformed JWT.
+
+- TestGetCharacters_200 - Tests to ensure that a user's characters can be obtained as expected.
+
+- TestGetCharacters_500 - Tests to ensure that the get character endpoint can gracefully handle a malformed JWT.
+
+- TestDeleteCharacter_202 - Tests to ensure that a user's character can be deleted as expected.
+
+- TestDeleteCharacter_500 - Tests to ensure that the delete character endpoint can gracefully handle a malformed JWT.
+
+- TestDeleteCharacter_403 - Tests to ensure that non-admin users cannot delete other users' characters.
+
+### Item Tests
+
+### Spell Tests
 
 ## Backend API Documentation     
 So far, endpoints have been grouped by whether they manage Users, Characters, Items, or Spells.  
@@ -232,14 +279,7 @@ Example Response (201):
 ```
 
 #### POST /items/get 
-Gets all the items for listing and returns a 200 OK status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred. Note that currently there is no endpoint to get a single item. 
-
-Example Request:
-```
-{
-    "AdminToken" : "adminToken"
-}
-```
+Gets all the items for listing and returns a 200 OK status, or fails with a 500 status if unexpected errors ocurred. Note that currently there is no endpoint to get a single item. The request body should be empty; no admin token is required. 
 
 Example Response (200):
 ```
@@ -265,20 +305,20 @@ Example Request:
 ```
 {
     "AdminToken" : "adminToken",
-    "SpellID" : 2
+    "ItemID" : 2
 }
 ```
 
 Example Response (202):
 ```
 {
-    "Successfully deleted spell": 2
+    "Successfully deleted item": 2
 }
 ```
 
-### Skill API Endpoints   
-#### POST /skills/create 
-Creates and returns the skill with a 201 Created status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred. The ```LevelReq``` and ```ClassReq``` values should correspond to what level and class the character must have before obtaining this skill.
+### Spell API Endpoints   
+#### POST /spells/create 
+Creates and returns the spell with a 201 Created status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred. The ```LevelReq``` and ```ClassReq``` values should correspond to what level and class the character must have before obtaining this spell.
 
 Example Request:
 ```
@@ -305,15 +345,8 @@ Example Response (201):
 }
 ```
 
-#### POST /skills/get 
-Gets all the skills for listing and returns a 200 OK status if the user is an admin, otherwise returns a 403 Forbidden status.  The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. Note that currently there is no endpoint to get a single skill. 
-
-Example Request:
-```
-{
-    "AdminToken" : "adminToken"
-}
-```
+#### POST /spells/get 
+Gets all the spells for listing and returns a 200 OK status, or fails with a 500 status if unexpected errors ocurred. Note that currently there is no endpoint to get a single spell. The request body should be empty; no admin token is required. 
 
 Example Response (200):
 ```
@@ -332,8 +365,8 @@ Example Response (200):
 ]
 ```
 
-#### POST /skills/delete
-Deletes the specified skill by its ID and returns a 202 Accepted status if the user is an admin, otherwise returns a 403 Forbidden status.  The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. 
+#### POST /spells/delete
+Deletes the specified spell by its ID and returns a 202 Accepted status if the user is an admin, otherwise returns a 403 Forbidden status.  The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. 
 
 Example Request:
 ```

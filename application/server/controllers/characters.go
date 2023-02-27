@@ -20,6 +20,11 @@ func (repository *Repos) CreateCharacter(c *gin.Context) {
 		return
 	}
 
+	if buildCharacter.Description == "" || buildCharacter.Level == 0 || buildCharacter.Name == "" || buildCharacter.OwnerToken == "" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing a name, level, description, or owner token"})
+		return
+	}
+
 	//Identify the user from the provided token
 	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	claims := jwt.MapClaims{}
