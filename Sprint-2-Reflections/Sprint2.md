@@ -53,8 +53,34 @@ Unit tests were designed in order to test the functionality of each server endpo
 - TestDeleteCharacter_403 - Tests to ensure that non-admin users cannot delete other users' characters.
 
 ### Item Tests
+- TestCreateItem_201 - Tests to ensure that an item can be created as expected.
+
+- TestCreateItem_500 - Tests to ensure that the create item endpoint fails gracefully if the user identified by the token is non-existent.
+
+- TestCreateItem_403 - Tests to ensure that the create item endpoint fails gracefully if the user identified by the token is not an admin.
+
+- TestGetItems_200 - Tests to ensure that all items can be retrieved as expected.
+
+- TestDeleteItem_202 - Tests to ensure that an item can be deleted as expected.
+
+- TestDeleteItem_500 - Tests to ensure that the delete item endpoint fails gracefully if the user identified by the token is non-existent.
+
+- TestDeleteItem_403 - Tests to ensure that the delete item endpoint fails gracefully if the user identified by the token is not an admin.
 
 ### Spell Tests
+- TestCreateSpell_201 - Tests to ensure that a spell can be created as expected.
+
+- TestCreateSpell_500 - Tests to ensure that the create spell endpoint fails gracefully if the user identified by the token is non-existent.
+
+- TestCreateSpell_403 - Tests to ensure that the create spell endpoint fails gracefully if the user identified by the token is not an admin.
+
+- TestGetSpells_200 - Tests to ensure that all spells can be retrieved as expected.
+
+- TestDeleteSpell_202 Tests to ensure that a spell can be deleted as expected.
+
+- TestDeleteSpell_500 - Tests to ensure that the delete spell endpoint fails gracefully if the user identified by the token is non-existent.
+
+- TestDeleteSpell_403 - Tests to ensure that the delete spell endpoint fails gracefully if the user identified by the token is not an admin.
 
 ## Backend API Documentation     
 So far, endpoints have been grouped by whether they manage Users, Characters, Items, or Spells.  
