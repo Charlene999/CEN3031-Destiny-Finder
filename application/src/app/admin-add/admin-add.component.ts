@@ -9,7 +9,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-add.component.css']
 })
 export class AdminAddComponent {
-  constructor(private http: HttpClient, private router: Router) { }
+
+  public submitItemSubmitted: Boolean;
+  public submitSpellSubmitted: Boolean;
+  public deletePageSubmitted: Boolean;
+
+  constructor(private http: HttpClient, private router: Router) { 
+    this.submitItemSubmitted = false;
+    this.submitSpellSubmitted = false;
+    this.deletePageSubmitted = false;
+  }
 
   // Route back to home if admin is not logged in
   ngOnInit() {
@@ -20,16 +29,18 @@ export class AdminAddComponent {
 
   // New Item Submitted
   submitItem(f: NgForm) {
-    const options = { headers: { 'Content-Type': 'application/json' } };
 
-    let BuildItem = 
-    {
+    let BuildItem = {
       "AdminToken": localStorage.getItem('id_token'),
       "Name": f.value.name,
       "Description": f.value.description,
       "LevelReq": Number(f.value.level),
       "ClassReq": Number(f.value.class),
     }
+
+    this.submitItemSubmitted = true;
+
+    const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/items/create', JSON.stringify(BuildItem), options).subscribe((res: any) => {
       if (200) {
         // Show item as created
@@ -51,15 +62,18 @@ export class AdminAddComponent {
 
   // New Spell Submitted
   submitSpell(g: NgForm) {
-    const options = { headers: { 'Content-Type': 'application/json' } };
-    let BuildSpell =
-    {
+
+    let BuildSpell = {
       "AdminToken": localStorage.getItem('id_token'),
       "Name": g.value.name,
       "Description": g.value.description,
       "LevelReq": Number(g.value.level),
       "ClassReq": Number(g.value.class),
     }
+
+    this.submitSpellSubmitted = true;
+
+    const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/create', JSON.stringify(BuildSpell), options).subscribe((res: any) => {
       if (200) {
         // Show spell as created
@@ -80,6 +94,7 @@ export class AdminAddComponent {
   }
 
   deletePage() {
+    this.deletePageSubmitted = true;
     this.router.navigateByUrl('/admin/delete');
   }
 }

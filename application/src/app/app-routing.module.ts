@@ -7,10 +7,11 @@ import { ItemsComponent } from './items/items.component';
 import { SpellsComponent } from './spells/spells.component';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
-import { CreateCharactersComponent } from './characters/create-characters/create-characters/create-characters.component';
 import { ViewUsersComponent } from './view-users/view-users.component'
 import { AdminAddComponent } from './admin-add/admin-add.component'
 import { AdminDeleteComponent } from './admin-delete/admin-delete.component'
+import { AdminComponent } from './admin/admin.component';
+import { CreateCharactersComponent } from './characters/create-characters/create-characters.component';
 
 //This is what changes the routing on the navigation bar
 //NOTE: path must match the routerLink indicated in app.component.html
@@ -26,9 +27,12 @@ const routes: Routes = [
   { path: 'spells', component: SpellsComponent }, //Spells
 
   //If user is admin, display following tabs
+  { path: 'admin/get', component: AdminComponent },
   { path: 'admin/view-users', component: ViewUsersComponent },
   { path: 'admin/add', component: AdminAddComponent },
   { path: 'admin/delete', component: AdminDeleteComponent },
+
+  //TODO - implement items-add and spells-add components and pages
   { path: 'items/create', component: AdminAddComponent },
   { path: 'spells/create', component: AdminAddComponent },
 

@@ -12,10 +12,11 @@ import { CharactersComponent } from './characters/characters.component';
 import { ClassesComponent } from './classes/classes.component';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
-import { CreateCharactersComponent } from './characters/create-characters/create-characters/create-characters.component';
 import { ViewUsersComponent } from './view-users/view-users.component';
 import { AdminAddComponent } from './admin-add/admin-add.component';
 import { AdminDeleteComponent } from './admin-delete/admin-delete.component';
+import { AdminComponent } from './admin/admin.component';
+import { CreateCharactersComponent } from './characters/create-characters/create-characters.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AdminDeleteComponent } from './admin-delete/admin-delete.component';
     ViewUsersComponent,
     AdminAddComponent,
     AdminDeleteComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

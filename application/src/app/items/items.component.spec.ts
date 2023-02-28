@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ItemsComponent } from './items.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('ItemsComponent', () => {
   let component: ItemsComponent;
@@ -8,7 +11,14 @@ describe('ItemsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ItemsComponent ]
+      imports: [
+        HttpClientModule, 
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule
+        ],
+      declarations: [ ItemsComponent ],
+      providers: []
     })
     .compileComponents();
 
@@ -17,7 +27,15 @@ describe('ItemsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('The /items page renders', () => {
     expect(component).toBeTruthy();
+  });
+
+  //Describe is the function name being tested
+  describe('onSubmit', () => {
+    it('View Your Characters Button Works', async () => {
+      component.onSubmit();
+      expect(component.viewSubmitted).toBeTruthy();
+    });
   });
 });

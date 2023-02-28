@@ -14,6 +14,12 @@ export class AdminDeleteComponent {
   Spelltext: string;
   itemview: boolean;
   spellview: boolean;
+
+  public viewItemsSubmitted: Boolean;
+  public deleteItemSubmitted: Boolean;
+  public viewSpellsSubmitted: Boolean;
+  public deleteSpellSubmitted: Boolean;
+
   constructor(private http: HttpClient, private router: Router) {
     this.itemview = false;
     this.spellview = false;
@@ -21,26 +27,29 @@ export class AdminDeleteComponent {
     this.Spelltext = "View All Spells"
     this.allItems = [];
     this.allSpells = [];
+    this.viewItemsSubmitted = false;
+    this.deleteItemSubmitted = false;
+    this.viewSpellsSubmitted = false;
+    this.deleteSpellSubmitted = false;
   }
   // Allow admin to show and hide ALL items
-  ViewItems() {
+  viewItems() {
 
     let items = {
       "AdminToken": localStorage.getItem('id_token'),
     };
 
-    const options = { headers: { 'Content-Type': 'application/json' } };
+    this.viewItemsSubmitted = true;
 
+    const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/items/get', JSON.stringify(items), options).subscribe(data => {
       if (200) {
-
         // Show all items or hide them depending on when admin clicks
         if (this.itemview === true) {
           this.allItems.splice(0);
           this.Itemtext = "View All Items";
           this.itemview = false;
         }
-
         else {
           this.allItems.splice(0);
           var AllItems = JSON.parse(JSON.stringify(data));
@@ -72,24 +81,23 @@ export class AdminDeleteComponent {
   }
 
   // Allow admin to show and hide ALL spells
-  ViewSpells() {
+  viewSpells() {
 
     let spells = {
       "AdminToken": localStorage.getItem('id_token'),
     };
 
-    const options = { headers: { 'Content-Type': 'application/json' } };
+    this.viewSpellsSubmitted = true;
 
+    const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/get', JSON.stringify(spells), options).subscribe(data => {
       if (200) {
-
         // Show all items or hide them depending on when admin clicks
         if (this.spellview === true) {
           this.allSpells.splice(0);
           this.Spelltext = "View All Spells";
           this.spellview = false;
         }
-
         else {
           this.allSpells.splice(0);
           var AllSpells = JSON.parse(JSON.stringify(data));
@@ -118,11 +126,12 @@ export class AdminDeleteComponent {
       }
     }
     );
-
   }
 
   // Delete Item
-  DeleteItem(id: number, name: string) {
+  deleteItem(id: number, name: string) {
+
+    this.deleteItemSubmitted = true;
 
     console.log("ITEM ID: " + id);
     // If admin cancels delete request, it should not delete
@@ -136,7 +145,6 @@ export class AdminDeleteComponent {
     };
 
     const options = { headers: { 'Content-Type': 'application/json' } };
-
     this.http.post('http://localhost:8080/items/get', JSON.stringify(items), options).subscribe(data => {
       if (200) {
 
@@ -162,7 +170,8 @@ export class AdminDeleteComponent {
 
     // Store admin token and item ID in options to send to delete request
     const opts = {
-      headers: { 'Content-Type': 'application/json' }, body: { "ItemID": id, "AdminToken": localStorage.getItem('id_token')!}
+      headers: { 'Content-Type': 'application/json' }, 
+      body: { "ItemID": id, "AdminToken": localStorage.getItem('id_token')!}
     };
     this.http.delete('http://localhost:8080/items/delete', opts).subscribe(data => {
 
@@ -192,7 +201,10 @@ export class AdminDeleteComponent {
   }
 
   // Delete Spell
-  DeleteSpell(id: number, name: string) {
+  deleteSpell(id: number, name: string) {
+
+    this.deleteSpellSubmitted = true;
+
     // If admin cancels delete request, it should not delete
     if (!confirm("Are you sure you want to delete spell " + name + "?")) {
       alert("Deletion of spell " + name + " canceled");
@@ -204,7 +216,6 @@ export class AdminDeleteComponent {
     };
 
     const options = { headers: { 'Content-Type': 'application/json' } };
-
     this.http.post('http://localhost:8080/spells/get', JSON.stringify(items), options).subscribe(data => {
       if (200) {
 
@@ -230,7 +241,8 @@ export class AdminDeleteComponent {
 
     // Store admin token and item ID in options to send to delete request
     const opts = {
-      headers: { 'Content-Type': 'application/json' }, body: { "SpellID": id, "AdminToken": localStorage.getItem('id_token')! }
+      headers: { 'Content-Type': 'application/json' }, 
+      body: { "SpellID": id, "AdminToken": localStorage.getItem('id_token')! }
     };
     this.http.delete('http://localhost:8080/spells/delete', opts).subscribe(data => {
 

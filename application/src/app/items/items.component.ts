@@ -12,11 +12,14 @@ export class ItemsComponent {
   allChars: character[];
   curChar: character;
   allItems: Item[];
+
+  public viewSubmitted: Boolean;
+
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
     this.allItems = [];
     this.curChar = {} as character;
-;
+    this.viewSubmitted = false;
   }
 
   ngOnInit() {
@@ -24,16 +27,19 @@ export class ItemsComponent {
       this.router.navigateByUrl('/');
     }
   }
+
   characterChoice(Name: string, i: number) {
     //this.curChar = this.allChars.at(i);
     this.allItems = this.allChars[i].items;
-
   }
+  
   onSubmit() {
 
     let Character = {
       "OwnerToken": localStorage.getItem('id_token'),
     };
+
+    this.viewSubmitted = true;
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {

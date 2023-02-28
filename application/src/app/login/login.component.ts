@@ -10,7 +10,11 @@ import { Router } from '@angular/router';
 
 export class LoginComponent {
   
-  constructor(private http:HttpClient, private router:Router){ }
+  public loginSubmitted: Boolean;
+
+  constructor(private http:HttpClient, private router:Router) { 
+    this.loginSubmitted = false; 
+  }
 
   ngOnInit() {
     if (localStorage.getItem('id_token') !== null) {
@@ -19,8 +23,10 @@ export class LoginComponent {
   }
 
   onSubmit(f: NgForm) {
-      const options = { headers: { 'Content-Type': 'application/json' } };
 
+    this.loginSubmitted = true;
+
+    const options = { headers: { 'Content-Type': 'application/json' } }; 
     this.http.post('http://localhost:8080/users/login', JSON.stringify(f.value), options).subscribe((res: any)=> {
       if (200) {
           // Set admin true or false
@@ -28,6 +34,7 @@ export class LoginComponent {
 
           // Log user in using token
           localStorage.setItem('id_token', res.token);
+
           //Adds a redirect to localhost:4200//users/get (the user profile page)
           this.router.navigateByUrl('/users/get');
         }

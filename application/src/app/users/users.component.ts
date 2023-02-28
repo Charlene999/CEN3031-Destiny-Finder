@@ -8,7 +8,13 @@ import { Router } from '@angular/router';
 
 export class UsersComponent {
 
-  constructor(private router:Router){ }
+  public newCharactersSubmitted: Boolean;
+  public viewCharactersSubmitted: Boolean;
+
+  constructor(private router:Router){ 
+    this.newCharactersSubmitted = false; 
+    this.viewCharactersSubmitted = false; 
+  }
 
   ngOnInit() {
     if (localStorage.getItem('id_token') === null) {
@@ -17,10 +23,12 @@ export class UsersComponent {
   }
 
   createCharacter() {
+    this.newCharactersSubmitted = true;
     this.router.navigateByUrl("/users/create-character");
   }
 
   getCharacters() {
+    this.viewCharactersSubmitted = true; 
     this.router.navigateByUrl("/users/characters");
   }
 }

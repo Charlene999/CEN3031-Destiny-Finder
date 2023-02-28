@@ -1,28 +1,34 @@
 import { Component } from '@angular/core';
-
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-view-users',
   templateUrl: './view-users.component.html',
   styleUrls: ['./view-users.component.css']
 })
+
 export class ViewUsersComponent {
   Users: myUser[];
   text: string;
   view: boolean;
+
+  public viewCharsSubmitted: Boolean;
+  public deleteUserSubmitted: Boolean;
+
   constructor() {
     this.Users = [];
     this.text = "View All Users";
     this.view = false;
-  }
-
-  // 
-  ngOnInit() {
+    this.viewCharsSubmitted = false;
+    this.deleteUserSubmitted = false;
   }
 
   // Allow admin to show and hide characters
   // Temporarily shows current User only, need to update
-  View() {
+  viewChars() {
+
+    this.viewCharsSubmitted = true;
+
     if (this.view === true) {
       this.text = "View All Users";
       this.view = false;
@@ -40,9 +46,12 @@ export class ViewUsersComponent {
       return;
     }
   }
+
   // Admin can click to delete user
-  Delete(id: number, username: string)
-  {
+  deleteUser(id: number, username: string) {
+
+    this.deleteUserSubmitted = true;
+
     if (confirm("Are you sure you want to permanently delete this user?")) {
       alert("User " + username + " deleted permanently");
     }
