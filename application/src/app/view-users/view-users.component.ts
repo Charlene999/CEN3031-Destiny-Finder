@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 @Component({
-  selector: 'app-view-users',
   templateUrl: './view-users.component.html',
   styleUrls: ['./view-users.component.css']
 })
@@ -11,9 +9,8 @@ export class ViewUsersComponent {
   Users: myUser[];
   text: string;
   view: boolean;
-
-  public viewCharsSubmitted: Boolean;
-  public deleteUserSubmitted: Boolean;
+  viewCharsSubmitted: Boolean;
+  deleteUserSubmitted: Boolean;
 
   constructor(private router:Router) {
     this.Users = [];
@@ -38,17 +35,17 @@ export class ViewUsersComponent {
     if (this.view === true) {
       this.text = "View All Users";
       this.view = false;
-      this.Users.splice(0);
+      //this.Users.splice(0);
       return;
     }
 
     else {
       this.text = "Hide All Users";
       this.view = true;
-      var User = JSON.parse(localStorage.getItem('User')!);
-      var Admin = JSON.parse(localStorage.getItem('Admin')!);
-      var curUser = new myUser(User.Name, User.Username, User.Email, Admin.ID, Admin.IsAdmin);
-      this.Users.push(curUser);
+      //var User = JSON.parse(localStorage.getItem('User')!);
+      //var Admin = JSON.parse(localStorage.getItem('Admin')!);
+      //var curUser = new myUser(User.Name, User.Username, User.Email, Admin.ID, Admin.IsAdmin);
+      //this.Users.push(curUser);
       return;
     }
   }
@@ -61,7 +58,6 @@ export class ViewUsersComponent {
     if (confirm("Are you sure you want to permanently delete this user?")) {
       alert("User " + username + " deleted permanently");
     }
-
     else {
       alert("User deletion canceled");
     }

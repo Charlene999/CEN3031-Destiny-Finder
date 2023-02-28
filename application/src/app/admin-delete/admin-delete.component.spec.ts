@@ -27,7 +27,7 @@ describe('AdminDeleteComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /admin/delete page renders', () => {
+  it('The /admin/delete-spells-and-items page renders', () => {
     expect(component).toBeTruthy();
   });
 

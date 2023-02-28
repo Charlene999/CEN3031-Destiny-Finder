@@ -8,11 +8,12 @@ import { Observable } from 'rxjs';
   templateUrl: './characters.component.html',
   styleUrls: ['./characters.component.css']
 })
+
 export class CharactersComponent { 
 
-  public viewSubmitted: Boolean;
-  
   allChars: character[];
+  viewSubmitted: Boolean;
+
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
     this.viewSubmitted = false;
@@ -45,7 +46,6 @@ export class CharactersComponent {
           this.allChars.push(char);
         }
           localStorage.setItem('allUserChars', JSON.stringify(this.allChars));
-        //Redirect back to home page to login
       }
     }, (error) => {
       if (error.status === 404) {

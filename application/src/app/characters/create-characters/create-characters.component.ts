@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class CreateCharactersComponent {
 
-  public createSubmitted: Boolean;
+  createSubmitted: Boolean;
   
   constructor(private http: HttpClient, private router: Router) { 
     this.createSubmitted = false; 
@@ -36,9 +36,7 @@ export class CreateCharactersComponent {
     this.http.post('http://localhost:8080/characters/create', JSON.stringify(Character),options).subscribe((res: any)=> {
       if (200) {
         alert("Successful character creation.");
-          //Redirect back to home page to login
-          this.router.navigateByUrl('/characters/get');
-        }
+      }
       }, (error) => {
         if (error.status === 404) {
           alert('Resource not found.');

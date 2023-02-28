@@ -27,7 +27,7 @@ describe('UsersComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /users/get page renders', () => {
+  it('The /profile page renders', () => {
     expect(component).toBeTruthy();
   });
 

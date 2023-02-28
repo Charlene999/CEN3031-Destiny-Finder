@@ -14,11 +14,10 @@ export class AdminDeleteComponent {
   Spelltext: string;
   itemview: boolean;
   spellview: boolean;
-
-  public viewItemsSubmitted: Boolean;
-  public deleteItemSubmitted: Boolean;
-  public viewSpellsSubmitted: Boolean;
-  public deleteSpellSubmitted: Boolean;
+  viewItemsSubmitted: Boolean;
+  deleteItemSubmitted: Boolean;
+  viewSpellsSubmitted: Boolean;
+  deleteSpellSubmitted: Boolean;
 
   constructor(private http: HttpClient, private router: Router) {
     this.itemview = false;

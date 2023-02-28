@@ -27,7 +27,7 @@ describe('AdminAddComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /admin/add page renders', () => {
+  it('The /admin/add-spells-and-items page renders', () => {
     expect(component).toBeTruthy();
   });
 
@@ -36,10 +36,11 @@ describe('AdminAddComponent', () => {
     it('Add Item Button Works', async () => {
       const testForm = <NgForm>{
         value: {
-          email: "d2",
-          username: "d2",
-          password: "d2",
-          password2: "d2"
+          AdminToken: "d2",
+          Name: "d2",
+          Description: "d2",
+          LevelReq: 1,
+          ClassReq: 1
         }
       };
       component.submitItem(testForm);
@@ -69,10 +70,11 @@ describe('AdminAddComponent', () => {
     it('Add Spell Button Works', async () => {
       const testForm = <NgForm>{
         value: {
-          email: "d2",
-          username: "d2",
-          password: "d2",
-          password2: "d2"
+          AdminToken: 'd2',
+          Name: 'd2',
+          Description: 'd2',
+          LevelReq: 1,
+          ClassReq: 1
         }
       };
       component.submitSpell(testForm);
@@ -96,13 +98,4 @@ describe('AdminAddComponent', () => {
       expect(testForm.value.ClassReq).toEqual(1);
     });
   });
-
-  //Describe is the function name being tested
-  describe('deletePage', () => {
-    it('Delete Page Button Works', async () => {
-      component.deletePage();
-      expect(component.deletePageSubmitted).toBeTruthy();
-    });
-  });
-    
 });

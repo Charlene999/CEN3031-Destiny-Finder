@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 export class LoginComponent {
   
-  public loginSubmitted: Boolean;
+  loginSubmitted: Boolean;
 
   constructor(private http:HttpClient, private router:Router) { 
     this.loginSubmitted = false; 
@@ -36,22 +36,19 @@ export class LoginComponent {
         const options = { headers: { 'Content-Type': 'application/json' } };
         this.http.post('http://localhost:8080/users/get', JSON.stringify(User), options).subscribe((data: any) => {
           if (200) {
-            // Store user info and if they are admin or not in local storage
-            //var admin = new adM(userInf.ID, userInf.IsAdmin);
-            //var user = new myUser(userInf.Name, userInf.Username, userInf.Email);
-            //localStorage.setItem('User', JSON.stringify(user));
-            //localStorage.setItem('Admin', JSON.stringify(admin));
             if (data.IsAdmin === true) {
-              // Log user in using token
+              // Log admin in using token
               localStorage.setItem('id_token', res.token);
+              //Set adminstatus to true
               localStorage.setItem('adminstatus', 'true');
-              this.router.navigateByUrl('/admin/get');
+              //Adds a redirect to localhost:4200/admin (the admin profile page)
+              this.router.navigateByUrl('/admin');
             }
             else {
               // Log user in using token
               localStorage.setItem('id_token', res.token);
-              //Adds a redirect to localhost:4200//users/get (the user profile page)
-              this.router.navigateByUrl('/users/get');
+              //Adds a redirect to localhost:4200/profile (the user profile page)
+              this.router.navigateByUrl('/profile');
             }
           }
         });
@@ -68,30 +65,5 @@ export class LoginComponent {
         }
       }
     );
-  }
-}
-
-// Stores if user is admin or not
-class adM {
-  ID: number;
-  IsAdmin: boolean;
-
-  constructor(iD: number, isAdmin: boolean) {
-    this.ID = iD;
-    this.IsAdmin = isAdmin;
-  }
-}
-
-// Stores necessary user info
-class myUser {
-  Name: string;
-  Username: string;
-  Email: string;
-
-  constructor(name: string, username: string, email: string) {
-
-    this.Name = name;
-    this.Username = username;
-    this.Email = email;
   }
 }

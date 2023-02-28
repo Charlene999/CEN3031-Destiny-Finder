@@ -33,7 +33,7 @@ describe('ItemsComponent', () => {
 
   //Describe is the function name being tested
   describe('onSubmit', () => {
-    it('View Your Characters Button Works', async () => {
+    it('View Your Items Button Works', async () => {
       component.onSubmit();
       expect(component.viewSubmitted).toBeTruthy();
     });

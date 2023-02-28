@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 })
 export class AdminAddComponent {
 
-  public submitItemSubmitted: Boolean;
-  public submitSpellSubmitted: Boolean;
-  public deletePageSubmitted: Boolean;
+  submitItemSubmitted: Boolean;
+  submitSpellSubmitted: Boolean;
+  deletePageSubmitted: Boolean;
 
   constructor(private http: HttpClient, private router: Router) { 
     this.submitItemSubmitted = false;
@@ -91,10 +91,5 @@ export class AdminAddComponent {
       }
     }
     );
-  }
-
-  deletePage() {
-    this.deletePageSubmitted = true;
-    this.router.navigateByUrl('/admin/delete');
   }
 }

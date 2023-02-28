@@ -27,7 +27,7 @@ describe('SignupComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /users/create page renders', () => {
+  it('The /signup page renders', () => {
     expect(component).toBeTruthy();
   });
 
@@ -36,8 +36,9 @@ describe('SignupComponent', () => {
     it('Submit Button Works', async () => {
       const testForm = <NgForm>{
         value: {
-          email: "d2",
+          name: "d2",
           username: "d2",
+          email: "d2",
           password: "d2",
           password2: "d2"
         }
@@ -48,15 +49,17 @@ describe('SignupComponent', () => {
     it('User Input is Received', async () => {
       const testForm = <NgForm>{
         value: {
-          email: "d2",
+          name: "d2",
           username: "d2",
+          email: "d2",
           password: "d2",
           password2: "d2"
         }
       };
       component.onSubmit(testForm);
+      expect(testForm.value.name).toMatch('d2');
+      expect(testForm.value.username).toMatch('d2');
       expect(testForm.value.email).toMatch('d2');
-      expect(testForm.value.password).toMatch('d2');
       expect(testForm.value.password).toMatch('d2');
       expect(testForm.value.password2).toMatch('d2');
     });

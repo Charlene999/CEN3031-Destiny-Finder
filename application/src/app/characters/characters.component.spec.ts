@@ -27,7 +27,7 @@ describe('CharactersComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /users/characters page renders', () => {
+  it('The /profile/characters page renders', () => {
     expect(component).toBeTruthy();
   });
 

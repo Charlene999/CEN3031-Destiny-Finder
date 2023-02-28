@@ -27,7 +27,7 @@ describe('CreateCharactersComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /users/create-character page renders', () => {
+  it('The /profile/create-character page renders', () => {
     expect(component).toBeTruthy();
   });
 
