@@ -293,7 +293,7 @@ func TestDeleteCharacter_202(t *testing.T) {
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
 	body := []byte(`{
 		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
-		"CharacterID": 2
+		"CharacterID": 7
 	}`)
 
 	req, _ := http.NewRequest("DELETE", "/characters/delete", bytes.NewBuffer(body))
