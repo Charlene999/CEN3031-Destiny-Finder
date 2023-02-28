@@ -1,17 +1,20 @@
-describe('My First Test', () => {
-  it('Does not do much!', () => {
-    expect(true).to.equal(true)
+describe('Login Page', () => {
+  it('Visit Login Page, Input Invalid Username and Password, Click Submit Button', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', '/login')
+    cy.get('input[type=text]').type('fakemail@fake.com')
+    cy.get('input[type=text]').should('have.value', 'fakemail@fake.com')
+    cy.get('input[type=password]').type('password')
+    cy.get('input[type=password]').should('have.value', 'password')
+    cy.get('button').click()
   })
-})
-
-describe('My First Test', () => {
-  it('Does not do much!', () => {
-    expect(true).to.equal(false)
-  })
-})
-
-describe('My First Test', () => {
-  it('Does not do much!', () => {
-    expect(true).to.equal(false)
+  it('Visit Login Page, Input Valid Username and Password, Click Submit Button', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', '/login')
+    cy.get('input[type=text]').type('d2')
+    cy.get('input[type=text]').should('have.value', 'd2')
+    cy.get('input[type=password]').type('d2')
+    cy.get('input[type=password]').should('have.value', 'd2')
+    cy.get('button').click()
   })
 })
