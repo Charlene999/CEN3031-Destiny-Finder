@@ -22,7 +22,7 @@ export class AdminAddComponent {
 
   // Route back to home if admin is not logged in
   ngOnInit() {
-    if (localStorage.getItem('id_token') === null) {
+    if (localStorage.getItem('id_token') === null || localStorage.getItem('adminstatus') !== 'true') {
       this.router.navigateByUrl('/');
     }
   }

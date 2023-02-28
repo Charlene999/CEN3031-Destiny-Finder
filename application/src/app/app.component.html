@@ -21,10 +21,10 @@
       <a class="nav-item nav-link" (click)="logout()" *ngIf="loggedIn()">Logout</a>
 
       <!--If user is logged in, display this profile tab-->
-      <a class="nav-item nav-link" routerLink="/users/get" *ngIf="loggedIn()">Profile</a>
+      <a class="nav-item nav-link" routerLink="/users/get" *ngIf="loggedIn() && !isAdmin()">Profile</a>
 
       <!--If admin is logged in, display this profile tab-->
-      <a class="nav-item nav-link" routerLink="/admin/get" *ngIf="isAdmin()">Profile</a>
+      <a class="nav-item nav-link" routerLink="/admin/get"  *ngIf="loggedIn() && isAdmin()">Profile</a>
 
       <!--If admin or user is logged in, display all these tabs-->
       <a class="nav-item nav-link" routerLink="/classes" *ngIf="loggedIn()">Classes</a>

@@ -21,29 +21,18 @@ export class AppComponent {
   }
   
   logout() {
-    //alert("Successful logout.");
-    //Add functionality to delete JWT Token
+    //Deletes all adminstatus and id_token cookies
     localStorage.clear();
     //Redirect to home page
     this.router.navigateByUrl('/');
   }
 
-  // Returns true if user is an admin, false if not, called by html
-  isAdmin(): boolean{
-
-    if (!this.loggedIn())
-      return false;
-
-    var user = JSON.parse(localStorage.getItem('Admin')!);
-
-    if (user === null)
-      return false;
-
-    if (user.IsAdmin === true) {
+  isAdmin() {
+    if (localStorage.getItem('adminstatus') === 'true') {
       return true;
     }
-
-    else
+    else {
       return false;
+    }
   }
 }

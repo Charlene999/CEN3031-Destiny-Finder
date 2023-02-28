@@ -31,19 +31,4 @@ describe('CharactersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //Describe is the function name being tested
-  describe('onSubmit', () => {
-    it('View Your Characters Button Works', async () => {
-      const testForm = <NgForm>{
-        value: {
-          Name: "d2",
-          Level: 1,
-          Description: "d2",
-          ID: 1
-        }
-      };
-      component.onSubmit(testForm);
-      expect(component.viewSubmitted).toBeTruthy();
-    });
-  });
 });

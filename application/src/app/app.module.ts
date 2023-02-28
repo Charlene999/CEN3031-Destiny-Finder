@@ -19,6 +19,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CreateCharactersComponent } from './characters/create-characters/create-characters.component';
 
 @NgModule({
+  //Components
   declarations: [
     AppComponent,
     LoginComponent,
@@ -34,6 +35,7 @@ import { CreateCharactersComponent } from './characters/create-characters/create
     AdminDeleteComponent,
     AdminComponent,
   ],
+  //Modules
   imports: [
     BrowserModule,
     appRoutingModule,
@@ -42,6 +44,7 @@ import { CreateCharactersComponent } from './characters/create-characters/create
     ReactiveFormsModule,
     FormsModule
   ],
+  //Services and Injectables
   providers: [],
   bootstrap: [ AppComponent ]
 })
