@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 export class SignupComponent {
 
-  public signUpSubmitted: Boolean;
+  signUpSubmitted: Boolean;
 
   constructor(private http:HttpClient, private router:Router){ 
     this.signUpSubmitted = false; 
@@ -25,13 +25,14 @@ export class SignupComponent {
   onSubmit(f: NgForm) {
     this.signUpSubmitted = true;
 
-    const options = {headers: {'Content-Type': 'application/json'}};
+    //Add validation that password and password2 match before sending httpRequest
 
+    const options = {headers: {'Content-Type': 'application/json'}};
     this.http.post('http://localhost:8080/users/create', JSON.stringify(f.value), options).subscribe((res: any)=> {
         if(200) {
           alert("Successful account creation.");
-          //Redirect back to home page to login
-          this.router.navigateByUrl('http://localhost:4200/');
+          //Redirect to user to login page
+          this.router.navigateByUrl('/login');
         }
       }, (error) => {
         if (error.status === 404) {

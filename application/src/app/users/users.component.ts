@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 
 export class UsersComponent {
 
-  public newCharactersSubmitted: Boolean;
-  public viewCharactersSubmitted: Boolean;
+  newCharactersSubmitted: Boolean;
+  viewCharactersSubmitted: Boolean;
 
   constructor(private router:Router){ 
     this.newCharactersSubmitted = false; 
@@ -24,11 +24,11 @@ export class UsersComponent {
 
   createCharacter() {
     this.newCharactersSubmitted = true;
-    this.router.navigateByUrl("/users/create-character");
+    this.router.navigateByUrl("/profile/create-character");
   }
 
   getCharacters() {
     this.viewCharactersSubmitted = true; 
-    this.router.navigateByUrl("/users/characters");
+    this.router.navigateByUrl("/profile/characters");
   }
 }

@@ -27,7 +27,7 @@ describe('AdminComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /admin/get page renders', () => {
+  it('The /admin page renders', () => {
     expect(component).toBeTruthy();
   });
 

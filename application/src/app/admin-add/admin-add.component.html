@@ -1,5 +1,4 @@
 <div class="addItem">
-
   <section class="itemSect">
     <h1>Add an Item</h1>
     <form method="post" #f="ngForm" (ngSubmit)="submitItem(f)" novalidate>
@@ -10,15 +9,9 @@
       <button class="item">Add Item</button>
     </form>
   </section>
-
 </div>
 
-<div class="delete">
-  <h1>View Items and Spells</h1>
-  <button (click)="deletePage()"class="deleteButton">View / Delete</button>
-</div>
 <div class="addSpell">
-
   <section class = "spellSect">
     <h1>Add a Spell</h1>
     <form method="post" #g="ngForm" (ngSubmit)="submitSpell(g)" novalidate>

@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
 
 export class AdminComponent {
 
-  public viewUsersSubmitted: Boolean;
-  public addItemsAndSpellsSubmitted: Boolean;
-  public removeItemsAndSpellsSubmitted: Boolean;
+  viewUsersSubmitted: Boolean;
+  addItemsAndSpellsSubmitted: Boolean;
+  removeItemsAndSpellsSubmitted: Boolean;
 
   constructor(private router:Router){ 
     this.viewUsersSubmitted = false;
@@ -31,11 +31,11 @@ export class AdminComponent {
 
   addItemsAndSpells() {
     this.addItemsAndSpellsSubmitted = true;
-    this.router.navigateByUrl("/admin/add");
+    this.router.navigateByUrl("/admin/add-spells-and-items");
   }
 
   removeItemsAndSpells() {
     this.removeItemsAndSpellsSubmitted = true;
-    this.router.navigateByUrl("/admin/delete");
+    this.router.navigateByUrl("/admin/delete-spells-and-items");
   }
 }

@@ -12,8 +12,7 @@ export class ItemsComponent {
   allChars: character[];
   curChar: character;
   allItems: Item[];
-
-  public viewSubmitted: Boolean;
+  viewSubmitted: Boolean;
 
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];

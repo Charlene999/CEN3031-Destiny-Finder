@@ -27,13 +27,13 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   });
 
-  it('The /users/login page renders', () => {
+  it('The /login page renders', () => {
     expect(component).toBeTruthy();
   });
 
   //Describe is the function name being tested
   describe('onSubmit', () => {
-    it('Submit Button Works', async () => {
+    it('Login Button Works', async () => {
       const testForm = <NgForm>{
         value: {
           username: "d2",

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { appRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -38,7 +37,6 @@ import { CreateCharactersComponent } from './characters/create-characters/create
   //Modules
   imports: [
     BrowserModule,
-    appRoutingModule,
 	  HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,

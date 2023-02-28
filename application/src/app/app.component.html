@@ -1,32 +1,31 @@
-
-
 <img class="menu" src="assets/images/D&Dgold.png" alt="D&D logo" routerLink="/">
 <router-outlet>
-  <!-- Navigation Bar with links<img class="mainlogo" src="assets/images/D&Dlogo.jpg">-->
+  <!-- Navigation Bar with Routing Links-->
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="navbar-nav">
       <!-- This is what changes the routing on the navigation bar-->
       <!-- NOTE: routerLink must match the path indicated in app.component.html-->
       <!-- NOTE: The order these tabs are listed are the order they appear on navigation bar-->
-        <!-- Example: Logged-In User Nav Bar = Home/Logout/Profile/Classes/Spells/Items-->
+        <!-- Example: Logged-In User Only Sees These Tabs In Order = Home/Logout/Profile/Classes/Spells/Items-->
+      <!-- NOTE: DO NOT INCLUDE a routerLink here for a "hidden" route, such as items/create-->
 
-      <!--Default Home Page-->
+      <!--Home Page Tab-->
       <a class="nav-item nav-link" routerLink="/">Home</a>
 
       <!--If user or admin not logged in, display login and create user tabs-->
-      <a class="nav-item nav-link" routerLink="/users/login" *ngIf="!loggedIn()">Login</a>
-      <a class="nav-item nav-link" routerLink="/users/create" *ngIf="!loggedIn()">Sign Up</a>
+      <a class="nav-item nav-link" routerLink="/login" *ngIf="!loggedIn()">Login</a>
+      <a class="nav-item nav-link" routerLink="/signup" *ngIf="!loggedIn()">Sign Up</a>
       
       <!--If admin or user is logged in, display logout tab-->
-      <a class="nav-item nav-link" (click)="logout()" *ngIf="loggedIn()">Logout</a>
+      <a class="nav-item nav-link" routerLink="/" (click)="logout()" *ngIf="loggedIn()">Logout</a>
 
-      <!--If user is logged in, display this profile tab-->
-      <a class="nav-item nav-link" routerLink="/users/get" *ngIf="loggedIn() && !isAdmin()">Profile</a>
+      <!--If user is logged in, display normal profile tab-->
+      <a class="nav-item nav-link" routerLink="/profile" *ngIf="loggedIn() && !isAdmin()">Profile</a>
 
-      <!--If admin is logged in, display this profile tab-->
-      <a class="nav-item nav-link" routerLink="/admin/get"  *ngIf="loggedIn() && isAdmin()">Profile</a>
+      <!--If admin is logged in, display admin profile tab-->
+      <a class="nav-item nav-link" routerLink="/admin"  *ngIf="loggedIn() && isAdmin()">Profile</a>
 
-      <!--If admin or user is logged in, display all these tabs-->
+      <!--If admin or user is logged in, display these tabs-->
       <a class="nav-item nav-link" routerLink="/classes" *ngIf="loggedIn()">Classes</a>
       <a class="nav-item nav-link" routerLink="/spells" *ngIf="loggedIn()">Spells</a>
       <a class="nav-item nav-link" routerLink="/items" *ngIf="loggedIn()">Items</a>
