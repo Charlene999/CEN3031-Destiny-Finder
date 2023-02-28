@@ -15,12 +15,18 @@ export class ViewUsersComponent {
   public viewCharsSubmitted: Boolean;
   public deleteUserSubmitted: Boolean;
 
-  constructor() {
+  constructor(private router:Router) {
     this.Users = [];
     this.text = "View All Users";
     this.view = false;
     this.viewCharsSubmitted = false;
     this.deleteUserSubmitted = false;
+  }
+
+  ngOnInit() {
+    if (localStorage.getItem('id_token') === null || localStorage.getItem('adminstatus') !== 'true') {
+      this.router.navigateByUrl('/');
+    }
   }
 
   // Allow admin to show and hide characters

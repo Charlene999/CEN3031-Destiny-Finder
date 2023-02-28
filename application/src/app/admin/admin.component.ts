@@ -19,9 +19,7 @@ export class AdminComponent {
   }
 
   ngOnInit() {
-    //TODO - Add additional check to make sure user is also admin
-
-    if (localStorage.getItem('id_token') === null) {
+    if (localStorage.getItem('id_token') === null || localStorage.getItem('adminstatus') !== 'true') {
       this.router.navigateByUrl('/');
     }
   }

@@ -32,6 +32,13 @@ export class AdminDeleteComponent {
     this.viewSpellsSubmitted = false;
     this.deleteSpellSubmitted = false;
   }
+
+  ngOnInit() {
+    if (localStorage.getItem('id_token') === null || localStorage.getItem('adminstatus') !== 'true') {
+      this.router.navigateByUrl('/');
+    }
+  }
+
   // Allow admin to show and hide ALL items
   viewItems() {
 
