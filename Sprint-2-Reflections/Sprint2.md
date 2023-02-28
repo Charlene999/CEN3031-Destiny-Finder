@@ -13,6 +13,99 @@ Finally, multiple unit tests were written for each endpoint created so far.
 
 ## Frontend Cypress and Unit Tests
 
+### Cypress Tests
+
+#### E2E Tests
+
+- Input Invalid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password not in database, then clicks button to login.
+
+- Input Valid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password in database, then clicks button to login.
+
+#### Frontend Tests
+
+- ItemsComponent
+    - mounts - Tests that the page renders successfully.
+
+### Angular Tests
+
+- AppComponent
+    - The home page (/) renders - Tests that the page renders successfully.
+
+- AdminAddComponent
+    - The /admin/add-spells-and-items page renders - Tests that the page renders successfully.
+    - submitSpell
+        - Add Spell Button Works - Tests that the button successfully calls the submitSpell function.
+        - User Input is Received
+    - submitItem
+        - Add Item Button Works - Tests that the button successfully calls the submitItem function.
+        - User Input is Received
+
+- LoginComponent
+    - The /login page renders - Tests that the page renders successfully.
+    - onSubmit
+        - Login Button Works - Tests that the button successfully calls the onSubmit function.
+        - User Input is Received
+
+- SpellsComponent
+    - The /spells page renders - Tests that the page renders successfully.
+
+- UsersComponent
+    - The /profile page renders - Tests that the page renders successfully.
+    - createCharacter
+        - Create A New Character Button Works - Tests that the button successfully calls the createCharacter function.
+    - getCharacters
+        - View All Characters Button Works - Tests that the button successfully calls the getCharacters function.
+    
+- CharactersComponent
+    - The /profile/characters page renders - Tests that the page renders successfully.
+
+- AdminDeleteComponent
+    - The /admin/delete-spells-and-items page renders - Tests that the page renders successfully.
+    - viewItems
+        - View Items Button Works - Tests that the button successfully calls the viewItems function.
+    - deleteSpell
+        - Delete Spell Button Works - Tests that the button successfully calls the deleteSpell function.
+    - deleteItem
+        - Delete Item Button Works - Tests that the button successfully calls the deleteItem function.
+    - viewSpells
+        - View Spells Button Works - Tests that the button successfully calls the viewSpells function.
+
+- CreateCharactersComponent
+    - The /profile/create-character page renders - Tests that the page renders successfully.
+    - onSubmit
+        - User Input is Received
+        - Submit Button Works - Tests that the button successfully calls the onSubmit function.
+    
+- ItemsComponent
+    - The /items page renders - Tests that the page renders successfully.
+    - onSubmit
+        - View Your Items Button Works - Tests that the button successfully calls the onSubmit function.
+
+- AdminComponent
+    - The /admin page renders - Tests that the page renders successfully.
+    - viewUsers
+        - View Existing Users Button Works - Tests that the button successfully calls the viewUsers function.
+    - addItemsAndSpells
+        - Create Spells or Items Button Works - Tests that the button successfully calls the addItemsAndSpells function.
+    - removeItemsAndSpells
+        - Remove Spells or Items Button Works - Tests that the button successfully calls the removeItemsAndSpells function.
+
+- ViewUsersComponent
+    - The /admin/view-users page renders - Tests that the page renders successfully.
+    - viewChars
+        - View Characters Button Works - Tests that the button successfully calls the viewChars function.
+    - deleteUser
+        - Delete User Button Works - Tests that the button successfully calls the deleteUser function.
+    
+- ClassesComponent
+    - The /classes page renders - Tests that the page renders successfully.
+
+- SignupComponent
+    - The /signup page renders - Tests that the page renders successfully.
+    - onSubmit
+        - Submit Button Works - Tests that the button successfully calls the onSubmit function.
+        - User Input is Received
+
 ## Backend API Unit Tests
 Unit tests were designed in order to test the functionality of each server endpoint. To faciliate this, the tests first start the router and controllers in the same fashion as during regular operation, but a connection to the special testing database is made rather than the main database. Each of the unit tests is contained in a singular function; they are listed below.
 
