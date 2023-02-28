@@ -9,10 +9,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./characters.component.css']
 })
 export class CharactersComponent { 
+
+  public viewSubmitted: Boolean;
   
   allChars: character[];
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
+    this.viewSubmitted = false;
   }
 
   ngOnInit() {
@@ -28,6 +31,8 @@ export class CharactersComponent {
     let Character = {
       "OwnerToken": localStorage.getItem('id_token'),
     };
+
+    this.viewSubmitted = true;
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {

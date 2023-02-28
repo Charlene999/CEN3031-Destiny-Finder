@@ -8,8 +8,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class CreateCharactersComponent {
+
+  public createSubmitted: Boolean;
   
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { 
+    this.createSubmitted = false; 
+  }
 
   ngOnInit() {
     if (localStorage.getItem('id_token') === null) {
@@ -25,6 +29,8 @@ export class CreateCharactersComponent {
 	    "Level": Number(f.value.level),
       "OwnerToken": localStorage.getItem('id_token'),
     };
+
+    this.createSubmitted = true;
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/create', JSON.stringify(Character),options).subscribe((res: any)=> {
@@ -49,7 +55,5 @@ export class CreateCharactersComponent {
         }
       }
     );
-
-    
   }
 }

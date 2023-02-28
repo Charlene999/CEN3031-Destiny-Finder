@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ClassesComponent } from './classes.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('ClassesComponent', () => {
   let component: ClassesComponent;
@@ -8,7 +11,14 @@ describe('ClassesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ClassesComponent ]
+      imports: [
+        HttpClientModule, 
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule
+        ],
+      declarations: [ ClassesComponent ],
+      providers: []
     })
     .compileComponents();
 
@@ -17,7 +27,8 @@ describe('ClassesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('The /classes page renders', () => {
     expect(component).toBeTruthy();
   });
+  
 });

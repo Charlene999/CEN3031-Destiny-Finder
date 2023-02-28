@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SpellsComponent } from './spells.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('SpellsComponent', () => {
   let component: SpellsComponent;
@@ -8,7 +11,14 @@ describe('SpellsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SpellsComponent ]
+      imports: [
+        HttpClientModule, 
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule
+        ],
+      declarations: [ SpellsComponent ],
+      providers: []
     })
     .compileComponents();
 
@@ -17,7 +27,8 @@ describe('SpellsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('The /spells page renders', () => {
     expect(component).toBeTruthy();
   });
+
 });

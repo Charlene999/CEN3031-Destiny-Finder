@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AdminDeleteComponent } from './admin-delete.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('AdminDeleteComponent', () => {
   let component: AdminDeleteComponent;
@@ -8,7 +11,14 @@ describe('AdminDeleteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminDeleteComponent ]
+      imports: [
+        HttpClientModule, 
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule
+        ],
+      declarations: [ AdminDeleteComponent ],
+      providers: []
     })
     .compileComponents();
 
@@ -17,7 +27,43 @@ describe('AdminDeleteComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('The /admin/delete page renders', () => {
     expect(component).toBeTruthy();
+  });
+
+  //Describe is the function name being tested
+  describe('viewItems', () => {
+    it('View Items Button Works', async () => {
+      component.viewItems();
+      expect(component.viewItemsSubmitted).toBeTruthy();
+    });
+  });
+
+  //Describe is the function name being tested
+  describe('viewSpells', () => {
+    it('View Spells Button Works', async () => {
+      component.viewSpells();
+      expect(component.viewSpellsSubmitted).toBeTruthy();
+    });
+  });
+
+  //Describe is the function name being tested
+  describe('deleteItem', () => {
+    it('Delete Item Button Works', async () => {
+      const id = 1;
+      const name = 'd';
+      component.deleteItem(id, name);
+      expect(component.deleteItemSubmitted).toBeTruthy();
+    });
+  });
+
+  //Describe is the function name being tested
+  describe('deleteSpell', () => {
+    it('Delete Spell Button Works', async () => {
+      const id = 1;
+      const name = 'd';
+      component.deleteSpell(id, name);
+      expect(component.deleteSpellSubmitted).toBeTruthy();
+    });
   });
 });

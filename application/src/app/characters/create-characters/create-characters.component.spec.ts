@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SignupComponent } from './signup.component';
+import { CreateCharactersComponent } from './create-characters.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-describe('SignupComponent', () => {
-  let component: SignupComponent;
-  let fixture: ComponentFixture<SignupComponent>;
+describe('CreateCharactersComponent', () => {
+  let component: CreateCharactersComponent;
+  let fixture: ComponentFixture<CreateCharactersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,17 +17,17 @@ describe('SignupComponent', () => {
         ReactiveFormsModule,
         FormsModule
         ],
-      declarations: [ SignupComponent ],
+      declarations: [ CreateCharactersComponent ],
       providers: []
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SignupComponent);
+    fixture = TestBed.createComponent(CreateCharactersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('The /users/create page renders', () => {
+  it('The /users/create-character page renders', () => {
     expect(component).toBeTruthy();
   });
 
@@ -36,33 +36,26 @@ describe('SignupComponent', () => {
     it('Submit Button Works', async () => {
       const testForm = <NgForm>{
         value: {
-          email: "d2",
-          username: "d2",
-          password: "d2",
-          password2: "d2"
+          name: "d",
+          description: "d",
+          level: 1
         }
       };
       component.onSubmit(testForm);
-      expect(component.signUpSubmitted).toBeTruthy();
+      expect(component.createSubmitted).toBeTruthy();
     });
     it('User Input is Received', async () => {
       const testForm = <NgForm>{
         value: {
-          email: "d2",
-          username: "d2",
-          password: "d2",
-          password2: "d2"
+          name: "d",
+          description: "d",
+          level: 1
         }
       };
       component.onSubmit(testForm);
-      expect(testForm.value.email).toMatch('d2');
-      expect(testForm.value.password).toMatch('d2');
-      expect(testForm.value.password).toMatch('d2');
-      expect(testForm.value.password2).toMatch('d2');
+      expect(testForm.value.name).toMatch('d');
+      expect(testForm.value.description).toMatch('d');
+      expect(testForm.value.level).toEqual(1);
     });
   });
-  
-  //Test what happens when a user doesn't enter all information
-  //Test what happens when a user submit invalid info (e.g. invalid email)
-  //Test what happens when user enters account information already in DB
 });

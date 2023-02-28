@@ -10,7 +10,11 @@ import { Router } from '@angular/router';
 
 export class SignupComponent {
 
-  constructor(private http:HttpClient, private router:Router){ }
+  public signUpSubmitted: Boolean;
+
+  constructor(private http:HttpClient, private router:Router){ 
+    this.signUpSubmitted = false; 
+  }
 
   ngOnInit() {
     if (localStorage.getItem('id_token') !== null) {
@@ -19,6 +23,8 @@ export class SignupComponent {
   }
 
   onSubmit(f: NgForm) {
+    this.signUpSubmitted = true;
+
     const options = {headers: {'Content-Type': 'application/json'}};
 
     this.http.post('http://localhost:8080/users/create', JSON.stringify(f.value), options).subscribe((res: any)=> {
