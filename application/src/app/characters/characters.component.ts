@@ -22,9 +22,11 @@ export class CharactersComponent {
     if (localStorage.getItem('id_token') === null) {
       this.router.navigateByUrl('/');
     }
+
+    this.onSubmit()
   }
 
-  onSubmit(f: NgForm) {
+  onSubmit() {
 
     let Character = {
       "OwnerToken": localStorage.getItem('id_token'),
@@ -39,7 +41,7 @@ export class CharactersComponent {
         this.allChars.splice(0);
         var chars = JSON.parse(JSON.stringify(data));
         for (let i = 0; i < chars.length; i++) {
-          var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].OwnerID);
+          var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].OwnerID, chars[i].ID);
           this.allChars.push(char);
         }
           localStorage.setItem('allUserChars', JSON.stringify(this.allChars));
@@ -63,15 +65,47 @@ export class CharactersComponent {
     );
   }
 
-  deleteCharacter(name: String, desc: String, level: Number) {
-    var Delete = confirm('Are you sure you want to delete a character?');
+  deleteCharacter(name: String, desc: String, level: number, id: number) {
+    var Delete = confirm('Are you sure you want to delete character '+ name +'?');
     if (Delete === true) {
-      alert("Character " + name + " Deleted");
+
+      // Store admin token and item ID in options to send to delete request
+      const opts = {
+        headers: { 'Content-Type': 'application/json' }, body: { "CharacterID": id, "OwnerToken": localStorage.getItem('id_token')! }
+      };
+      this.http.delete('http://localhost:8080/characters/delete', opts).subscribe(data => {
+
+        if (200 || 202 || 204) {
+
+          // Item successfully deleted
+          alert("Character " + name + " Deleted");
+          window.location.reload();
+        }
+      }, (error) => {
+        if (error.status === 404) {
+          alert('Character not found.');
+        }
+        else if (error.status === 409) {
+          alert('Character already deleted. Please try to delete another one.');
+        }
+        else if (error.status === 500) {
+
+          alert('Server down.');
+        }
+        else if (error.status === 502) {
+          alert('Bad gateway.');
+        }
+      });
+
+
     }
+
+    else
+      alert("Character Deletion Canceled")
   }
 
-  editCharacter(name: string, desc: string, level: Number, index: Number) {
-      var ind: number = Number(index);
+  editCharacter(name: string, desc: string, level: number, index: number) {
+      var ind: number = index;
       this.allChars.at(ind)!.Name = name;
       this.allChars.at(ind)!.Description = desc;
       this.allChars.at(ind)!.Level = level;
@@ -80,14 +114,16 @@ export class CharactersComponent {
 
 class character {
   Name: string;
-  Level: Number;
+  Level: number;
   Description: string;
-  ID: Number;
+  OwnerID: number;
+  ID: number;
 
-  constructor(name: string, level: Number, desc: string, id: Number) {
+  constructor(name: string, level: number, desc: string, ownerid: number, id: number) {
     this.Name = name;
     this.Level = level;
     this.Description = desc;
+    this.OwnerID = ownerid;
     this.ID = id;
   }
 }
