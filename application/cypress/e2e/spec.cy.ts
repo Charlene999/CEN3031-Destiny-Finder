@@ -1,5 +1,5 @@
 describe('Login Page', () => {
-  it('Visit Login Page, Input Invalid Username and Password, Click Submit Button', () => {
+  it('Input Invalid Username and Password', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', '/login')
     cy.get('input[type=text]').type('fakemail@fake.com')
@@ -8,7 +8,7 @@ describe('Login Page', () => {
     cy.get('input[type=password]').should('have.value', 'password')
     cy.get('button').click()
   })
-  it('Visit Login Page, Input Valid Username and Password, Click Submit Button', () => {
+  it('Input Valid Username and Password', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', '/login')
     cy.get('input[type=text]').type('d2')
