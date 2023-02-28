@@ -35,16 +35,16 @@ Finally, multiple unit tests were written for each endpoint created so far.
     - The /admin/add-spells-and-items page renders - Tests that the page renders successfully.
     - submitSpell
         - Add Spell Button Works - Tests that the button successfully calls the submitSpell function.
-        - User Input is Received
+        - User Input is Received - Tests that the ngForm data is populated successfully.
     - submitItem
         - Add Item Button Works - Tests that the button successfully calls the submitItem function.
-        - User Input is Received
+        - User Input is Received - Tests that the ngForm data is populated successfully.
 
 - LoginComponent
     - The /login page renders - Tests that the page renders successfully.
     - onSubmit
         - Login Button Works - Tests that the button successfully calls the onSubmit function.
-        - User Input is Received
+        - User Input is Received - Tests that the ngForm data is populated successfully.
 
 - SpellsComponent
     - The /spells page renders - Tests that the page renders successfully.
@@ -73,7 +73,7 @@ Finally, multiple unit tests were written for each endpoint created so far.
 - CreateCharactersComponent
     - The /profile/create-character page renders - Tests that the page renders successfully.
     - onSubmit
-        - User Input is Received
+        - User Input is Received - Tests that the ngForm data is populated successfully.
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
     
 - ItemsComponent
@@ -104,7 +104,7 @@ Finally, multiple unit tests were written for each endpoint created so far.
     - The /signup page renders - Tests that the page renders successfully.
     - onSubmit
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
-        - User Input is Received
+        - User Input is Received - Tests that the ngForm data is populated successfully.
 
 ## Backend API Unit Tests
 Unit tests were designed in order to test the functionality of each server endpoint. To faciliate this, the tests first start the router and controllers in the same fashion as during regular operation, but a connection to the special testing database is made rather than the main database. Each of the unit tests is contained in a singular function; they are listed below.
