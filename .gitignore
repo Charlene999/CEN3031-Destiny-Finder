@@ -1,2 +1,2 @@
 application/server/.env
-/application/server/db.env
+application/server/test/.env
