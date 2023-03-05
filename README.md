@@ -40,8 +40,9 @@ Enter the following three lines into the .env file and replace with your chosen 
 &emsp;   `DB_USERNAME=replacethiswithdatabaseusername`            
 &emsp;   `DB_PASSWORD=replacethiswithdatabasepassword`            
 &emsp;   `TOKEN_SECRET=replacethiswithdatabasetokenpassword`            
+Copy this .env file into application/server/test in addition to storing it in application/server.
 Run `go get github.com/gin-contrib/cors`.            
 Run `go get github.com/gin-gonic/gin`.            
 Run `go get github.com/golang-jwt/jwt/v4`.            
 Run the backend using the command `go run main.go` (Make sure you are within the application/server directory).            
-
+Run backend tests using the command `go test backend/test` (Make sure you are within the application/server directory).

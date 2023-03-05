@@ -154,3 +154,66 @@ func (repository *Repos) DeleteCharacter(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, characters[0])
 }
+
+// Delete character provided a user token and character id
+func (repository *Repos) UpdateCharacter(c *gin.Context) {
+	var updateCharacter models.UpdateCharacter
+	err := c.ShouldBindJSON(&updateCharacter)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(updateCharacter.OwnerToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Determine if the user has permission to delete the character (either they are an admin or the owner)
+	var character models.Character
+	err = repository.CharacterDb.First(&character, "id = ?", updateCharacter.CharacterID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateCharacter.CharacterID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if character.OwnerID != user.ID && !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	if updateCharacter.Name != "" {
+		character.Name = updateCharacter.Name
+	}
+	if updateCharacter.Description != "" {
+		character.Description = updateCharacter.Description
+	}
+	if updateCharacter.Level > -1 {
+		character.Level = uint(updateCharacter.Level)
+	}
+	if updateCharacter.ClassType > -1 {
+		character.ClassType = uint(updateCharacter.ClassType)
+	}
+
+	repository.CharacterDb.Save(&character)
+
+	c.JSON(http.StatusAccepted, &character)
+}
