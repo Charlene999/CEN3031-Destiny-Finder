@@ -28,3 +28,13 @@ type UserSignIn struct {
 type GetUser struct {
 	UserToken string
 }
+
+type UpdateUser struct {
+	AuthToken       string
+	UserToken       string
+	Name            string
+	Email           string
+	CurrentPassword string
+	Password        string
+	IsAdmin         bool
+}

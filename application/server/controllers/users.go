@@ -125,3 +125,94 @@ func (repository *Repos) LogIn(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
+
+func (repository *Repos) UpdateUser(c *gin.Context) {
+	var updateUser models.UpdateUser
+	err := c.ShouldBindJSON(&updateUser)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user to change from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(updateUser.UserToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user making the change
+	secret2 := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims2 := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(updateUser.AuthToken, claims2, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret2), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Grab the existing user
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": claims["Username"]})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Grab the authorizing user
+	var authUser models.User
+	err = repository.UserDb.First(&authUser, "username = ?", claims2["Username"]).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": claims2["Username"]})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//If the authorizing user is not an admin, check that the current password is correct
+	//TODO: uncomment the below line once admin functionality is added
+	//if !authUser.IsAdmin {
+	err = utilities.CheckPassword(user.Password, updateUser.CurrentPassword)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadGateway, gin.H{"error": updateUser.CurrentPassword})
+		return
+	}
+
+	if updateUser.Name != "" {
+		user.Name = updateUser.Name
+	}
+	if updateUser.Password != "" {
+		newHashedPassword, err := utilities.HashPassword(updateUser.Password)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"Could not hash password": updateUser.Password})
+			return
+		}
+
+		user.Password = newHashedPassword
+	}
+	if updateUser.Email != "" {
+		user.Email = updateUser.Email
+	}
+	//Note: cannot set IsAdmin if the authorizing user is not an admin
+
+	repository.UserDb.Save(&user)
+	//TODO: uncomment the below line once admin functionality is added
+	//}
+	//TODO: write case for if the authorizing user is an admin in Sprint 4
+	c.JSON(http.StatusAccepted, user)
+}

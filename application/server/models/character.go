@@ -19,6 +19,7 @@ type Character struct {
 type BuildCharacter struct {
 	Name        string
 	Description string
+	ClassType   uint
 	Level       uint
 	OwnerToken  string
 }
@@ -28,6 +29,15 @@ type GetCharacters struct {
 }
 
 type DeleteCharacter struct {
+	OwnerToken  string
+	CharacterID uint
+}
+
+type UpdateCharacter struct {
+	Name        string
+	Description string
+	ClassType   int
+	Level       int
 	OwnerToken  string
 	CharacterID uint
 }
