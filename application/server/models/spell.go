@@ -24,3 +24,12 @@ type DeleteSpell struct {
 	AdminToken string
 	SpellID    uint
 }
+
+type UpdateSpell struct {
+	Name        string
+	Description string
+	LevelReq    int
+	ClassReq    int
+	AdminToken  string
+	SpellID     uint
+}

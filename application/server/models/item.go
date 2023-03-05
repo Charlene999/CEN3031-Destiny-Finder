@@ -24,3 +24,12 @@ type DeleteItem struct {
 	AdminToken string
 	ItemID     uint
 }
+
+type UpdateItem struct {
+	Name        string
+	Description string
+	LevelReq    int
+	ClassReq    int
+	AdminToken  string
+	ItemID      uint
+}
