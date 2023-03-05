@@ -21,6 +21,11 @@ type BuildItem struct {
 }
 
 type DeleteItem struct {
-	AdminToken string
-	ItemID     uint
+	AdminToken 	string
+	ItemID     	uint
+}
+
+type FilterItems struct {
+	LevelReq 	uint
+	ClassReq 	uint
 }

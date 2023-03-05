@@ -21,6 +21,11 @@ type BuildSpell struct {
 }
 
 type DeleteSpell struct {
-	AdminToken string
-	SpellID    uint
+	AdminToken 	string
+	SpellID    	uint
+}
+
+type FilterSpells struct {
+	LevelReq 	uint
+	ClassReq 	uint
 }
