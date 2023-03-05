@@ -155,7 +155,7 @@ func (repository *Repos) DeleteCharacter(c *gin.Context) {
 	c.JSON(http.StatusAccepted, characters[0])
 }
 
-// Delete character provided a user token and character id
+// Update character provided a user token and character id
 func (repository *Repos) UpdateCharacter(c *gin.Context) {
 	var updateCharacter models.UpdateCharacter
 	err := c.ShouldBindJSON(&updateCharacter)
@@ -183,7 +183,7 @@ func (repository *Repos) UpdateCharacter(c *gin.Context) {
 		return
 	}
 
-	//Determine if the user has permission to delete the character (either they are an admin or the owner)
+	//Determine if the user has permission to update the character (either they are an admin or the owner)
 	var character models.Character
 	err = repository.CharacterDb.First(&character, "id = ?", updateCharacter.CharacterID).Error
 

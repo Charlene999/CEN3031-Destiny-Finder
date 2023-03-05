@@ -112,3 +112,66 @@ func (repository *Repos) DeleteSpell(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, gin.H{"Successfully deleted spell": deleteSpell.SpellID})
 }
+
+func (repository *Repos) UpdateSpell(c *gin.Context) {
+	var updateSpell models.UpdateSpell
+	err := c.ShouldBindJSON(&updateSpell)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(updateSpell.AdminToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	var spell models.Spell
+
+	err = repository.SpellDb.First(&spell, "id = ?", updateSpell.SpellID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateSpell.SpellID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if updateSpell.Name != "" {
+		spell.Name = updateSpell.Name
+	}
+	if updateSpell.Description != "" {
+		spell.Description = updateSpell.Description
+	}
+	// these have to be > 0, otherwise they will be updated to 0 if left blank
+	if updateSpell.LevelReq > 0 {
+		spell.LevelReq = uint(updateSpell.LevelReq)
+	}
+	if updateSpell.ClassReq > 0 {
+		spell.ClassReq = uint(updateSpell.ClassReq)
+	}
+
+	repository.SpellDb.Save(&spell)
+
+	c.JSON(http.StatusAccepted, &spell)
+}

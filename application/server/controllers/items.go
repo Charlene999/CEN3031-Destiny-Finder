@@ -112,3 +112,66 @@ func (repository *Repos) DeleteItem(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, gin.H{"Successfully deleted item": deleteItem.ItemID})
 }
+
+func (repository *Repos) UpdateItem(c *gin.Context) {
+	var updateItem models.UpdateItem
+	err := c.ShouldBindJSON(&updateItem)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(updateItem.AdminToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	var item models.Item
+
+	err = repository.ItemDb.First(&item, "id = ?", updateItem.ItemID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateItem.ItemID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if updateItem.Name != "" {
+		item.Name = updateItem.Name
+	}
+	if updateItem.Description != "" {
+		item.Description = updateItem.Description
+	}
+	// these have to be > 0, otherwise they will be updated to 0 if left blank
+	if updateItem.LevelReq > 0 {
+		item.LevelReq = uint(updateItem.LevelReq)
+	}
+	if updateItem.ClassReq > 0 {
+		item.ClassReq = uint(updateItem.ClassReq)
+	}
+
+	repository.ItemDb.Save(&item)
+
+	c.JSON(http.StatusAccepted, &item)
+}
