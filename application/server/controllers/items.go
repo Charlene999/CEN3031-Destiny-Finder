@@ -175,3 +175,27 @@ func (repository *Repos) UpdateItem(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, &item)
 }
+
+// Note that sending empty body gets all items
+func (repository *Repos) GetFilteredItems(c *gin.Context) {
+	var itemFilters models.FilterItems
+	err := c.ShouldBindJSON(&itemFilters)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var items []models.Item
+	err = repository.ItemDb.Where(&models.Item{LevelReq: itemFilters.LevelReq, ClassReq: itemFilters.ClassReq}).Find(&items).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) || len(items) == 0 {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "No items matching these filters were found in the database"})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, items)
+}

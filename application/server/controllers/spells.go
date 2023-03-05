@@ -175,3 +175,27 @@ func (repository *Repos) UpdateSpell(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, &spell)
 }
+
+// Note that sending empty body gets all spells
+func (repository *Repos) GetFilteredSpells(c *gin.Context) {
+	var spellFilters models.FilterSpells
+	err := c.ShouldBindJSON(&spellFilters)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var spells []models.Spell
+	err = repository.SpellDb.Where(&models.Spell{LevelReq: spellFilters.LevelReq, ClassReq: spellFilters.ClassReq}).Find(&spells).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) || len(spells) == 0 {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "No spells matching these filters were found in the database"})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, spells)
+}
