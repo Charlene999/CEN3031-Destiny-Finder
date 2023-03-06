@@ -3,8 +3,9 @@
   
   <button class="submit">View Your Items</button>
   <select (click)="onSubmit()">
+    <option value="Select Character" disabled selected>Select Character</option>
     <option *ngFor="let character of allChars; let i = index" value=character.Name
-            class="Name" id="character" > {{character.Name}}
+            class="Name" id="character" (click) ="showItems(character)">{{character.Name}}
       
     </option>
   </select>
@@ -16,6 +17,7 @@
           <th>Name</th>
           <th>Description</th>
           <th>Add to Character</th>
+          <th>Ownership</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +25,8 @@
           <td class="Name">{{item.Name}}</td>
           <td class="Description">{{item.Description}}</td>
           <td class="Add">ADD</td>
+          <td class="Owned" *ngIf="itemOwned(item)">Owned</td>
+          <td class="Unowned" *ngIf="itemUnowned(item)">Unowned</td>
         </tr>
       </tbody>
 
