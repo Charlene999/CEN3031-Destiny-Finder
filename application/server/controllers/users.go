@@ -151,7 +151,7 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 	err = repository.UserDb.First(&user, "username = ?", updateUser.Username).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": claims["Username"]})
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateUser.Username})
 		return
 	}
 	if err != nil {
