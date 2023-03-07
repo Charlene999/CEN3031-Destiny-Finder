@@ -163,10 +163,10 @@ func TestUpdateUser_202(t *testing.T) {
 	body := []byte(`{
 		"Name": "Billybob",
 		"Email": "bob.billy@gmail.com",
-		"CurrentPassword": "a very, very secure password",
-		"Password": "password",
+		"CurrentPassword": "password",
+		"Password": "a very secure password",
 		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
-		"UserToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI"
+		"Username": "tester"
 	}`)
 
 	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
@@ -192,7 +192,7 @@ func TestUpdateUser_502(t *testing.T) {
 		"CurrentPassword": "this password is an incorrect password",
 		"Password": "password",
 		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
-		"UserToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI"
+		"Username": "tester"
 	}`)
 
 	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
@@ -214,7 +214,7 @@ func TestUpdateUser_500(t *testing.T) {
 		"CurrentPassword": "a very, very secure password",
 		"Password": "password",
 		"AuthToken": "token",
-		"UserToken": "token"
+		"Username": "tester"
 	}`)
 
 	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
@@ -224,4 +224,26 @@ func TestUpdateUser_500(t *testing.T) {
 	json.NewDecoder(res.Body).Decode(results)
 
 	assert.Equal(t, 500, res.Code)
+}
+
+func TestUpdateUser_404(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"Name": "Billybob",
+		"Email": "bob.billy@gmail.com",
+		"CurrentPassword": "a very, very secure password",
+		"Password": "password",
+		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
+		"Username": "a user that doesn't exist in the database"
+	}`)
+
+	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 404, res.Code)
 }
