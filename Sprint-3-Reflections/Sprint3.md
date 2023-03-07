@@ -124,13 +124,15 @@ Unit tests were designed in order to test the functionality of each server endpo
 
 - TestLogin_404 - Tests to ensure that a 404 Not Found status is returned in the event a user is not found in the database while logging in.
 
-- TestLogin_502 - Tests to ensure that the server will reject an invalid username/password combination.
+- TestLogin_502 - Tests to ensure that the login endpoint will reject an invalid username/password combination.
 
 - **Added in Sprint 3** - TestUpdateUser_202 - Tests to ensure that users can update themselves as expected.
 
 - **Added in Sprint 3** - TestUpdateUser_500 - Tests to ensure that the update user endpoint can gracefully handle malformed JWTs.
 
-- **Added in Sprint 3** - TestUpdateUser_502 - Tests to ensure that the server will reject an invalid current password before allowing for a user to be updated.
+- **Added in Sprint 3** - TestUpdateUser_502 - Tests to ensure that the update user endpoint will reject an invalid current password before allowing for a user to be updated.
+
+- **Added in Sprint 3** - TestUpdateUser_404 - Tests to ensure that the update user endpoint will gracefully handle a situation in which the provided username does not represent a user in the database.
 
 ### Character Tests
 - TestCreateCharacter_201 - Tests to ensure that a character can be created as expected.
@@ -278,8 +280,8 @@ Example Response (200):
 ```
 
 #### **New in Sprint 3** - PUT /users/update
-The request body should contain the following attributes: ```AuthToken``` (string), ```UserToken``` (string), ```Name``` (string), ```Email``` (string), ```CurrentPassword``` (string), ```Password``` (string), and ```IsAdmin``` (bool).
-The provided ```AuthToken``` should be a JWT representing the User performing a request (either the user themselves or an admin). The provided ```UserToken``` should be a JWT representing the User that should be updated. The request body should be sent in the form application/json.
+The request body should contain the following attributes: ```AuthToken``` (string), ```Username``` (string), ```Name``` (string), ```Email``` (string), ```CurrentPassword``` (string), ```Password``` (string), and ```IsAdmin``` (bool).
+The provided ```AuthToken``` should be a JWT representing the User performing a request (either the user themselves or an admin). The provided ```Username``` should represent the User that should be updated. The request body should be sent in the form application/json.
 If either the User making the request or the User to be updated is not found in the database, a 404 Not Found status will be returned. 
 If the User making the request is not an admin and the hash of ```CurrentPassword``` does not match the User's current password, a 502 Bad Gateway status will be returned.
 If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
@@ -296,7 +298,7 @@ Example Request:
     "CurrentPassword": "a very, very secure password",
     "Password": "password",
     "AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
-    "UserToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI"
+    "Username": "tester"
 }
 ```
 

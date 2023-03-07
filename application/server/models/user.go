@@ -31,7 +31,7 @@ type GetUser struct {
 
 type UpdateUser struct {
 	AuthToken       string
-	UserToken       string
+	Username        string
 	Name            string
 	Email           string
 	CurrentPassword string

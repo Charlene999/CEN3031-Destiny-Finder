@@ -134,23 +134,11 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	//Identify the user to change from the provided token
+	//Identify the user making the change
 	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	claims := jwt.MapClaims{}
-	_, err = jwt.ParseWithClaims(updateUser.UserToken, claims, func(token *jwt.Token) (interface{}, error) {
+	_, err = jwt.ParseWithClaims(updateUser.AuthToken, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secret), nil
-	})
-
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	//Identify the user making the change
-	secret2 := utilities.GoDotEnvVariable("TOKEN_SECRET")
-	claims2 := jwt.MapClaims{}
-	_, err = jwt.ParseWithClaims(updateUser.AuthToken, claims2, func(token *jwt.Token) (interface{}, error) {
-		return []byte(secret2), nil
 	})
 
 	if err != nil {
@@ -160,7 +148,7 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 
 	//Grab the existing user
 	var user models.User
-	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	err = repository.UserDb.First(&user, "username = ?", updateUser.Username).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": claims["Username"]})
@@ -173,10 +161,10 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 
 	//Grab the authorizing user
 	var authUser models.User
-	err = repository.UserDb.First(&authUser, "username = ?", claims2["Username"]).Error
+	err = repository.UserDb.First(&authUser, "username = ?", claims["Username"]).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": claims2["Username"]})
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": claims["Username"]})
 		return
 	}
 	if err != nil {
