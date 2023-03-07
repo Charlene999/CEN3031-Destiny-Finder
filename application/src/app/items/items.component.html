@@ -2,11 +2,13 @@
   <h1></h1>
   
   <button class="submit">View Your Items</button>
-  <select (click)="onSubmit()">
+  <select id="chars"(click) ="showItems(allChars[3])">
+
     <option value="Select Character" disabled selected>Select Character</option>
     <option *ngFor="let character of allChars; let i = index" value=character.Name
-            class="Name" id="character" (click) ="showItems(character)">{{character.Name}}
-      
+            class="Name" id="character">
+      {{character.Name}}
+
     </option>
   </select>
 

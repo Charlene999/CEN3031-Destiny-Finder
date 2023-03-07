@@ -67,6 +67,7 @@ export class ItemsComponent {
 
   // show all items owned and unowned for that class and level
   showItems(char: character) {
+    //console.log("Character: " + char.Name + " clicked");
     //this.curChar = this.allChars.at(i);
     //this.allItems = this.allChars[i].items;
     let Items = {
@@ -78,17 +79,15 @@ export class ItemsComponent {
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/items/get', JSON.stringify(Items), options).subscribe(data => {
       if (200) {
-        if (data === null)
-          return;
         var items = JSON.parse(JSON.stringify(data));
         this.allItems.splice(0);
-
         // Store all items with equal class and level with character
         for (var i = 0; i < items.length; i++) {
-
+          console.log(items[i]);
+          console.log("CHARACTER LEVEL: " + char.Level + "    CHARACTER CLASS: " + char.Class);
           if (items[i].LevelReq === char.Level && items[i].ClassReq === char.Class) { 
             var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ItemID);
-            
+            console.log(item);
 
             if (char.items.get(item.ID)) {
               item.Owned = true;
@@ -99,6 +98,7 @@ export class ItemsComponent {
           }
 
         }
+        //console.log(this.allItems);
       }
     }, (error) => {
       if (error.status === 404) {
@@ -128,9 +128,6 @@ export class ItemsComponent {
     else
       return false;
   }
-  onSubmit() {
-
-  }
 }
 class character {
   Name: string;
@@ -149,10 +146,9 @@ class character {
     this.items = new Map<number, Item>;
 
     if (allitems !== null)
-    for (var i = 0; i < allitems.length; i++) {
-      this.items.set(allitems[i].ID, allitems[i]);
-
-    }
+      for (var i = 0; i < allitems.length; i++) {
+        this.items.set(allitems[i].ID, allitems[i]);
+      }
   }
 
 }
