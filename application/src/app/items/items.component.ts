@@ -66,10 +66,21 @@ export class ItemsComponent {
   }
 
   // show all items owned and unowned for that class and level
-  showItems(char: character) {
-    //console.log("Character: " + char.Name + " clicked");
-    //this.curChar = this.allChars.at(i);
-    //this.allItems = this.allChars[i].items;
+  showItems() {
+
+    const select = document.getElementById("chars") as HTMLSelectElement;
+    const myind = select.selectedIndex;
+
+
+    console.log("INDEX: " + myind);
+    if (myind === 0 || myind === -1)
+      return;
+
+
+    if (myind -1 >= this.allChars.length)
+      return;
+    var char = this.allChars.at(myind - 1)!;
+
     let Items = {
       "AdminToken": localStorage.getItem('id_token'),
     };
