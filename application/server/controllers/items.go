@@ -186,11 +186,11 @@ func (repository *Repos) GetFilteredItems(c *gin.Context) {
 
 	var items []models.Item
 	if itemFilters.ClassReq != 0 && itemFilters.LevelReq != 0 {
-		err = repository.ItemDb.Where("level_req <= ? AND class_req <= ?", itemFilters.LevelReq, itemFilters.ClassReq).Find(&items).Error
+		err = repository.ItemDb.Where("level_req <= ? AND class_req = ?", itemFilters.LevelReq, itemFilters.ClassReq).Find(&items).Error
 	} else if itemFilters.LevelReq != 0 {
 		err = repository.ItemDb.Where("level_req <= ?", itemFilters.LevelReq).Find(&items).Error
 	} else if itemFilters.ClassReq != 0 {
-		err = repository.ItemDb.Where("class_req <= ?", itemFilters.ClassReq).Find(&items).Error
+		err = repository.ItemDb.Where("class_req = ?", itemFilters.ClassReq).Find(&items).Error
 	} else {
 		c.AbortWithStatusJSON(422, gin.H{"error": "ClassReq or LevelReq required"})
 		return

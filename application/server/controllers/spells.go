@@ -186,11 +186,11 @@ func (repository *Repos) GetFilteredSpells(c *gin.Context) {
 
 	var spells []models.Spell
 	if spellFilters.ClassReq != 0 && spellFilters.LevelReq != 0 {
-		err = repository.SpellDb.Where("level_req <= ? AND class_req <= ?", spellFilters.LevelReq, spellFilters.ClassReq).Find(&spells).Error
+		err = repository.SpellDb.Where("level_req <= ? AND class_req = ?", spellFilters.LevelReq, spellFilters.ClassReq).Find(&spells).Error
 	} else if spellFilters.LevelReq != 0 {
 		err = repository.SpellDb.Where("level_req <= ?", spellFilters.LevelReq).Find(&spells).Error
 	} else if spellFilters.ClassReq != 0 {
-		err = repository.SpellDb.Where("class_req <= ?", spellFilters.ClassReq).Find(&spells).Error
+		err = repository.SpellDb.Where("class_req = ?", spellFilters.ClassReq).Find(&spells).Error
 	} else {
 		c.AbortWithStatusJSON(422, gin.H{"error": "ClassReq or LevelReq required"})
 		return
