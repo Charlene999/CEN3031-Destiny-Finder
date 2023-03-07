@@ -175,3 +175,35 @@ func (repository *Repos) UpdateSpell(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, &spell)
 }
+
+func (repository *Repos) GetFilteredSpells(c *gin.Context) {
+	var spellFilters models.FilterSpells
+	err := c.ShouldBindJSON(&spellFilters)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var spells []models.Spell
+	if spellFilters.ClassReq != 0 && spellFilters.LevelReq != 0 {
+		err = repository.SpellDb.Where("level_req <= ? AND class_req = ?", spellFilters.LevelReq, spellFilters.ClassReq).Find(&spells).Error
+	} else if spellFilters.LevelReq != 0 {
+		err = repository.SpellDb.Where("level_req <= ?", spellFilters.LevelReq).Find(&spells).Error
+	} else if spellFilters.ClassReq != 0 {
+		err = repository.SpellDb.Where("class_req = ?", spellFilters.ClassReq).Find(&spells).Error
+	} else {
+		c.AbortWithStatusJSON(422, gin.H{"error": "ClassReq or LevelReq required"})
+		return
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) || len(spells) == 0 {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "No spells matching these filters were found in the database"})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, spells)
+}

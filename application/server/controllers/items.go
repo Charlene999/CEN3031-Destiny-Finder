@@ -175,3 +175,35 @@ func (repository *Repos) UpdateItem(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, &item)
 }
+
+func (repository *Repos) GetFilteredItems(c *gin.Context) {
+	var itemFilters models.FilterItems
+	err := c.ShouldBindJSON(&itemFilters)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var items []models.Item
+	if itemFilters.ClassReq != 0 && itemFilters.LevelReq != 0 {
+		err = repository.ItemDb.Where("level_req <= ? AND class_req = ?", itemFilters.LevelReq, itemFilters.ClassReq).Find(&items).Error
+	} else if itemFilters.LevelReq != 0 {
+		err = repository.ItemDb.Where("level_req <= ?", itemFilters.LevelReq).Find(&items).Error
+	} else if itemFilters.ClassReq != 0 {
+		err = repository.ItemDb.Where("class_req = ?", itemFilters.ClassReq).Find(&items).Error
+	} else {
+		c.AbortWithStatusJSON(422, gin.H{"error": "ClassReq or LevelReq required"})
+		return
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) || len(items) == 0 {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "No items matching these filters were found in the database"})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, items)
+}
