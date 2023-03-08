@@ -1,11 +1,11 @@
 <div class="register">
   <h1>Register</h1>
   <form method="post" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-    <input name="name" type="text"placeholder="Name" required="required" ngModel/>
-    <input name="username" type="text" placeholder="Username" required="required" ngModel/>
+    <input name="name" type="name" placeholder="Name" required="required" ngModel/>
+    <input name="username" type="username" placeholder="Username" required="required" ngModel/>
     <input name="email" type="email" placeholder="Email" required="required" ngModel/>
-    <input name="password" type="password"placeholder="Enter New Password" required="required" ngModel/>
-    <input name="password2" type="password"placeholder="Enter New Password Again" required="required" ngModel/>
+    <input name="password" type="password" placeholder="Enter New Password" required="required" ngModel/>
+    <input name="password2" type="password2" placeholder="Enter New Password Again" required="required" ngModel/>
     <button class="submit">Submit</button>
   </form>
 </div>
