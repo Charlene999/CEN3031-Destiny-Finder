@@ -28,6 +28,8 @@ func PrepareRouter(test bool) *gin.Engine {
 	Router.POST("/characters/get", repos.GetCharacters)
 	Router.DELETE("/characters/delete", repos.DeleteCharacter)
 	Router.PUT("/characters/update", repos.UpdateCharacter)
+	Router.POST("/characters/additem", repos.AddItemToCharacter)
+	Router.POST("/characters/addspell", repos.AddSpellToCharacter)
 
 	Router.POST("/spells/create", repos.CreateSpell)
 	Router.POST("/spells/get", repos.GetSpells)
