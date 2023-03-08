@@ -35,6 +35,8 @@ export class ItemsComponent {
     this.viewSubmitted = true;
 
     const options = { headers: { 'Content-Type': 'application/json' } };
+
+    // Get all user characters
     this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {
       if (200) {
         if (data === null)
@@ -43,7 +45,6 @@ export class ItemsComponent {
         this.allChars.splice(0);
         for (var i = 0; i < chars.length; i++) {
           var char = new character(chars[i].Name, chars[i].Level, chars[i].ClassType, chars[i].Description, chars[i].CharacterID, chars[i].Items);
-          console.log("Name " + chars[i].Name);
           this.allChars.push(char);
         }
       }
@@ -71,16 +72,14 @@ export class ItemsComponent {
     const select = document.getElementById("chars") as HTMLSelectElement;
     const myind = select.selectedIndex;
 
-
-    console.log("INDEX: " + myind);
-    if (myind === 0 || myind === -1)
+    // Get selected index 
+    if (myind === 0 || myind === -1 || myind -1 >= this.allChars.length)
       return;
 
-
-    if (myind -1 >= this.allChars.length)
-      return;
+    // Current character equals user's selected option'
     var char = this.allChars.at(myind - 1)!;
-
+    console.log("CHARACTER: " + char.Name);
+    // Get all items
     let Items = {
       "AdminToken": localStorage.getItem('id_token'),
     };
@@ -88,15 +87,18 @@ export class ItemsComponent {
     this.viewSubmitted = true;
 
     const options = { headers: { 'Content-Type': 'application/json' } };
+
     this.http.post('http://localhost:8080/items/get', JSON.stringify(Items), options).subscribe(data => {
       if (200) {
         var items = JSON.parse(JSON.stringify(data));
         this.allItems.splice(0);
-        // Store all items with equal class and level with character
+
+        // Filter items with equal class and level with character
+
         for (var i = 0; i < items.length; i++) {
-          console.log(items[i]);
-          console.log("CHARACTER LEVEL: " + char.Level + "    CHARACTER CLASS: " + char.Class);
-          if (items[i].LevelReq === char.Level && items[i].ClassReq === char.Class) { 
+
+          if (items[i].LevelReq === char.Level && items[i].ClassReq === char.Class) {
+
             var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ItemID);
             console.log(item);
 
@@ -109,7 +111,6 @@ export class ItemsComponent {
           }
 
         }
-        //console.log(this.allItems);
       }
     }, (error) => {
       if (error.status === 404) {
@@ -140,6 +141,8 @@ export class ItemsComponent {
       return false;
   }
 }
+
+// Character and item schema stored
 class character {
   Name: string;
   Level: number;

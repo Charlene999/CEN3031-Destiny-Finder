@@ -1,18 +1,19 @@
 <div class="items">
   <h1></h1>
 
-  <button class="submit">View Your Items</button>
-  <select id="chars" (click)="showItems()">
-    
-    <option value="Select Character" disabled selected>Select Character</option>
+  <div class="characters">
+    <select id="chars" (click)="showItems()">
+
+      <option value="Select Character" disabled selected>Select Character</option>
 
       <option *ngFor="let character of allChars; let i = index" value=character.Name
-            class="Name" id="character">
+              class="Name" id="character">
 
-      {{character.Name}}
+        {{character.Name}}
 
-    </option>
-  </select>
+      </option>
+    </select>
+  </div>
 
 <div class="tbl-content">
   <table id="tabl" cellpadding="0" cellspacing="0" border="0">
