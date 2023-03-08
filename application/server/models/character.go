@@ -41,3 +41,15 @@ type UpdateCharacter struct {
 	OwnerToken  string
 	CharacterID uint
 }
+
+type AddItemToCharacter struct {
+	ItemID      uint
+	OwnerToken  string
+	CharacterID uint
+}
+
+type AddSpellToCharacter struct {
+	SpellID     uint
+	OwnerToken  string
+	CharacterID uint
+}

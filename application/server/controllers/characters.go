@@ -86,7 +86,7 @@ func (repository *Repos) GetCharacters(c *gin.Context) {
 
 	//Find the user's characters
 	var characters []models.Character
-	err = repository.CharacterDb.Find(&characters, "owner_id = ?", user.ID).Error
+	err = repository.CharacterDb.Model(&models.Character{}).Preload("Spells").Preload("Items").Find(&characters, "owner_id = ?", user.ID).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": user.ID})
@@ -216,4 +216,134 @@ func (repository *Repos) UpdateCharacter(c *gin.Context) {
 	repository.CharacterDb.Save(&character)
 
 	c.JSON(http.StatusAccepted, &character)
+}
+
+func (repository *Repos) AddItemToCharacter(c *gin.Context) {
+	var itemToAdd models.AddItemToCharacter
+	err := c.ShouldBindJSON(&itemToAdd)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(itemToAdd.OwnerToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Determine if the user has permission to add items to the character (either they are an admin or the owner)
+	var character models.Character
+	err = repository.CharacterDb.First(&character, "id = ?", itemToAdd.CharacterID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": itemToAdd.CharacterID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if character.OwnerID != user.ID && !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	var item models.Item
+	err = repository.ItemDb.First(&item, "id = ?", itemToAdd.ItemID).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": itemToAdd.ItemID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = repository.CharacterDb.Debug().Model(&character).Association("Items").Append([]models.Item{item})
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, &item)
+}
+
+func (repository *Repos) AddSpellToCharacter(c *gin.Context) {
+	var spellToAdd models.AddSpellToCharacter
+	err := c.ShouldBindJSON(&spellToAdd)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(spellToAdd.OwnerToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Determine if the user has permission to add spells to the character (either they are an admin or the owner)
+	var character models.Character
+	err = repository.CharacterDb.First(&character, "id = ?", spellToAdd.CharacterID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": spellToAdd.CharacterID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if character.OwnerID != user.ID && !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	// get the spell to add
+	var spell models.Spell
+	err = repository.SpellDb.First(&spell, "id = ?", spellToAdd.SpellID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": spellToAdd.SpellID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = repository.CharacterDb.Debug().Model(&character).Association("Spells").Append([]models.Spell{spell})
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, &spell)
 }
