@@ -13,7 +13,7 @@ html {
 
 .items {
   position: absolute;
-  top: 500%;
+  top: 400%;
   left: 55%;
   width: 450px;
   height: 300px;
@@ -76,7 +76,6 @@ table {
   overflow-y: auto;
   text-align: center;
 }
-
 th {
   padding: 20px 15px;
   text-align: center;
