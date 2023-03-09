@@ -13,14 +13,12 @@ export class ItemsComponent {
   curChar: character;
   allItems: Item[];
   viewSubmitted: Boolean;
-  ownedText: string;
 
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
     this.allItems = [];
     this.curChar = {} as character;
     this.viewSubmitted = false;
-    this.ownedText = "";
   }
 
   ngOnInit() {
@@ -70,15 +68,14 @@ export class ItemsComponent {
   showItems() {
 
     const select = document.getElementById("chars") as HTMLSelectElement;
-    const myind = select.selectedIndex;
+    const index = select.selectedIndex;
 
     // Get selected index 
-    if (myind === 0 || myind === -1 || myind -1 >= this.allChars.length)
+    if (index === 0 || index === -1 || index -1 >= this.allChars.length)
       return;
 
     // Current character equals user's selected option'
-    var char = this.allChars.at(myind - 1)!;
-    console.log("CHARACTER: " + char.Name);
+    var char = this.allChars.at(index - 1)!;
     // Get all items
     let Items = {
       "AdminToken": localStorage.getItem('id_token'),
@@ -130,6 +127,7 @@ export class ItemsComponent {
     );
   }
 
+  // These methods allow items to be shown as owned or unowned by a character
   itemOwned(item: Item): boolean {
     return item.Owned;
   }

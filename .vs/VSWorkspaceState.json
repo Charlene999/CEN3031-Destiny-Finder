@@ -2,16 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\application",
-    "\\application\\cypress",
-    "\\application\\cypress\\downloads",
+    "\\application\\server",
+    "\\application\\server\\controllers",
+    "\\application\\server\\models",
+    "\\application\\server\\router",
     "\\application\\src",
     "\\application\\src\\app",
-    "\\application\\src\\app\\admin",
-    "\\application\\src\\app\\admin-add",
-    "\\application\\src\\app\\admin-delete",
-    "\\application\\src\\app\\login",
-    "\\Sprint-2-Reflections"
+    "\\application\\src\\app\\characters",
+    "\\application\\src\\app\\characters\\create-characters"
   ],
-  "SelectedNode": "\\application\\src\\app\\admin-delete\\admin-delete.component.ts",
+  "SelectedNode": "\\application\\src\\app\\items\\items.component.css",
   "PreviewInSolutionExplorer": false
 }
