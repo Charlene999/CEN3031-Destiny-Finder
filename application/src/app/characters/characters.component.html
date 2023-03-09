@@ -7,18 +7,20 @@
           <th>Name</th>
           <th>Description</th>
           <th>Level</th>
+          <th>Class</th>
           <th>Delete Character</th>
           <th>Edit Character</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let character of allChars; let i = index">
-          
-          <td contenteditable=true class="Name">{{character.Name}}</td>
-          <td contenteditable=true class="Description">{{character.Description}}</td>
-          <td contenteditable=true class="Level">{{character.Level}}</td>
-          <td class="delete" (click)="deleteCharacter(character.Name, character.Description, character.Level, character.ID)">Delete</td>
-          <td class="edit" (click)="editCharacter(character.Name, character.Description, character.Level, i)">Edit</td>
+
+          <td id="name" contenteditable=true class="Name">{{character.Name}}</td>
+          <td id="desc" contenteditable=true class="Description">{{character.Description}}</td>
+          <td id="level" contenteditable=true class="Level">{{character.Level}}</td>
+          <td id="class" contenteditable=true class="Class">{{character.Class}}</td>
+          <td class="delete" (click)="deleteCharacter(character.Name, character.ID)">DELETE</td>
+          <td class="edit" (click)="editCharacter(character, i)">EDIT</td>
         </tr>
       </tbody>
 

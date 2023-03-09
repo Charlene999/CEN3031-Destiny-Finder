@@ -3,14 +3,14 @@
     "",
     "\\application",
     "\\application\\server",
-    "\\application\\server\\controllers",
     "\\application\\server\\models",
     "\\application\\server\\router",
     "\\application\\src",
     "\\application\\src\\app",
     "\\application\\src\\app\\characters",
-    "\\application\\src\\app\\characters\\create-characters"
+    "\\application\\src\\app\\characters\\create-characters",
+    "\\application\\src\\app\\spells"
   ],
-  "SelectedNode": "\\application\\src\\app\\items\\items.component.css",
+  "SelectedNode": "\\application\\src\\app\\characters\\characters.component.html",
   "PreviewInSolutionExplorer": false
 }
