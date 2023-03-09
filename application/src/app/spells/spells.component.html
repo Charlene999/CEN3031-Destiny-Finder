@@ -29,7 +29,7 @@
         <tr *ngFor="let spell of allSpells">
           <td class="Name">{{spell.Name}}</td>
           <td class="Description">{{spell.Description}}</td>
-          <td class="Add">ADD</td>
+          <td (click) ="add()"class="Add">ADD</td>
           <td class="Owned" *ngIf="spellOwned(spell)">Owned</td>
           <td class="Unowned" *ngIf="spellUnowned(spell)">Unowned</td>
         </tr>

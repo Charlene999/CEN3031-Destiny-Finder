@@ -29,7 +29,7 @@
         <tr *ngFor="let item of allItems">
           <td class="Name">{{item.Name}}</td>
           <td class="Description">{{item.Description}}</td>
-          <td class="Add">ADD</td>
+          <td (click) ="add()" class="Add">ADD</td>
           <td class="Owned" *ngIf="itemOwned(item)">Owned</td>
           <td class="Unowned" *ngIf="itemUnowned(item)">Unowned</td>
         </tr>

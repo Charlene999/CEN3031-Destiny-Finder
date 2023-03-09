@@ -155,3 +155,15 @@ option:hover {
   background: #ddd;
 }
 
+.Add {
+  font-size: 18px;
+}
+
+  .Add:hover {
+    cursor: pointer;
+    color: rgb(255, 0, 0);
+  }
+
+  .Add:active {
+    color: rgb(255, 120, 0);
+  }
