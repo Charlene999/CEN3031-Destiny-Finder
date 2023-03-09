@@ -29,7 +29,7 @@ export class SignupComponent {
 
     const options = {headers: {'Content-Type': 'application/json'}};
     this.http.post('http://localhost:8080/users/create', JSON.stringify(f.value), options).subscribe((res: any)=> {
-        if(200) {
+        if(201) {
           alert("Successful account creation.");
           //Redirect to user to login page
           this.router.navigateByUrl('/login');
