@@ -42,10 +42,9 @@ export class CharactersComponent {
         this.allChars.splice(0);
         var chars = JSON.parse(JSON.stringify(data));
         for (let i = 0; i < chars.length; i++) {
-          var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].OwnerID, chars[i].ID);
+          var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].ClassType,chars[i].ID);
           this.allChars.push(char);
         }
-          localStorage.setItem('allUserChars', JSON.stringify(this.allChars));
       }
     }, (error) => {
       if (error.status === 404) {
@@ -65,7 +64,7 @@ export class CharactersComponent {
     );
   }
 
-  deleteCharacter(name: String, desc: String, level: number, id: number) {
+  deleteCharacter(name: String, id: number) {
     var Delete = confirm('Are you sure you want to delete character '+ name +'?');
     if (Delete === true) {
 
@@ -104,11 +103,57 @@ export class CharactersComponent {
       alert("Character Deletion Canceled")
   }
 
-  editCharacter(name: string, desc: string, level: number, index: number) {
-      var ind: number = index;
-      this.allChars.at(ind)!.Name = name;
-      this.allChars.at(ind)!.Description = desc;
-      this.allChars.at(ind)!.Level = level;
+  editCharacter(char: character, index: number) {
+
+    // Get info from html table
+    var table = document.getElementById('tabl') as HTMLTableElement;
+    var name = table.rows[index+1]?.cells[0]?.innerText;
+    var desc = table.rows[index+1]?.cells[1]?.innerText;
+    var level = new Number(table.rows[index+1]?.cells[2]?.innerText);
+    var myclass = new Number(table.rows[index + 1]?.cells[3]?.innerText);
+
+
+    // Create character from edited info
+    let Character =
+    {
+      "Name ": name,
+	    "Description": desc,
+	    "ClassType": myclass,
+	    "Level": level,
+	    "OwnerToken":  localStorage.getItem('id_token'),
+	    "CharacterID": char.ID,
+    }
+
+    const options = { headers: { 'Content-Type': 'application/json' } };
+
+    // Confirm if user wants to edit character and edit
+    if (confirm("Are you sure you want to edit this character?")) {
+      this.http.put('http://localhost:8080/characters/update', JSON.stringify(Character), options).subscribe(data => {
+      if (200) {
+        // Character should be updated
+        
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Resource not found.');
+      }
+      else if (error.status === 409) {
+        alert('Character already exists. Please try another one.');
+      }
+      else if (error.status === 500) {
+
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    }
+      );
+
+      alert("Character " + char.Name + " Updated");
+      window.location.reload;
+    }
+
   }
 }
 
@@ -116,14 +161,14 @@ class character {
   Name: string;
   Level: number;
   Description: string;
-  OwnerID: number;
+  Class: number;
   ID: number;
 
-  constructor(name: string, level: number, desc: string, ownerid: number, id: number) {
+  constructor(name: string, level: number, desc: string, myClass: number, id: number) {
     this.Name = name;
     this.Level = level;
     this.Description = desc;
-    this.OwnerID = ownerid;
+    this.Class = myClass;
     this.ID = id;
   }
 }

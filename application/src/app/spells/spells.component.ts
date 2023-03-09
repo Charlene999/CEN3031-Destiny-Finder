@@ -137,8 +137,13 @@ export class SpellsComponent {
     else
       return false;
   }
-
+  // Placeholder for Adding spell to character
+  add()
+  {
+    alert("Spell added");
+  }
 }
+
 
 // Character and item schema stored
 class character {

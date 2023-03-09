@@ -15,7 +15,7 @@ html {
   position: absolute;
   top: 400%;
   left: 55%;
-  width: 450px;
+  width: 500px;
   height: 300px;
 }
 
@@ -155,3 +155,15 @@ option:hover {
   color: #444645;
   background: #ddd;
 }
+.Add {
+  font-size: 18px;
+}
+
+  .Add:hover {
+    cursor: pointer;
+    color: rgb(255, 0, 0);
+  }
+
+  .Add:active {
+    color: rgb(255, 120, 0);
+  }

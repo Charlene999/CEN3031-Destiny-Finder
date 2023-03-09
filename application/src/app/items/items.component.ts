@@ -138,6 +138,11 @@ export class ItemsComponent {
     else
       return false;
   }
+
+  //  // Placeholder for Adding item to character
+  add() {
+    alert("Item added");
+  }
 }
 
 // Character and item schema stored
