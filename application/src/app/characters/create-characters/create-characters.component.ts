@@ -26,7 +26,8 @@ export class CreateCharactersComponent {
     let Character = {
       "Name": f.value.name,
       "Description": f.value.description,
-	    "Level": Number(f.value.level),
+      "ClassType": Number(f.value.class),
+      "Level": Number(f.value.level),
       "OwnerToken": localStorage.getItem('id_token'),
     };
 
