@@ -1,5 +1,4 @@
 <div class="items">
-  <h1></h1>
 
   <div class="characters">
     <select id="chars" (click)="showItems()">
@@ -15,28 +14,29 @@
     </select>
   </div>
 
-<div class="tbl-content">
-  <table id="tabl" cellpadding="0" cellspacing="0" border="0">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Add to Character</th>
-        <th>Ownership</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of allItems">
-        <td class="Name">{{item.Name}}</td>
-        <td class="Description">{{item.Description}}</td>
-        <td class="Add">ADD</td>
-        <td class="Owned" *ngIf="itemOwned(item)">Owned</td>
-        <td class="Unowned" *ngIf="itemUnowned(item)">Unowned</td>
-      </tr>
-    </tbody>
+  <div class="tbl-content">
+    <h1>All Items</h1>
+    <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Add to Character</th>
+          <th>Ownership</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of allItems">
+          <td class="Name">{{item.Name}}</td>
+          <td class="Description">{{item.Description}}</td>
+          <td class="Add">ADD</td>
+          <td class="Owned" *ngIf="itemOwned(item)">Owned</td>
+          <td class="Unowned" *ngIf="itemUnowned(item)">Unowned</td>
+        </tr>
+      </tbody>
 
-  </table>
-</div>
+    </table>
+  </div>
 
 </div>
 
