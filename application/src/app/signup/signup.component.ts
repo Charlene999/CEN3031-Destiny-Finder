@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,25 +10,44 @@ import { Router } from '@angular/router';
 
 export class SignupComponent {
 
-  signUpSubmitted: Boolean;
+  form: FormGroup = new FormGroup({});
 
-  constructor(private http:HttpClient, private router:Router){ 
-    this.signUpSubmitted = false; 
+  signUpSubmitted: boolean;
+
+  constructor(private fb: FormBuilder, private http:HttpClient, private router:Router){ 
+    this.signUpSubmitted = false;
   }
 
   ngOnInit() {
     if (localStorage.getItem('id_token') !== null) {
       this.router.navigateByUrl('/');
     }
+
+    //The input form is defined here along with the validators
+    this.form = this.fb.group({
+      name: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z]*')]),
+      username: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(15), Validators.pattern('[a-zA-Z0-9]*')]),
+      email: new FormControl("", [Validators.required, Validators.email,]),
+      password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20),]),
+      //password2: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20),])
+    })
   }
 
-  onSubmit(f: NgForm) {
+  onSubmit() {
+    console.log("reactive form submitted");
+    console.log(this.form);
+
     this.signUpSubmitted = true;
 
-    //Add validation that password and password2 match before sending httpRequest
+    let newUser = {
+      name: this.form.controls['name'].value,
+      username: this.form.controls['username'].value,
+      email: this.form.controls['email'].value,
+      password: this.form.controls['password'].value,
+    }
 
     const options = {headers: {'Content-Type': 'application/json'}};
-    this.http.post('http://localhost:8080/users/create', JSON.stringify(f.value), options).subscribe((res: any)=> {
+    this.http.post('http://localhost:8080/users/create', JSON.stringify(newUser), options).subscribe((res: any)=> {
         if(201) {
           alert("Successful account creation.");
           //Redirect to user to login page
@@ -50,4 +69,9 @@ export class SignupComponent {
       }
     );
   }
+
+  reset() {
+    this.form.reset();
+  }
+
 }
