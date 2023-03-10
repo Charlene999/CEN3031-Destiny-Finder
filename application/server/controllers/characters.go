@@ -273,6 +273,17 @@ func (repository *Repos) AddItemToCharacter(c *gin.Context) {
 		return
 	}
 
+	if item.ClassReq != character.ClassType && !(item.LevelReq <= character.Level) {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "This item is not available to this character's ClassType and Level"})
+		return
+	} else if item.ClassReq != character.ClassType {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "This item is not available to this character's ClassType"})
+		return
+	} else if !(item.LevelReq <= character.Level) {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "This item is not available to this character's Level"})
+		return
+	}
+
 	err = repository.CharacterDb.Debug().Model(&character).Association("Items").Append([]models.Item{item})
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -336,6 +347,17 @@ func (repository *Repos) AddSpellToCharacter(c *gin.Context) {
 	}
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if spell.ClassReq != character.ClassType && !(spell.LevelReq <= character.Level) {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "This spell is not available to this character's ClassType and Level"})
+		return
+	} else if spell.ClassReq != character.ClassType {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "This spell is not available to this character's ClassType"})
+		return
+	} else if !(spell.LevelReq <= character.Level) {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "This spell is not available to this character's Level"})
 		return
 	}
 
