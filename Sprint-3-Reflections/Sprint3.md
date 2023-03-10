@@ -177,6 +177,34 @@ Unit tests were designed in order to test the functionality of each server endpo
 
 - **Added in Sprint 3** - TestRemoveSpellFromCharacter_500 - Tests to ensure that the remove spell from character endpoint can gracefully handle a malformed JWT.
 
+- **Added in Sprint 3** - TestAddSpellToCharacter_202 - Tests to ensure that spells can be added to characters as expected.
+
+- **Added in Sprint 3** - TestAddSpellToCharacter_SpellNotFound - Tests to ensure that the endpoint can gracefully handle a case in which the provided Spell ID does not exist in the database.
+
+- **Added in Sprint 3** - TestAddSpellToCharacter_404_CharacterNotFound - Tests to ensure that the endpoint can gracefully handle a case in which the provided Character ID does not exist in the database.
+
+- **Added in Sprint 3** - TestAddSpellToCharacter_403_NotAdminOrOwner - Tests to ensure than only the character's owner or admins can add spells to a character.
+
+- **Added in Sprint 3** - TestAddSpellToCharacter_403_ClassTypeRequirementNotMet - Tests to ensure that proper error messaging is returned when the selected spell has a ClassReq that is not equal to the character's ClassType. 
+
+- **Added in Sprint 3** - TestAddSpellToCharacter_403_LevelRequirementNotMet - Tests to ensure that proper error messaging is returned when the selected spell has a LevelReq that is not less than or equal to the character's Level. 
+
+- **Added in Sprint 3** - TestAddSpellToCharacter_403_NeitherRequirementMet - Tests to ensure that proper error messaging is returned when the selected spell has a LevelReq that is not less than or equal to the character's Level and a ClassReq that is not equal to the character's ClassType.
+
+- **Added in Sprint 3** - TestAddItemToCharacter_202 - Tests to ensure that items can be added to characters as expected.
+
+- **Added in Sprint 3** - TestAddItemToCharacter_ItemNotFound - Tests to ensure that the endpoint can gracefully handle a case in which the provided Item ID does not exist in the database.
+
+- **Added in Sprint 3** - TestAddItemToCharacter_404_CharacterNotFound - Tests to ensure that the endpoint can gracefully handle a case in which the provided Character ID does not exist in the database.
+
+- **Added in Sprint 3** - TestAddItemToCharacter_403_NotAdminOrOwner - Tests to ensure than only the character's owner or admins can add items to a character.
+
+- **Added in Sprint 3** - TestAddItemToCharacter_403_ClassTypeRequirementNotMet - Tests to ensure that proper error messaging is returned when the selected item has a ClassReq that is not equal to the character's ClassType. 
+
+- **Added in Sprint 3** - TestAddItemToCharacter_403_LevelRequirementNotMet - Tests to ensure that proper error messaging is returned when the selected item has a LevelReq that is not less than or equal to the character's Level. 
+
+- **Added in Sprint 3** - TestAddItemToCharacter_403_NeitherRequirementMet - Tests to ensure that proper error messaging is returned when the selected item has a LevelReq that is not less than or equal to the character's Level and a ClassReq that is not equal to the character's ClassType.
+
 ### Item Tests
 - TestCreateItem_201 - Tests to ensure that an item can be created as expected.
 

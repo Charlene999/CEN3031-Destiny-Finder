@@ -427,3 +427,268 @@ func TestRemoveSpellFromCharacter_500(t *testing.T) {
 
 	assert.Equal(t, 500, res.Code)
 }
+
+func TestAddSpellToCharacter_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"SpellID": 4
+	}`)
+
+	req, _ := http.NewRequest("POST", "/characters/addspell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Item{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 202, res.Code)
+	assert.Equal(t, uint(4), results.ID)
+	assert.Equal(t, "Test spell", results.Name)
+	assert.Equal(t, "It's the best spell", results.Description)
+	assert.Equal(t, uint(2), results.LevelReq)
+	assert.Equal(t, uint(5), results.ClassReq)
+}
+
+func TestAddSpellToCharacter_404_SpellNotFound(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"SpellID": 4000
+	}`)
+
+	res_err := []byte(`{"error":4000}`)
+
+	req, _ := http.NewRequest("POST", "/characters/addspell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 404, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddSpellToCharacter_404_CharacterNotFound(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 1000,
+		"SpellID": 4
+	}`)
+
+	res_err := []byte(`{"error":1000}`)
+
+	req, _ := http.NewRequest("POST", "/characters/addspell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 404, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddSpellToCharacter_403_NotAdminOrOwner(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
+		"CharacterID": 13,
+		"SpellID": 4
+	}`)
+
+	res_err := []byte(`{"error":5}`)
+
+	req, _ := http.NewRequest("POST", "/characters/addspell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddSpellToCharacter_403_ClassTypeRequirementNotMet(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"SpellID": 15
+	}`)
+
+	res_err := []byte(`{"error":"This spell is not available to this character's ClassType"}`)
+
+	req, _ := http.NewRequest("POST", "/characters/addspell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddSpellToCharacter_403_LevelRequirementNotMet(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"SpellID": 16
+	}`)
+
+	res_err := []byte(`{"error":"This spell is not available to this character's Level"}`)
+
+	req, _ := http.NewRequest("POST", "/characters/addspell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+
+func TestAddSpellToCharacter_403_NeitherRequirementMet(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"SpellID": 17
+	}`)
+
+	res_err := []byte(`{"error":"This spell is not available to this character's ClassType and Level"}`)
+
+	req, _ := http.NewRequest("POST", "/characters/addspell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddItemToCharacter_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"ItemID": 4
+	}`)
+
+	req, _ := http.NewRequest("POST", "/characters/additem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Item{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 202, res.Code)
+	assert.Equal(t, uint(4), results.ID)
+	assert.Equal(t, "Test item", results.Name)
+	assert.Equal(t, "It's the best item", results.Description)
+	assert.Equal(t, uint(2), results.LevelReq)
+	assert.Equal(t, uint(5), results.ClassReq)
+}
+
+func TestAddItemToCharacter_404_ItemNotFound(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"ItemID": 4000
+	}`)
+
+	res_err := []byte(`{"error":4000}`)
+
+	req, _ := http.NewRequest("POST", "/characters/additem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 404, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddItemToCharacter_404_CharacterNotFound(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 1000,
+		"ItemID": 4
+	}`)
+
+	res_err := []byte(`{"error":1000}`)
+
+	req, _ := http.NewRequest("POST", "/characters/additem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 404, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddItemToCharacter_403_NotAdminOrOwner(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
+		"CharacterID": 13,
+		"ItemID": 4
+	}`)
+
+	res_err := []byte(`{"error":5}`)
+
+	req, _ := http.NewRequest("POST", "/characters/additem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddItemToCharacter_403_ClassTypeRequirementNotMet(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"ItemID": 22
+	}`)
+
+	res_err := []byte(`{"error":"This item is not available to this character's ClassType"}`)
+
+	req, _ := http.NewRequest("POST", "/characters/additem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+func TestAddItemToCharacter_403_LevelRequirementNotMet(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"ItemID": 21
+	}`)
+
+	res_err := []byte(`{"error":"This item is not available to this character's Level"}`)
+
+	req, _ := http.NewRequest("POST", "/characters/additem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
+
+func TestAddItemToCharacter_403_NeitherRequirementMet(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IktlcnJ5VGVzdCJ9.J6SSAcIPtCO4wBdw8FSzKvusYrF34fF-WEsAvXM4MKc",
+		"CharacterID": 13,
+		"ItemID": 23
+	}`)
+
+	res_err := []byte(`{"error":"This item is not available to this character's ClassType and Level"}`)
+
+	req, _ := http.NewRequest("POST", "/characters/additem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+	assert.Equal(t, bytes.NewBuffer(res_err), res.Body)
+}
+
