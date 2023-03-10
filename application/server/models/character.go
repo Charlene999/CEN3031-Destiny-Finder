@@ -12,8 +12,8 @@ type Character struct {
 	ClassType   uint
 	OwnerID     uint
 	Owner       User    `gorm:"foreignkey:OwnerID"`
-	Spells      []Spell `gorm:"many2many:character_spells;"`
-	Items       []Item  `gorm:"many2many:character_items;"`
+	Spells      []Spell `gorm:"many2many:character_spells"`
+	Items       []Item  `gorm:"many2many:character_items"`
 }
 
 type BuildCharacter struct {
