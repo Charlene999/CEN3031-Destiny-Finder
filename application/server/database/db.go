@@ -24,6 +24,7 @@ func connectDB(test bool) *gorm.DB {
 	dsn := fmt.Sprintf("%s:%s@tcp(theperfectpath.cot5mnpozher.us-east-2.rds.amazonaws.com)/perfectpathdb?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
 
 	if test {
+		fmt.Println("Connection switched to TESTING database")
 		dsn = fmt.Sprintf("%s:%s@tcp(theperfectpath.cot5mnpozher.us-east-2.rds.amazonaws.com)/perfectpathtesting?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass)
 	}
 

@@ -243,9 +243,6 @@ func TestUpdateCharacter_403(t *testing.T) {
 	req, _ := http.NewRequest("PUT", "/characters/update", bytes.NewBuffer(body))
 	router.Router.ServeHTTP(res, req)
 
-	results := &models.Character{}
-	json.NewDecoder(res.Body).Decode(results)
-
 	assert.Equal(t, 403, res.Code)
 }
 
@@ -264,9 +261,6 @@ func TestUpdateCharacter_500(t *testing.T) {
 
 	req, _ := http.NewRequest("PUT", "/characters/update", bytes.NewBuffer(body))
 	router.Router.ServeHTTP(res, req)
-
-	results := &models.Character{}
-	json.NewDecoder(res.Body).Decode(results)
 
 	assert.Equal(t, 500, res.Code)
 }
@@ -287,8 +281,149 @@ func TestUpdateCharacter_404(t *testing.T) {
 	req, _ := http.NewRequest("PUT", "/characters/update", bytes.NewBuffer(body))
 	router.Router.ServeHTTP(res, req)
 
-	results := &models.Character{}
+	assert.Equal(t, 404, res.Code)
+}
+
+func TestRemoveItemFromCharacter_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"CharacterId": 4,
+		"ItemId": 17
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removeitem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Item{}
 	json.NewDecoder(res.Body).Decode(results)
 
+	assert.Equal(t, 202, res.Code)
+	assert.Equal(t, uint(17), results.ID)
+	assert.Equal(t, "Rock", results.Name)
+	assert.Equal(t, "Completely useless.", results.Description)
+	assert.Equal(t, uint(99), results.LevelReq)
+	assert.Equal(t, uint(0), results.ClassReq)
+}
+
+func TestRemoveItemFromCharacter_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
+		"CharacterId": 4,
+		"ItemId": 17
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removeitem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestRemoveItemFromCharacter_404(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"CharacterId": 44,
+		"ItemId": 503245345
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removeitem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
 	assert.Equal(t, 404, res.Code)
+}
+
+func TestRemoveItemFromCharacter_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "invalid token",
+		"CharacterId": 4,
+		"ItemId": 17
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removeitem", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestRemoveSpellFromCharacter_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"CharacterId": 4,
+		"SpellId": 14
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removespell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 202, res.Code)
+	assert.Equal(t, uint(14), results.ID)
+	assert.Equal(t, "Magic Missile", results.Name)
+	assert.Equal(t, "Shoot a missile that has a 100% chance of killing the target upon a successful hit but has a 0% chance of hitting.", results.Description)
+	assert.Equal(t, uint(1), results.LevelReq)
+	assert.Equal(t, uint(5), results.ClassReq)
+}
+
+func TestRemoveSpellFromCharacter_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
+		"CharacterId": 4,
+		"SpellId": 14
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removespell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestRemoveSpellFromCharacter_404(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"CharacterId": 44,
+		"SpellId": 503563456346346
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removespell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 404, res.Code)
+}
+
+func TestRemoveSpellFromCharacter_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"OwnerToken": "invalid token",
+		"CharacterId": 4,
+		"SpellId": 14
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/characters/removespell", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	assert.Equal(t, 500, res.Code)
 }

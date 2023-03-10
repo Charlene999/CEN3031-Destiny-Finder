@@ -42,13 +42,13 @@ type UpdateCharacter struct {
 	CharacterID uint
 }
 
-type AddItemToCharacter struct {
+type AddRemoveCharacterItem struct {
 	ItemID      uint
 	OwnerToken  string
 	CharacterID uint
 }
 
-type AddSpellToCharacter struct {
+type AddRemoveCharacterSpell struct {
 	SpellID     uint
 	OwnerToken  string
 	CharacterID uint

@@ -219,7 +219,7 @@ func (repository *Repos) UpdateCharacter(c *gin.Context) {
 }
 
 func (repository *Repos) AddItemToCharacter(c *gin.Context) {
-	var itemToAdd models.AddItemToCharacter
+	var itemToAdd models.AddRemoveCharacterItem
 	err := c.ShouldBindJSON(&itemToAdd)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -283,7 +283,7 @@ func (repository *Repos) AddItemToCharacter(c *gin.Context) {
 }
 
 func (repository *Repos) AddSpellToCharacter(c *gin.Context) {
-	var spellToAdd models.AddSpellToCharacter
+	var spellToAdd models.AddRemoveCharacterSpell
 	err := c.ShouldBindJSON(&spellToAdd)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -340,6 +340,134 @@ func (repository *Repos) AddSpellToCharacter(c *gin.Context) {
 	}
 
 	err = repository.CharacterDb.Debug().Model(&character).Association("Spells").Append([]models.Spell{spell})
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, &spell)
+}
+
+func (repository *Repos) RemoveItemFromCharacter(c *gin.Context) {
+	var itemToRemove models.AddRemoveCharacterItem
+	err := c.ShouldBindJSON(&itemToRemove)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(itemToRemove.OwnerToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Determine if the user has permission to remove items to the character (either they are an admin or the owner)
+	var character models.Character
+	err = repository.CharacterDb.First(&character, "id = ?", itemToRemove.CharacterID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": itemToRemove.CharacterID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if character.OwnerID != user.ID && !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	var item models.Item
+	err = repository.ItemDb.First(&item, "id = ?", itemToRemove.ItemID).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": itemToRemove.ItemID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = repository.CharacterDb.Debug().Model(&character).Association("Items").Delete([]models.Item{item})
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, &item)
+}
+
+func (repository *Repos) RemoveSpellFromCharacter(c *gin.Context) {
+	var spellToRemove models.AddRemoveCharacterSpell
+	err := c.ShouldBindJSON(&spellToRemove)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(spellToRemove.OwnerToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Determine if the user has permission to remove spells to the character (either they are an admin or the owner)
+	var character models.Character
+	err = repository.CharacterDb.First(&character, "id = ?", spellToRemove.CharacterID).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": spellToRemove.CharacterID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if character.OwnerID != user.ID && !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	var spell models.Spell
+	err = repository.SpellDb.First(&spell, "id = ?", spellToRemove.SpellID).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": spellToRemove.SpellID})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = repository.CharacterDb.Debug().Model(&character).Association("Spells").Delete([]models.Spell{spell})
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

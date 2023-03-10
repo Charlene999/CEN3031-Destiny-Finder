@@ -3,9 +3,14 @@ package main
 
 import (
 	"backend/router"
+	"os"
 )
 
-// Create a router for the backend, create endpoints, and run the server
 func main() {
-	router.PrepareRouter(false).Run()
+	//Run go run main.go test_db to connect to the test database even if not running tests. Useful for seeding test data.
+	if len(os.Args) > 1 && os.Args[1] == "test_db" {
+		router.PrepareRouter(true).Run()
+	} else {
+		router.PrepareRouter(false).Run()
+	}
 }
