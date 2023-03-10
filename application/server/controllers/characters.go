@@ -4,7 +4,6 @@ import (
 	"backend/models"
 	"backend/utilities"
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -187,7 +186,6 @@ func (repository *Repos) UpdateCharacter(c *gin.Context) {
 	//Determine if the user has permission to update the character (either they are an admin or the owner)
 	var character models.Character
 	err = repository.CharacterDb.Preload("Items").Preload("Spells").First(&character, "id = ?", updateCharacter.CharacterID).Error
-	fmt.Print(character)
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateCharacter.CharacterID})
@@ -216,8 +214,6 @@ func (repository *Repos) UpdateCharacter(c *gin.Context) {
 		for i := 0; i < len(character.Items); i++ {
 			if character.Items[i].LevelReq > uint(updateCharacter.Level) {
 				itemsToRemove = append(itemsToRemove, character.Items[i])
-				fmt.Println(character.Items[i])
-				fmt.Println(itemsToRemove)
 			}
 		}
 		err = repository.CharacterDb.Debug().Model(&character).Association("Items").Delete(&itemsToRemove)
