@@ -471,7 +471,8 @@ The provided ```OwnerToken``` should be a JWT representing the User performing a
 If the character is not found from the given ```CharacterID```, a 404 Not Found status will be returned.
 If the User making the request is not an admin and the provided ```CharacterID``` represents a Character that does not belong to the User represented by the ```OwnerToken```, a 403 Forbidden status will be returned.
 If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
-Note that if an attribute should remain unchanged, send "" or -1 for strings and integers, respectively.
+Note that any attributes that shouldn't change should not be included in the request.
+Note that if the ```Level``` or ```ClassType``` is changed, any items that are incompatible with the character's new class or level will automatically be "unlinked" from the character.
 Upon sucessful completion of the operation, a 202 Accepted status will be sent back along with the updated Character's attributes as defined in /server/models/character.go.
 
 Example Request:

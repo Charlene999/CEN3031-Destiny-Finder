@@ -185,7 +185,7 @@ func (repository *Repos) UpdateCharacter(c *gin.Context) {
 
 	//Determine if the user has permission to update the character (either they are an admin or the owner)
 	var character models.Character
-	err = repository.CharacterDb.First(&character, "id = ?", updateCharacter.CharacterID).Error
+	err = repository.CharacterDb.Preload("Items").Preload("Spells").First(&character, "id = ?", updateCharacter.CharacterID).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateCharacter.CharacterID})
@@ -206,11 +206,63 @@ func (repository *Repos) UpdateCharacter(c *gin.Context) {
 	if updateCharacter.Description != "" {
 		character.Description = updateCharacter.Description
 	}
-	if updateCharacter.Level > -1 {
+	if updateCharacter.Level > 0 {
 		character.Level = uint(updateCharacter.Level)
+
+		//Remove any items affected by changing the Level
+		var itemsToRemove []models.Item
+		for i := 0; i < len(character.Items); i++ {
+			if character.Items[i].LevelReq > uint(updateCharacter.Level) {
+				itemsToRemove = append(itemsToRemove, character.Items[i])
+			}
+		}
+		err = repository.CharacterDb.Debug().Model(&character).Association("Items").Delete(&itemsToRemove)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		//Remove any spells affected by changing the Level
+		var spellsToRemove []models.Spell
+		for i := 0; i < len(character.Spells); i++ {
+			if character.Spells[i].LevelReq > uint(updateCharacter.Level) {
+				spellsToRemove = append(spellsToRemove, character.Spells[i])
+			}
+		}
+		err = repository.CharacterDb.Debug().Model(&character).Association("Spells").Delete(&spellsToRemove)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 	}
-	if updateCharacter.ClassType > -1 {
+	if updateCharacter.ClassType > 0 {
 		character.ClassType = uint(updateCharacter.ClassType)
+
+		//Remove any items affected by changing the ClassType
+		var itemsToRemove []models.Item
+		for i := 0; i < len(character.Items); i++ {
+			if character.Items[i].ClassReq != uint(updateCharacter.ClassType) {
+				itemsToRemove = append(itemsToRemove, character.Items[i])
+			}
+		}
+		err = repository.CharacterDb.Debug().Model(&character).Association("Items").Delete(&itemsToRemove)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		//Remove any spells affected by changing the ClassType
+		var spellsToRemove []models.Spell
+		for i := 0; i < len(character.Spells); i++ {
+			if character.Spells[i].ClassReq > uint(updateCharacter.ClassType) {
+				spellsToRemove = append(spellsToRemove, character.Spells[i])
+			}
+		}
+		err = repository.CharacterDb.Debug().Model(&character).Association("Spells").Delete(&spellsToRemove)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 	}
 
 	repository.CharacterDb.Save(&character)
