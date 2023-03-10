@@ -1,12 +1,14 @@
 # Sprint 3 Report
 
 ## Work Completed
-This sprint saw the completion of allowing for the updating of character and user information, the ability for users to browse through spells and items that match their character's level and class, and the ability for users to add those spells and items to their characters.
+This sprint saw the completion of allowing for the updating of character and user information, the ability for users to browse through spells and items that match their character's level and class, and the ability for users to add/remove those spells and items to/from their characters.
 
 ### Frontend Accomplishments
 
 ### Backend Accomplishments
-Update user and update character endpoints were added to allow for users to update their information and their characters' information. Multiple unit tests were written to test each of the developed endpoints. In order to accomodate all of the tests, the main_test.go test file was broken into multiple files and grouped into a testing package under application/server/test.
+Update user and update character endpoints were added to allow for users to update their information and their characters' information. In addition, update item and update spell endpoints were added to allow for admins to update information about items and spells users can choose from.     
+Furthermore, four endpoints were added for adding/removing items/spells to/from characters. This means that the backend interactions between users, characters, items, and spells are now overall complete.       
+Multiple unit tests were written to test each of the developed endpoints. In order to accomodate all of the tests, the main_test.go test file was broken into multiple files and grouped into a testing package under application/server/test.
 
 ## Frontend Cypress and Unit Tests
 
@@ -158,6 +160,22 @@ Unit tests were designed in order to test the functionality of each server endpo
 - **Added in Sprint 3** - TestUpdateCharacter_500 - Tests to ensure that the update character endpoint can gracefully handle a malformed JWT.
 
 - **Added in Sprint 3** - TestUpdateCharacter_404 - Tests to ensure that the update character endpoint can gracefully handle a case in which the provided character ID does not exist in the database.
+
+- **Added in Sprint 3** - TestRemoveItemFromCharacter_202 - Tests to ensure that items can be removed from a character as expected.
+
+- **Added in Sprint 3** - TestRemoveItemFromCharacter_403 - Tests to ensure that only the owner of a character or an admin can remove an item from a user's character.
+
+- **Added in Sprint 3** - TestRemoveItemFromCharacter_404 - Tests to ensure that the remove item from character endpoint can gracefully handle cases where the provided character or item is not found in the database.
+
+- **Added in Sprint 3** - TestRemoveItemFromCharacter_500 - Tests to ensure that the remove item from character endpoint can gracefully handle a malformed JWT.
+
+- **Added in Sprint 3** - TestRemoveSpellFromCharacter_202 - Tests to ensure that spells can be removed from a character as expected.
+
+- **Added in Sprint 3** - TestRemoveSpellFromCharacter_403 - Tests to ensure that only the owner of a character or an admin can remove a spell from a user's character.
+
+- **Added in Sprint 3** - TestRemoveSpellFromCharacter_404 - Tests to ensure that the remove spell from character endpoint can gracefully handle cases where the provided character or spell is not found in the database.
+
+- **Added in Sprint 3** - TestRemoveSpellFromCharacter_500 - Tests to ensure that the remove spell from character endpoint can gracefully handle a malformed JWT.
 
 ### Item Tests
 - TestCreateItem_201 - Tests to ensure that an item can be created as expected.
@@ -453,6 +471,72 @@ Example Response (202):
     "ClassType": 10,
     "Items": {},
     "Spells": {}
+}
+```
+
+#### **New in Sprint 3** - DELETE /characters/removeitem
+The request body should contain the following attributes: ```OwnerToken``` (string), ```ItemId``` (uint), and ```CharacterID``` (uint).
+The provided ```OwnerToken``` should be a JWT representing the User performing a request (either the user themselves or an admin).
+If the character is not found from the given ```CharacterID```, a 404 Not Found status will be returned.
+If the item is not found from the given ```ItemID```, a 404 Not Found status will be returned.
+If the User making the request is not an admin and the provided ```CharacterID``` represents a Character that does not belong to the User represented by the ```OwnerToken```, a 403 Forbidden status will be returned.
+If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
+Upon sucessful completion of the operation, a 202 Accepted status will be sent back along with the given Item's attributes as defined in /server/models/item.go.
+Note that the operation does not delete the provided item from the database; instead, it "unlinks" it from the provided character.
+
+Example Request:
+```
+{
+    "OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+	"CharacterId": 4,
+	"ItemId": 17
+}
+```
+
+Example Response (202):
+```
+{
+    "ID": 17,
+    "CreatedAt": "2023-03-10T09:04:10.947-06:00",
+    "UpdatedAt": "2023-03-10T09:04:10.947-06:00",
+    "DeletedAt": null,
+    "Name": "Rock",
+    "Description": "Completely useless.",
+    "LevelReq": 99,
+    "ClassReq": 0
+}
+```
+
+#### **New in Sprint 3** - DELETE /characters/removespell
+The request body should contain the following attributes: ```OwnerToken``` (string), ```SpellId``` (uint), and ```CharacterID``` (uint).
+The provided ```OwnerToken``` should be a JWT representing the User performing a request (either the user themselves or an admin).
+If the character is not found from the given ```CharacterID```, a 404 Not Found status will be returned.
+If the spell is not found from the given ```SpellID```, a 404 Not Found status will be returned.
+If the User making the request is not an admin and the provided ```CharacterID``` represents a Character that does not belong to the User represented by the ```OwnerToken```, a 403 Forbidden status will be returned.
+If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
+Upon sucessful completion of the operation, a 202 Accepted status will be sent back along with the given Spell's attributes as defined in /server/models/spell.go.
+Note that the operation does not delete the provided spell from the database; instead, it "unlinks" it from the provided character.
+
+Example Request:
+```
+{
+    "OwnerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+	"CharacterId": 4,
+	"SpellId": 14
+}
+```
+
+Example Response (202):
+```
+{
+    "ID": 14,
+    "CreatedAt": "2023-03-10T09:12:39.409-06:00",
+    "UpdatedAt": "2023-03-10T09:12:39.409-06:00",
+    "DeletedAt": null,
+    "Name": "Magic Missile",
+    "Description": "Shoot a missile that has a 100% chance of killing the target upon a successful hit but has a 0% chance of hitting.",
+    "LevelReq": 1,
+    "ClassReq": 5
 }
 ```
 
