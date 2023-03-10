@@ -112,7 +112,7 @@ export class CharactersComponent {
     var level = new Number(table.rows[index+1]?.cells[2]?.innerText);
     var myclass = new Number(table.rows[index + 1]?.cells[3]?.innerText);
 
-
+    console.log(name, desc, level, myclass);
     // Create character from edited info
     let Character =
     {
@@ -131,6 +131,11 @@ export class CharactersComponent {
       this.http.put('http://localhost:8080/characters/update', JSON.stringify(Character), options).subscribe(data => {
       if (200) {
         // Character should be updated
+        var curChar = JSON.parse(JSON.stringify(data));
+        char = new character(curChar.Name, curChar.Level, curChar.Description, curChar.ClassReq, curChar.ID);
+        this.allChars[index] = char;
+      alert("Character " + char.Name + " Updated");
+      window.location.reload;
         
       }
     }, (error) => {
@@ -149,9 +154,6 @@ export class CharactersComponent {
       }
     }
       );
-
-      alert("Character " + char.Name + " Updated");
-      window.location.reload;
     }
 
   }
