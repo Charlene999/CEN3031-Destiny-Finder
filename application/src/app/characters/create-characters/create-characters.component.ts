@@ -137,8 +137,8 @@ export class CreateCharactersComponent {
       return true;
     }
 
-    if (level > 100) {
-      this.invalidLevel = "Character can have a maximum level of 100";
+    if (level > 20) {
+      this.invalidLevel = "Character can have a maximum level of 20";
       return true;
     }
     return false;
@@ -158,8 +158,8 @@ export class CreateCharactersComponent {
       return true;
     }
 
-    if (Class > 100) {
-      this.invalidClass = "Character can have a maximum class of 100";
+    if (Class > 20) {
+      this.invalidClass = "Character can have a maximum class of 20";
       return true;
     }
     return false;
