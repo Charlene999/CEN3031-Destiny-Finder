@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { HttpClient} from '@angular/common/http';
 
 @Component({
   templateUrl: './characters.component.html',
@@ -10,13 +8,20 @@ import { Observable } from 'rxjs';
 })
 
 export class CharactersComponent { 
-
   allChars: character[];
   viewSubmitted: Boolean;
 
+  invalidName: string;
+  invalidDesc: string;
+  invalidLevel: string;
+  invalidClass: string;
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
     this.viewSubmitted = false;
+    this.invalidName = "";
+    this.invalidDesc = "";
+    this.invalidLevel = "";
+    this.invalidClass = "";
   }
 
   ngOnInit() {
@@ -24,11 +29,10 @@ export class CharactersComponent {
       this.router.navigateByUrl('/');
     }
 
-    this.onSubmit()
+    this.onLoad()
   }
 
-  onSubmit() {
-
+  onLoad() {
     let Character = {
       "OwnerToken": localStorage.getItem('id_token'),
     };
@@ -38,7 +42,8 @@ export class CharactersComponent {
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {
       if (200) {
-        // All user characters put in a variable and local storage for user to be able to access
+
+        // All user characters put in a variable for html table access
         this.allChars.splice(0);
         var chars = JSON.parse(JSON.stringify(data));
         for (let i = 0; i < chars.length; i++) {
@@ -65,8 +70,7 @@ export class CharactersComponent {
   }
 
   deleteCharacter(name: String, id: number) {
-    var Delete = confirm('Are you sure you want to delete character '+ name +'?');
-    if (Delete === true) {
+    if (confirm('Are you sure you want to delete character '+ name +'?') === true) {
 
       // Store admin token and item ID in options to send to delete request
       const opts = {
@@ -75,8 +79,7 @@ export class CharactersComponent {
       this.http.delete('http://localhost:8080/characters/delete', opts).subscribe(data => {
 
         if (200 || 202 || 204) {
-
-          // Item successfully deleted
+          // Character successfully deleted
           alert("Character " + name + " Deleted");
           window.location.reload();
         }
@@ -95,12 +98,7 @@ export class CharactersComponent {
           alert('Bad gateway.');
         }
       });
-
-
     }
-
-    else
-      alert("Character Deletion Canceled")
   }
 
   editCharacter(char: character, index: number) {
@@ -112,11 +110,15 @@ export class CharactersComponent {
     var level = new Number(table.rows[index+1]?.cells[2]?.innerText);
     var myclass = new Number(table.rows[index + 1]?.cells[3]?.innerText);
 
+    var myChar = new character(name, level as number, desc, myclass as number, char.ID);
 
-    // Create character from edited info
+    if (this.validInfo(myChar) === true)
+      return;
+
+    // Create character from edited info according to backend schema
     let Character =
     {
-      "Name ": name,
+      "Name": name,
 	    "Description": desc,
 	    "ClassType": myclass,
 	    "Level": level,
@@ -130,8 +132,13 @@ export class CharactersComponent {
     if (confirm("Are you sure you want to edit this character?")) {
       this.http.put('http://localhost:8080/characters/update', JSON.stringify(Character), options).subscribe(data => {
       if (200) {
-        // Character should be updated
-        
+        // Character should be updated in allChars variable 
+        var curChar = JSON.parse(JSON.stringify(data));
+        char = new character(curChar.Name, curChar.Level, curChar.Description, curChar.ClassReq, curChar.ID);
+        this.allChars[index] = char;
+
+        alert("Character " + char.Name + " Updated");
+        window.location.reload;
       }
     }, (error) => {
       if (error.status === 404) {
@@ -141,7 +148,6 @@ export class CharactersComponent {
         alert('Character already exists. Please try another one.');
       }
       else if (error.status === 500) {
-
         alert('Server down.');
       }
       else if (error.status === 502) {
@@ -149,11 +155,63 @@ export class CharactersComponent {
       }
     }
       );
-
-      alert("Character " + char.Name + " Updated");
-      window.location.reload;
     }
+  }
 
+  // Validate character info
+  validInfo(char: character): boolean {
+    this.validName(char);
+    this.validDesc(char);
+    this.validLevel(char);
+    this.validClass(char);
+
+    // If no invalid data was submitted, character can be updated
+    if (this.invalidName !== "" || this.invalidDesc !== "" || this.invalidLevel !== "" || this.invalidClass !== "")
+      return true;
+
+    return false;
+  }
+
+  validName(char: character) {
+    // Name validation
+    if (char.Name.length === 0)
+      this.invalidName = "Error: Name Required";
+
+    else if (char.Name.length > 0 && char.Name.length < 4)
+      this.invalidName = "Error: Name must be at least 4 characters";
+
+    else if (char.Name.length > 50)
+      this.invalidName = "Error: Name can have up to 50 characters";
+  }
+
+  validDesc(char: character) {
+    // Description Validation
+    if (char.Description.length === 0)
+      this.invalidDesc = "Error: Description Required";
+
+    else if (char.Description.length > 0 && char.Description.length < 4)
+      this.invalidDesc = "Error: Description must be at least 4 characters";
+
+    else if (char.Description.length > 250)
+      this.invalidDesc = "Error: Description can have up to 250 characters";
+  }
+
+  validLevel(char: character) {
+    // Level Validation
+    if (char.Level <= 0)
+      this.invalidLevel = "Error: Level must be greater than 0";
+
+    else if (char.Level > 20)
+      this.invalidLevel = "Error: Character can have a maximum level of 20";
+  }
+
+  validClass(char: character) {
+    // Class Validation
+    if (char.Class <= 0)
+      this.invalidClass = "Error: Class must be greater than 0";
+
+    else if (char.Class > 20)
+      this.invalidClass = "Error: Character can have a maximum class of 20";
   }
 }
 
