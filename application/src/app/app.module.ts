@@ -16,6 +16,9 @@ import { AdminAddComponent } from './admin-add/admin-add.component';
 import { AdminDeleteComponent } from './admin-delete/admin-delete.component';
 import { AdminComponent } from './admin/admin.component';
 import { CreateCharactersComponent } from './characters/create-characters/create-characters.component';
+import { PasswordComponent } from './users/users-edit/password/password.component';
+import { NameComponent } from './users/users-edit/name/name.component';
+import { EmailComponent } from './users/users-edit/email/email.component';
 
 @NgModule({
   //Components
@@ -33,6 +36,9 @@ import { CreateCharactersComponent } from './characters/create-characters/create
     AdminAddComponent,
     AdminDeleteComponent,
     AdminComponent,
+    PasswordComponent,
+    NameComponent,
+    EmailComponent,
   ],
   //Modules
   imports: [

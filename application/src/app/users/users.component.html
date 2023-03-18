@@ -1,4 +1,28 @@
 <div style="text-align:center" class="users">
+
+  <h1>Profile Information</h1>
+  <h2>Name: {{this.Name}}</h2>
+  <h2>Username: {{this.Username}}</h2>
+  <h2>Email: {{this.Email}}</h2>
+  <h2>Password: ********</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+        <label for="website">Select a Profile Field to Update</label>
+        <select formControlName="website" class="form-control">
+            <option>Update Name</option>
+            <option>Update Email</option>
+            <option>Update Password</option>
+        </select>
+        <div *ngIf="f.website.touched && f.website.invalid" class="alert alert-danger">  
+            <div *ngIf="f.website.errors?.['required']">Field is required.</div>  
+        </div>  
+    </div>
+    <button class="submit" [disabled]="!form.valid">Submit</button>  
+  </form>
+
+  <h1>Character Information</h1>
   <button class="submit" (click)="createCharacter()">Create A New Character</button>
   <button class="submit" (click)="getCharacters()">View All Characters</button>
+
 </div>
