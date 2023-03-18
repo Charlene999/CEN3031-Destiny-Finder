@@ -134,10 +134,10 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	//Identify the user making the change
+	//Identify the user being changed
 	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	claims := jwt.MapClaims{}
-	_, err = jwt.ParseWithClaims(updateUser.AuthToken, claims, func(token *jwt.Token) (interface{}, error) {
+	_, err = jwt.ParseWithClaims(updateUser.UserToken, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secret), nil
 	})
 
@@ -148,20 +148,7 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 
 	//Grab the existing user
 	var user models.User
-	err = repository.UserDb.First(&user, "username = ?", updateUser.Username).Error
-
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateUser.Username})
-		return
-	}
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	//Grab the authorizing user
-	var authUser models.User
-	err = repository.UserDb.First(&authUser, "username = ?", claims["Username"]).Error
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": claims["Username"]})
@@ -169,15 +156,6 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 	}
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	//If the authorizing user is not an admin, check that the current password is correct
-	//TODO: uncomment the below line once admin functionality is added
-	//if !authUser.IsAdmin {
-	err = utilities.CheckPassword(user.Password, updateUser.CurrentPassword)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadGateway, gin.H{"error": updateUser.CurrentPassword})
 		return
 	}
 
@@ -196,11 +174,32 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 	if updateUser.Email != "" {
 		user.Email = updateUser.Email
 	}
-	//Note: cannot set IsAdmin if the authorizing user is not an admin
 
 	repository.UserDb.Save(&user)
-	//TODO: uncomment the below line once admin functionality is added
-	//}
-	//TODO: write case for if the authorizing user is an admin in Sprint 4
+
 	c.JSON(http.StatusAccepted, user)
+}
+
+// This doesn't work yet and will be implemented in Sprint 4. Just saving a few snippets from the first implementation of UpdateUser
+func (repository *Repos) AdminUpdateUser(c *gin.Context) {
+	var updateUser models.AdminUpdateUser
+	err := c.ShouldBindJSON(&updateUser)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user making the change
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(updateUser.AuthToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusNotImplemented, "Not implemented")
 }
