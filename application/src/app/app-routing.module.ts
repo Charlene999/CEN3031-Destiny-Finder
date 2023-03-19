@@ -15,10 +15,13 @@ import { SignupComponent } from './signup/signup.component';
 import { PasswordComponent } from './users/users-edit/password/password.component';
 import { NameComponent } from './users/users-edit/name/name.component';
 import { EmailComponent } from './users/users-edit/email/email.component';
+import { HomeComponent } from './home/home.component';
 
 //Routing for the Entire Application
 //NOTE: path must match the routerLink indicated in app.component.html
 const routes: Routes = [
+  { path: '', component: HomeComponent },
+
   //If user not logged in, display login and create user tabs only
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },

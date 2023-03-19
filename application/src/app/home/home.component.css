@@ -92,7 +92,7 @@ html {
   overflow: hidden;
 }
 
-.classes {
+.home {
   position: absolute;
   top: 500%;
   left: 65%;
@@ -100,7 +100,7 @@ html {
   height: 300px;
 }
 
-  .classes h1 {
+  .home h1 {
     color: rgb(255, 180, 0);
     text-shadow: 0 0 10px rgba(0,0,0,1);
     letter-spacing: 1px;
