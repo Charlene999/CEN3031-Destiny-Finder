@@ -27,8 +27,8 @@
           <td class="Level">{{spell.Level}}</td>
           <td class="Owned" *ngIf="spellOwned(spell.ID)">Owned</td>
           <td class="Unowned" *ngIf="!spellOwned(spell.ID)">Unowned</td>
-          <td (click)="add(spell.ID)" class="Add">Add</td>
-          <td (click)="remove(spell.ID)" class="Add">Remove</td>
+          <td (click)="add(spell.ID)" class="Add" *ngIf="levelReqMet(spell.Level)">Add</td>
+          <td (click)="remove(spell.ID)" class="Add" *ngIf="levelReqMet(spell.Level)">Remove</td>
         </tr>
       </tbody>
     </table>

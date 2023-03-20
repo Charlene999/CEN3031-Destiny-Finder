@@ -136,6 +136,15 @@ export class ItemsComponent {
     this.curChar = char;
   }
 
+  levelReqMet(itemLevel: number) {
+    if (itemLevel === this.curChar.Level || itemLevel < this.curChar.Level) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   //Add Item To Character
   add(itemID: number) {
 

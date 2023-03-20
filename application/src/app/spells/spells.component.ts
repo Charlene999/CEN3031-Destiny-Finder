@@ -122,6 +122,15 @@ export class SpellsComponent {
     this.curChar = char;
   }
 
+  levelReqMet(spellLevel: number) {
+    if (spellLevel === this.curChar.Level || spellLevel < this.curChar.Level) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   //Add Item To Character
   add(spellId: number) {
 

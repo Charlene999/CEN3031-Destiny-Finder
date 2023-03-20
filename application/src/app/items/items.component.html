@@ -27,8 +27,8 @@
           <td class="Level">{{item.Level}}</td>
           <td class="Owned" *ngIf="itemOwned(item.ID)">Owned</td>
           <td class="Unowned" *ngIf="!itemOwned(item.ID)">Unowned</td>
-          <td (click)="add(item.ID)" class="Add">Add</td>
-          <td (click)="remove(item.ID)" class="Add">Remove</td>
+          <td (click)="add(item.ID)" class="Add" *ngIf="levelReqMet(item.Level)">Add</td>
+          <td (click)="remove(item.ID)" class="Add" *ngIf="levelReqMet(item.Level)">Remove</td>
         </tr>
       </tbody>
     </table>
