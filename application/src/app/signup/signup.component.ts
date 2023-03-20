@@ -34,9 +34,6 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    console.log("reactive form submitted");
-    console.log(this.form);
-
     this.signUpSubmitted = true;
 
     let newUser = {
