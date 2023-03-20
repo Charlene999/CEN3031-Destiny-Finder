@@ -30,11 +30,17 @@ type GetUser struct {
 }
 
 type UpdateUser struct {
-	AuthToken       string
-	Username        string
-	Name            string
-	Email           string
-	CurrentPassword string
-	Password        string
-	IsAdmin         bool
+	UserToken string
+	Name      string
+	Email     string
+	Password  string
+}
+
+type AdminUpdateUser struct {
+	AuthToken string
+	Username  string
+	Name      string
+	Email     string
+	Password  string
+	IsAdmin   bool
 }

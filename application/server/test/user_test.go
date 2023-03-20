@@ -163,10 +163,8 @@ func TestUpdateUser_202(t *testing.T) {
 	body := []byte(`{
 		"Name": "Billybob",
 		"Email": "bob.billy@gmail.com",
-		"CurrentPassword": "password",
 		"Password": "a very secure password",
-		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
-		"Username": "tester"
+		"UserToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI"
 	}`)
 
 	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
@@ -182,28 +180,6 @@ func TestUpdateUser_202(t *testing.T) {
 	assert.Equal(t, false, results.IsAdmin)
 }
 
-func TestUpdateUser_502(t *testing.T) {
-	res := httptest.NewRecorder()
-
-	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
-	body := []byte(`{
-		"Name": "Billybob",
-		"Email": "bob.billy@gmail.com",
-		"CurrentPassword": "this password is an incorrect password",
-		"Password": "password",
-		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
-		"Username": "tester"
-	}`)
-
-	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
-	router.Router.ServeHTTP(res, req)
-
-	results := &models.Character{}
-	json.NewDecoder(res.Body).Decode(results)
-
-	assert.Equal(t, 502, res.Code)
-}
-
 func TestUpdateUser_500(t *testing.T) {
 	res := httptest.NewRecorder()
 
@@ -211,10 +187,8 @@ func TestUpdateUser_500(t *testing.T) {
 	body := []byte(`{
 		"Name": "Billybob",
 		"Email": "bob.billy@gmail.com",
-		"CurrentPassword": "a very, very secure password",
-		"Password": "password",
-		"AuthToken": "token",
-		"Username": "tester"
+		"Password": "a very secure password",
+		"UserToken": "bad token"
 	}`)
 
 	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
@@ -233,10 +207,8 @@ func TestUpdateUser_404(t *testing.T) {
 	body := []byte(`{
 		"Name": "Billybob",
 		"Email": "bob.billy@gmail.com",
-		"CurrentPassword": "a very, very secure password",
-		"Password": "password",
-		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RlciJ9.Bx8FNXdyly-sYAktvvFq9rY0qiQt7bN8j5Kb3ZU_2eI",
-		"Username": "a user that doesn't exist in the database"
+		"Password": "a very secure password",
+		"UserToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vIn0.EVqDKOE9VVmhO0V6RG26Tj5SpzSTf8WJXcBwodbQDAA"
 	}`)
 
 	req, _ := http.NewRequest("PUT", "/users/update", bytes.NewBuffer(body))
