@@ -19,6 +19,7 @@ import { CreateCharactersComponent } from './characters/create-characters/create
 import { PasswordComponent } from './users/users-edit/password/password.component';
 import { NameComponent } from './users/users-edit/name/name.component';
 import { EmailComponent } from './users/users-edit/email/email.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   //Components
@@ -39,6 +40,7 @@ import { EmailComponent } from './users/users-edit/email/email.component';
     PasswordComponent,
     NameComponent,
     EmailComponent,
+    HomeComponent,
   ],
   //Modules
   imports: [
