@@ -25,11 +25,6 @@
     *margin-left: .3em;
   }
   
-    .submit:hover {
-    }
-  
-    .submit.active, .btn.disabled, .btn[disabled] {
-    }
   
     .submit:active {
       background-color: transparent;
@@ -56,7 +51,7 @@
   
   .submit:hover {
     background-color: rgba(226, 88, 34, .36);
-    text-shadow: 0 0 10px rgba(0,0,0,1);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 1);
     color: rgb(255, 180, 0);
   }
   
@@ -69,7 +64,7 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
   }
   
-    .submit:active, .btn-primary.active, .submit.disabled, .submit[disabled] {
+    .submit:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
       color: white;
       background-color: rgb(255, 180, 0);
       filter: none;
@@ -92,7 +87,7 @@
     overflow: hidden;
   }
   
-  .users {
+  .email {
     position: absolute;
     top: 500%;
     left: 65%;
@@ -100,7 +95,7 @@
     height: 300px;
   }
   
-    .users h1 {
+    .email h1 {
       color: rgb(255, 180, 0);
       text-shadow: 0 0 10px rgba(0,0,0,1);
       letter-spacing: 1px;
@@ -129,17 +124,4 @@
     input:focus {
       box-shadow: inset 0 -5px 45px rgba(100,100,100,0.05), 0 1px 1px rgba(255,255,255,0.1);
     }
-
-h2 {
-  text-align: center;
-  --bgcolor: rgba(256,256,256,50%);
-  background-color: var(--bgcolor);
-  box-shadow: 0 0 8px 8px var(--bgcolor);
-}
-
-label {
-  text-align: center;
-  --bgcolor: rgba(256,256,256,50%);
-  background-color: var(--bgcolor);
-  box-shadow: 0 0 8px 8px var(--bgcolor);
-}
+  

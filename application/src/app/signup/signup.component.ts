@@ -25,7 +25,7 @@ export class SignupComponent {
 
     //The input form is defined here along with the validators
     this.form = this.fb.group({
-      name: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z]*')]),
+      name: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
       username: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(15), Validators.pattern('[a-zA-Z0-9]*')]),
       email: new FormControl("", [Validators.required, Validators.email,]),
       password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20),]),
@@ -34,9 +34,6 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    console.log("reactive form submitted");
-    console.log(this.form);
-
     this.signUpSubmitted = true;
 
     let newUser = {
@@ -73,5 +70,4 @@ export class SignupComponent {
   reset() {
     this.form.reset();
   }
-
 }

@@ -5,9 +5,19 @@ This sprint saw the completion of allowing for the updating of character and use
 
 ### Frontend Accomplishments
 
+For this sprint, the frontend team added the ability to choose a character's class to the create a character and view all characters forms. The ability to view, add, and remove spells and items from individuals characters to the application was also added. A profile information view on the /profile page was implemented this sprint. Under the user's profile information, a dropdown box was added where a user may select a profile field to edit. The user may edit their name, email, or password, but not their username.
+
+A significant change to the application was the addition of input validation to most of the user input forms. Specifically, the signup, login, user profile edit, create a new character and view all characters pages have all gained various validation rules that prevent a user from submitting invalid forms. For example, when creating a new account on signup, the name field is limited to only capital or lowercase letters or spaces, a minimum of 4 characters, and no more than 30 characters. 
+
+This sprint saw a minor redesign of the home page. On top of a home page component being added to the application, the page no longer displays a navbar. Instead, it has been replaced with our site's logo in the top lefthand corner that redirects to the home page. Additionally, a short description of the site has been added along with two buttons for logging in and signing up to the website. When a user or admin is logged in, the home page still contains the navbar. However, the Home text has been replaced by the site's icon and the introduction is still visible, but the login and signup buttons will not appear for logged in users. The login and signup pages also had the navbar removed and replaced with the site's icon in the upper left hand corner that redirects to the home page, and various minor aspects of the website's design and CSS have been altered over the course of this sprint.
+
+Many tests added during Sprint 2 have been updated to reflect the addition of new features, such as validation, and many new tests have been added to Cypress and Angular to test the new functionality added during this sprint.
+
 ### Backend Accomplishments
-Update user and update character endpoints were added to allow for users to update their information and their characters' information. In addition, update item and update spell endpoints were added to allow for admins to update information about items and spells users can choose from.     
-Furthermore, four endpoints were added for adding/removing items/spells to/from characters. This means that the backend interactions between users, characters, items, and spells are now overall complete.       
+Update user and update character endpoints were added to allow for users to update their information and their characters' information. In addition, update item and update spell endpoints were added to allow for admins to update information about items and spells users can choose from.
+  
+Furthermore, four endpoints were added for adding/removing items/spells to/from characters. This means that the backend interactions between users, characters, items, and spells are now overall complete.
+
 Multiple unit tests were written to test each of the developed endpoints. In order to accomodate all of the tests, the main_test.go test file was broken into multiple files and grouped into a testing package under application/server/test.
 
 ## Frontend Cypress and Unit Tests

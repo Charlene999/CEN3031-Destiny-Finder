@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +9,12 @@ import { Router } from '@angular/router';
 })
 
 export class LoginComponent {
+
+  form: FormGroup = new FormGroup({});
   
   loginSubmitted: Boolean;
 
-  constructor(private http:HttpClient, private router:Router) { 
+  constructor(private fb: FormBuilder, private http:HttpClient, private router:Router) { 
     this.loginSubmitted = false; 
   }
 
@@ -20,19 +22,30 @@ export class LoginComponent {
     if (localStorage.getItem('id_token') !== null) {
       this.router.navigateByUrl('/');
     }
+
+    //The input form is defined here along with the validators
+    this.form = this.fb.group({
+      username: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(15), Validators.pattern('[a-zA-Z0-9]*')]),
+      password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20),]),
+    })
   }
 
-  onSubmit(f: NgForm) {
+  onSubmit() {
 
     this.loginSubmitted = true;
 
+    let existingUser = {
+      username: this.form.controls['username'].value,
+      password: this.form.controls['password'].value,
+    }
+
     const options = { headers: { 'Content-Type': 'application/json' } }; 
-    this.http.post('http://localhost:8080/users/login', JSON.stringify(f.value), options).subscribe((res: any)=> {
+    this.http.post('http://localhost:8080/users/login', JSON.stringify(existingUser), options).subscribe((res: any)=> {
       if (200) {
+
         let User = {
           "UserToken": res.token
         }
-
         const options = { headers: { 'Content-Type': 'application/json' } };
         this.http.post('http://localhost:8080/users/get', JSON.stringify(User), options).subscribe((data: any) => {
           if (200) {
