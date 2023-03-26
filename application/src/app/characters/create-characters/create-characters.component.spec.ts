@@ -31,8 +31,8 @@ describe('CreateCharactersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //Describe is the function name being tested
   describe('onSubmit', () => {
+
     it('Submit Button Works', async () => {
       const testForm = <NgForm>{
         value: {
@@ -44,6 +44,7 @@ describe('CreateCharactersComponent', () => {
       component.onSubmit(testForm);
       expect(component.createSubmitted).toBeTruthy();
     });
+    
     it('User Input is Received', async () => {
       const testForm = <NgForm>{
         value: {
