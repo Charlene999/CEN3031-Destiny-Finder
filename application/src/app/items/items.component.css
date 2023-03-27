@@ -19,12 +19,12 @@ html {
   height: 300px;
 }
 
-.items h1 {
-  color: rgb(255, 180, 0);
-  text-shadow: 0 0 10px rgba(0,0,0,1);
-  letter-spacing: 1px;
-  text-align: center;
-}
+  .items h1 {
+    color: rgb(255, 180, 0);
+    text-shadow: 0 0 10px rgba(255,255,255,.6);
+    letter-spacing: 1px;
+    text-align: center;
+  }
 
 input {
   width: 100%;
@@ -135,7 +135,7 @@ td {
     text-align: center;
     font-size: 28px;
     line-height: 45px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255,1);
     background-color: rgba(255, 255, 255, 0.1);
     pointer-events: none;
   }

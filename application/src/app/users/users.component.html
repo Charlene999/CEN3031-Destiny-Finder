@@ -5,25 +5,25 @@
   <h2>Username: {{this.Username}}</h2>
   <h2>Email: {{this.Email}}</h2>
   <h2>Password: ********</h2>
-  
+
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-group">
-        <label for="website">Select a Profile Field to Update</label>
-        <select formControlName="website" class="form-control">
-            <option></option>
-            <option>Update Name</option>
-            <option>Update Email</option>
-            <option>Update Password</option>
-        </select>
-        <div *ngIf="f.website.touched && f.website.invalid" class="alert alert-danger">  
-            <div *ngIf="f.website.errors?.['required']">Field is required.</div>  
-        </div>  
+      <select formControlName="website" class="form-control" id="userData" (click)="submit()">
+        <option formControlName="directions" hidden selected>{{this.form.value.directions}}</option>
+        <option value="Update Name">Update Name</option>
+        <option value="Update Email">Update Email</option>
+        <option value="Update Password">Update Password</option>
+      </select>
+      <div *ngIf="f.website.touched && f.website.invalid" class="alert alert-danger">
+        <div class ="fieldMsg" *ngIf="f.website.errors?.['required']">Field is required.</div>
+      </div>
     </div>
-    <button class="submit" [disabled]="!form.valid">Submit</button>  
   </form>
 
-  <h1>Character Information</h1>
-  <button class="submit" (click)="createCharacter()">Create A New Character</button>
-  <button class="submit" (click)="getCharacters()">View All Characters</button>
+</div>
 
+<div class="Characters">
+  <h1>Character Information</h1>
+  <button class="create" (click)="createCharacter()">Create A New Character</button>
+  <button class="getChars" (click)="getCharacters()">View All Characters</button>
 </div>

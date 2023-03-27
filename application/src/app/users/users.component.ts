@@ -23,8 +23,10 @@ export class UsersComponent {
   viewCharactersSubmitted: Boolean;
 
   form = new FormGroup({  
-    website: new FormControl('', Validators.required)  
+    website: new FormControl('', Validators.required),
+    directions: new FormControl('Select a Profile Field to Update')
   });
+
 
   constructor(private http:HttpClient, private router:Router){
 
@@ -65,24 +67,30 @@ export class UsersComponent {
   }
     
   submit(){  
-    console.log(this.form.value.website);
+    // This item is user update choice dropdown
+    const select = document.getElementById("userData") as HTMLSelectElement;
+    const index = select.selectedIndex;
+    var choice = select.value;
+    // Get selected index 
+    if (index <= 0)
+      return;
 
-    if(this.form.value.website === 'Update Name') {
+    if(choice === 'Update Name') {
       this.editNameSubmitted = true;
       this.router.navigateByUrl("/profile/name");
     }
 
-    if(this.form.value.website === 'Update Username') {
+    if(choice === 'Update Username') {
       this.editUsernameSubmitted = true;
       this.router.navigateByUrl("/profile/username");
     }
 
-    if(this.form.value.website === 'Update Email') {
+    if(choice === 'Update Email') {
       this.editEmailSubmitted = true;
       this.router.navigateByUrl("/profile/email");
     }
 
-    if(this.form.value.website === 'Update Password') {
+    if(choice === 'Update Password') {
       this.editPasswordSubmitted = true;
       this.router.navigateByUrl("/profile/pass");
     }
