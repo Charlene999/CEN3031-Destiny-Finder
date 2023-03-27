@@ -28,7 +28,8 @@
     </div>
 
     <!-- The user inputs username here -->
-    <input type="text" 
+    <input type="text"
+           id="username"
            placeholder="Username" 
            formControlName="username"
            required   
@@ -48,7 +49,8 @@
     </div>
 
     <!-- The user inputs email here -->
-    <input type="email" 
+    <input type="email"
+           id="email"
            placeholder="Email" 
            formControlName="email"
            required      
@@ -65,7 +67,8 @@
     </div>
 
     <!-- The user inputs password here -->
-    <input type="password" 
+    <input type="password"
+           id="password"
            placeholder="Enter New Password" 
            formControlName="password"
            required     
@@ -98,8 +101,8 @@
     </div>
     -->
 
-    <button class="submit" type="reset" (click)="reset()">Reset Values</button>
-    <button class="submit" type="submit" [disabled]="!form.valid">Submit</button>
+    <button class="submit" type="reset" id="reset" (click)="reset()">Reset Values</button>
+    <button class="submit" type="submit" id="submit" [disabled]="!form.valid">Submit</button>
   </form>
 </div>
 

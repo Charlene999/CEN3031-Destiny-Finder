@@ -1,6 +1,10 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
+
+  viewportWidth: 1600,
+  viewportHeight: 1050,
+
   component: {
     devServer: {
       framework: "angular",

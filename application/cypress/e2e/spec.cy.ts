@@ -14,7 +14,7 @@ describe('Sign Up Page', () => {
     cy.request({
       method: 'POST', 
       url: 'http://localhost:8080/users/create', 
-      body: JSON.stringify({ name: 'd3', username: 'd3', email: 'd3', password: 'd3', password2: 'd3' }),
+      body: JSON.stringify({ name: 'dylan', username: 'dylan10', email: 'fake@fakemail.com', password: 'dylanmail1' }),
       headers: {'Content-Type': 'application/json'},
       failOnStatusCode: false
     })
@@ -28,22 +28,19 @@ describe('Sign Up Page', () => {
     cy.visit('http://localhost:4200/signup')
     cy.url().should('include', 'http://localhost:4200/signup')
 
-    cy.get('input[type=name]').type('d3')
-    cy.get('input[type=name]').should('have.value', 'd3')
+    cy.get('#name').type('dylan')
+    cy.get('#name').should('have.value', 'dylan')
 
-    cy.get('input[type=username]').type('d3')
-    cy.get('input[type=username]').should('have.value', 'd3')
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
 
-    cy.get('input[type=email]').type('d3')
-    cy.get('input[type=email]').should('have.value', 'd3')
+    cy.get('#email').type('fake@fakemail.com')
+    cy.get('#email').should('have.value', 'fake@fakemail.com')
 
-    cy.get('input[type=password]').type('d3')
-    cy.get('input[type=password]').should('have.value', 'd3')
+    cy.get('#password').type('dylanmail1')
+    cy.get('#password').should('have.value', 'dylanmail1')
 
-    cy.get('input[type=password2]').type('d3')
-    cy.get('input[type=password2]').should('have.value', 'd3')
-
-    cy.get('button').click()
+    cy.get('#submit').click()
   })
 
   //NOTE: The input data will have to change for this everytime the test is ran
@@ -56,7 +53,7 @@ describe('Sign Up Page', () => {
     cy.request({
       method: 'POST', 
       url: 'http://localhost:8080/users/create', 
-      body: JSON.stringify({ name: 'd55', username: 'd55', email: 'd55', password: 'd55', password2: 'd55' }),
+      body: JSON.stringify({ name: 'd55', username: 'd55', email: 'd55', password: 'd55' }),
       headers: {'Content-Type': 'application/json'}
     })
     .then( (response) => {
@@ -81,9 +78,6 @@ describe('Sign Up Page', () => {
     cy.get('input[type=password]').type('d55')
     cy.get('input[type=password]').should('have.value', 'd55')
 
-    cy.get('input[type=password2]').type('d55')
-    cy.get('input[type=password2]').should('have.value', 'd55')
-
     cy.get('button').click()
   })
   */
@@ -97,7 +91,7 @@ describe('Login Page', () => {
     cy.request({
       method: 'POST', 
       url: 'http://localhost:8080/users/login', 
-      body: JSON.stringify({ username: 'fakemail@fake.com', password: 'password' }),
+      body: JSON.stringify({ username: 'dylan', password: 'password' }),
       headers: {'Content-Type': 'application/json'},
       failOnStatusCode: false
     })
@@ -111,13 +105,13 @@ describe('Login Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('input[type=username]').type('fakemail@fake.com')
-    cy.get('input[type=username]').should('have.value', 'fakemail@fake.com')
+    cy.get('#username').type('dylan')
+    cy.get('#username').should('have.value', 'dylan')
 
-    cy.get('input[type=password]').type('password')
-    cy.get('input[type=password]').should('have.value', 'password')
+    cy.get('#password').type('password')
+    cy.get('#password').should('have.value', 'password')
     
-    cy.get('button').click()    
+    cy.get('#submit').click()    
   })
 
   //TODO - Add testing functionality that does a POST request to http://localhost:8080/users/get
@@ -147,13 +141,13 @@ describe('Login Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('input[type=username]').type('d2')
-    cy.get('input[type=username]').should('have.value', 'd2')
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
 
-    cy.get('input[type=password]').type('d2')
-    cy.get('input[type=password]').should('have.value', 'd2')
-
-    cy.get('button').click()
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()    
   })
 })
 
