@@ -37,6 +37,8 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
 
 ### Angular Tests
 
+#### Sprint 2 Tests
+
 - AppComponent
     - The home page (/) renders - Tests that the page renders successfully.
 
@@ -114,6 +116,74 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
     - onSubmit
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
         - User Input is Received - Tests that the ngForm data is populated successfully.
+
+#### Sprint 3 Tests
+
+#### Removed Tests
+
+- SignupComponent
+    - onSubmit
+        - User Input is Received - Tests that the ngForm data is populated successfully.
+        - Reason: SignUpComponent no longer uses ngForm, so test was removed.
+
+- LoginComponent
+    - onSubmit
+        - User Input is Received - Tests that the ngForm data is populated successfully.
+        - Reason: LoginComponent no longer uses ngForm, so test was removed.
+
+- ItemsComponent
+    - onSubmit
+        - View Your Items Button Works - Tests that the button successfully calls the onSubmit function.
+        - Reason: ItemsComponent no longer has an onSubmit function, so test was removed.
+
+#### New Tests
+
+- SignupComponent
+    - onSubmit
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Name field validity - Tests that various invalid name inputs are correctly identified invalid.
+        - Username  field validity - Tests that various invalid username inputs are correctly identified invalid.
+        - Email field validity - Tests that various invalid email inputs are correctly identified invalid.
+        - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
+
+- LoginComponent
+    - onSubmit
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Username  field validity - Tests that various invalid username inputs are correctly identified invalid.
+        - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
+
+- NameComponent
+    - The /profile/name page renders - Tests that the page renders successfully.
+    - onSubmit
+        - Submit Button Works - Tests that the button successfully calls the onSubmit function.
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Name field validity - Tests that various invalid name inputs are correctly identified invalid.
+
+- EmailComponent
+    - The /profile/email page renders - Tests that the page renders successfully.
+    - onSubmit
+        - Submit Button Works - Tests that the button successfully calls the onSubmit function.
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Email field validity - Tests that various invalid email inputs are correctly identified invalid.
+
+- PasswordComponent
+    - The /profile/pass page renders - Tests that the page renders successfully.
+    - onSubmit
+        - Submit Button Works - Tests that the button successfully calls the onSubmit function.
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
+
+- ItemsComponent
+    - add
+        - ADD button works - Tests that the button successfully calls the add function.
+    - remove
+        - REMOVE button works - Tests that the button successfully calls the remove function.
+
+- SpellsComponent
+    - add
+        - ADD button works - Tests that the button successfully calls the add function.
+    - remove
+        - REMOVE button works - Tests that the button successfully calls the remove function.
 
 ## Backend API Unit Tests
 Unit tests were designed in order to test the functionality of each server endpoint. To faciliate this, the tests first start the router and controllers in the same fashion as during regular operation, but a connection to the special testing database is made rather than the main database. Each of the unit tests is contained in a singular function; they are listed below.
