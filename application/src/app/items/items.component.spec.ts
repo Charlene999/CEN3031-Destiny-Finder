@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ItemsComponent } from './items.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('ItemsComponent', () => {
@@ -19,11 +18,18 @@ describe('ItemsComponent', () => {
         ],
       declarations: [ ItemsComponent ],
       providers: []
-    })
-    .compileComponents();
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ItemsComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ItemsComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -31,11 +37,17 @@ describe('ItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //Describe is the function name being tested
-  describe('onSubmit', () => {
-    it('View Your Items Button Works', async () => {
-      component.onSubmit();
-      expect(component.viewSubmitted).toBeTruthy();
+  describe('add', () => { 
+    it('ADD button works', () => {
+      component.add(17);
+      expect(component.addSubmitted).toBeTruthy();
+    });
+  });
+
+  describe('remove', () => {
+    it('REMOVE button works', () => {
+      component.remove(17);
+      expect(component.removeSubmitted).toBeTruthy();
     });
   });
 });
