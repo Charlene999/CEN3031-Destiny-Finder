@@ -173,6 +173,12 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
         - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
         - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
 
+- UsersComponent
+    - submit
+        - Update Name Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Email Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Password Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+
 - ItemsComponent
     - add
         - ADD button works - Tests that the button successfully calls the add function.
