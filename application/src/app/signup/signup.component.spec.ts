@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignupComponent } from './signup.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -14,8 +13,8 @@ describe('SignupComponent', () => {
       imports: [
         HttpClientModule, 
         HttpClientTestingModule,
-        ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
         ],
       declarations: [ SignupComponent ],
       providers: []
@@ -27,45 +26,85 @@ describe('SignupComponent', () => {
     fixture.detectChanges();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SignupComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+    fixture.detectChanges();
+  });
+
   it('The /signup page renders', () => {
     expect(component).toBeTruthy();
   });
 
-  //Describe is the function name being tested
   describe('onSubmit', () => {
-    it('Submit Button Works', async () => {
-      const testForm = <NgForm>{
-        value: {
-          name: "d2",
-          username: "d2",
-          email: "d2",
-          password: "d2",
-          password2: "d2"
-        }
-      };
-      component.onSubmit(testForm);
+    
+    it('Submit Button Works', () => {
+      component.onSubmit();
       expect(component.signUpSubmitted).toBeTruthy();
     });
-    it('User Input is Received', async () => {
-      const testForm = <NgForm>{
-        value: {
-          name: "d2",
-          username: "d2",
-          email: "d2",
-          password: "d2",
-          password2: "d2"
-        }
-      };
-      component.onSubmit(testForm);
-      expect(testForm.value.name).toMatch('d2');
-      expect(testForm.value.username).toMatch('d2');
-      expect(testForm.value.email).toMatch('d2');
-      expect(testForm.value.password).toMatch('d2');
-      expect(testForm.value.password2).toMatch('d2');
+
+    it('Form invalid when empty', () => {
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('Name field validity', () => {
+      let name = component.form.controls['name'];
+      expect(name.valid).toBeFalsy();
+
+      name.setValue("");
+      expect(name.hasError('required')).toBeTruthy();
+
+      name.setValue("M");
+      expect(name.hasError('minlength')).toBeTruthy();
+
+      name.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+      expect(name.hasError('maxlength')).toBeTruthy();
+
+      //Add additional username validity test cases for pattern
+    });
+
+    it('Username field validity', () => {
+      let username = component.form.controls['username'];
+      expect(username.valid).toBeFalsy();
+
+      username.setValue("");
+      expect(username.hasError('required')).toBeTruthy();
+
+      username.setValue("M");
+      expect(username.hasError('minlength')).toBeTruthy();
+
+      username.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+      expect(username.hasError('maxlength')).toBeTruthy();
+
+      //Add additional password validity test cases for pattern
+    });
+
+    it('Email field validity', () => {
+      let email = component.form.controls['email'];
+      expect(email.valid).toBeFalsy();
+
+      email.setValue("");
+      expect(email.hasError('required')).toBeTruthy();
+
+      email.setValue("A");
+      expect(email.hasError('email')).toBeTruthy();
+
+    });
+
+    it('Password field validity', () => {
+      let password = component.form.controls['password'];
+      expect(password.valid).toBeFalsy();
+
+      password.setValue("");
+      expect(password.hasError('required')).toBeTruthy();
+
+      password.setValue("M");
+      expect(password.hasError('minlength')).toBeTruthy();
+
+      password.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+      expect(password.hasError('maxlength')).toBeTruthy();
     });
   });
-  
-  //Test what happens when a user doesn't enter all information
-  //Test what happens when a user submit invalid info (e.g. invalid email)
   //Test what happens when user enters account information already in DB
 });

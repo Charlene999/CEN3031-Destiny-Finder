@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -14,8 +13,8 @@ describe('LoginComponent', () => {
       imports: [
         HttpClientModule, 
         HttpClientTestingModule,
-        ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
         ],
       declarations: [ LoginComponent ],
       providers: []
@@ -27,37 +26,58 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+    fixture.detectChanges();
+  });
+
   it('The /login page renders', () => {
     expect(component).toBeTruthy();
   });
 
-  //Describe is the function name being tested
   describe('onSubmit', () => {
-    it('Login Button Works', async () => {
-      const testForm = <NgForm>{
-        value: {
-          username: "d2",
-          password: "d2"
-        }
-      };
-      component.onSubmit(testForm);
+    
+    it('Login Button Works', () => {
+      component.onSubmit();
       expect(component.loginSubmitted).toBeTruthy();
     });
-    it('User Input is Received', async () => {
-      const testForm = <NgForm>{
-        value: {
-          username: "d2",
-          password: "d2"
-        }
-      };
-      component.onSubmit(testForm);
-      expect(testForm.value.username).toMatch('d2');
-      expect(testForm.value.password).toMatch('d2');
+
+    it('Form invalid when empty', () => {
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('Username field validity', () => {
+        let username = component.form.controls['username'];
+        expect(username.valid).toBeFalsy();
+
+        username.setValue("");
+        expect(username.hasError('required')).toBeTruthy();
+
+        username.setValue("M");
+        expect(username.hasError('minlength')).toBeTruthy();
+
+        username.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+        expect(username.hasError('maxlength')).toBeTruthy();
+
+        //Add additional username validity test cases for pattern
+    });
+
+    it('Password field validity', () => {
+      let password = component.form.controls['password'];
+      expect(password.valid).toBeFalsy();
+
+      password.setValue("");
+      expect(password.hasError('required')).toBeTruthy();
+
+      password.setValue("M");
+      expect(password.hasError('minlength')).toBeTruthy();
+
+      password.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+      expect(password.hasError('maxlength')).toBeTruthy();
     });
   });
-  
   //Test what happens when a user successfully logs in
-  //Test what happens when a user does not successfully log in
-  //Test that user is redirected to /users/get
-  //Test that admin is redirected to /
+  //Test that logged in admin? and user is redirected to /profile
 });

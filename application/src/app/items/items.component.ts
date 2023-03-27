@@ -51,24 +51,18 @@ export class ItemsComponent {
           var char = new character(chars[i].Name, chars[i].Level, chars[i].ClassType, chars[i].Description, chars[i].ID, chars[i].Items);
           this.allChars.push(char);
         }
-
       }
     }, (error) => {
       if (error.status === 404) {
         alert('Resource not found.');
       }
-      else if (error.status === 409) {
-        alert('Character already exists. Please try another one.');
-      }
       else if (error.status === 500) {
-
         alert('Server down.');
       }
       else if (error.status === 502) {
         alert('Bad gateway.');
       }
-    }
-    );
+    });
   }
 
   // show all items owned and unowned for that class and level
