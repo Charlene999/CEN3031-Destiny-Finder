@@ -54,7 +54,6 @@ describe('ItemsComponent', () => {
   // Test showItems performs properly
   describe('showItems', () => {
     it('Items Successfully Shown', () => {
-
       component.showItems();
       expect(component.viewSubmitted).toBeTruthy();
     })
