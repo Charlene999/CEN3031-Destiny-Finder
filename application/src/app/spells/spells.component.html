@@ -1,12 +1,10 @@
 <div class="spells">
-
   <div class="characters">
     <select id="chars" (click)="showSpells()">
-      <option value="Select Character" disabled selected hidden>Select Character</option>
-      <option *ngFor="let character of allChars; let i = index" value=character.Name class="Name" id="character" (click)="setCharacter(character)">{{character.Name}}</option>
+      <option value="Select Character" disabled selected>Select Character</option>
+      <option *ngFor="let character of allChars; let i = index" value=character.Name class="Name" id="character">{{character.Name}}</option>
     </select>
   </div>
-
   <div class="tbl-content">
     <h1>All Spells</h1>
     <table id="tabl" cellpadding="0" cellspacing="0" border="0">
