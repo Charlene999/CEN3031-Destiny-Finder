@@ -203,3 +203,49 @@ func (repository *Repos) AdminUpdateUser(c *gin.Context) {
 
 	c.JSON(http.StatusNotImplemented, "Not implemented")
 }
+
+func (repository *Repos) AdminGetAllUsers(c *gin.Context) {
+	var getUsers models.GetUser
+	err := c.ShouldBindJSON(&getUsers)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(getUsers.UserToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if !user.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
+		return
+	}
+
+	var users []models.User
+	err = repository.UserDb.Find(&users).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "No users were found in the database"})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, users)
+}
