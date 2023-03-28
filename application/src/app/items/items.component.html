@@ -1,7 +1,7 @@
 <div class="items">
   <div class="characters">
     <select id="chars" (click)="showItems()">
-      <option value="Select Character" disabled selected>Select Character</option>
+      <option value="Select Character" disabled selected hidden>Select Character</option>
       <option *ngFor="let character of allChars; let i = index" value=character.Name class="Name" id="character">{{character.Name}}</option>
     </select>
   </div>
