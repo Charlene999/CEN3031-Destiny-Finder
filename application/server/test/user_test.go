@@ -18,9 +18,9 @@ func TestCreateUser_201(t *testing.T) {
 
 	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
 	body := []byte(`{
-		"Name": "Tester5",
-		"Username": "tester5",
-		"Email": "tester5@gmail.com",
+		"Name": "Tester9999",
+		"Username": "tester9999",
+		"Email": "tester9999@gmail.com",
 		"Password": "password"
 	}`)
 
@@ -31,9 +31,9 @@ func TestCreateUser_201(t *testing.T) {
 	json.NewDecoder(res.Body).Decode(results)
 
 	assert.Equal(t, 201, res.Code)
-	assert.Equal(t, "Tester5", results.Name)
-	assert.Equal(t, "tester5", results.Username)
-	assert.Equal(t, "tester5@gmail.com", results.Email)
+	assert.Equal(t, "Tester9999", results.Name)
+	assert.Equal(t, "tester9999", results.Username)
+	assert.Equal(t, "tester9999@gmail.com", results.Email)
 	assert.Equal(t, false, results.IsAdmin)
 }
 

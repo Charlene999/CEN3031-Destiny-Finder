@@ -91,9 +91,9 @@ func TestGetSpells_200(t *testing.T) {
 	json.NewDecoder(res.Body).Decode(results)
 
 	assert.Equal(t, 200, res.Code)
-	assert.Equal(t, "Test spell", (*results)[0].Name)
-	assert.Equal(t, "It's the best spell", (*results)[0].Description)
-	assert.Equal(t, uint(2), (*results)[0].LevelReq)
+	assert.Equal(t, "New name", (*results)[0].Name)
+	assert.Equal(t, "New description", (*results)[0].Description)
+	assert.Equal(t, uint(3), (*results)[0].LevelReq)
 	assert.Equal(t, uint(5), (*results)[0].ClassReq)
 }
 
