@@ -1,7 +1,6 @@
-<a class="nav-item nav-link" routerLink="/" *ngIf="!loggedIn()"><img src="assets/images/D&Dgold.png" width="75" height="42" alt="D&D logo"></a>
-<div style="text-align:center" class="home">
+<a class="nav-item nav-link" routerLink="/" id="logo" *ngIf="!loggedIn()"><img src="assets/images/D&Dgold.png" width="75" height="42" alt="D&D logo"></a>
+<div class="home">
     <p>Welcome to The Perfect Path. This is a Dungeons and Dragons inspired website that one can use to create and customize a character's spells, items, and class.</p>
-
-    <button class="submit" (click)="login()" *ngIf="!loggedIn()">Existing User? Login Here.</button>
-    <button class="submit" (click)="signup()" *ngIf="!loggedIn()">New User? Sign Up Here.</button>
+    <button class="submit" id="login" (click)="login()" *ngIf="!loggedIn()">Existing User? Login Here.</button>
+    <button class="submit" id="signup" (click)="signup()" *ngIf="!loggedIn()">New User? Sign Up Here.</button>
 </div>

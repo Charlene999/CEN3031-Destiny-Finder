@@ -6,16 +6,16 @@
   <h2>Email: {{this.Email}}</h2>
   <h2>Password: ********</h2>
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
+  <form [formGroup]="form">
     <div class="form-group">
       <select formControlName="website" class="form-control" id="userData" (click)="submit()">
-        <option formControlName="directions" hidden selected>{{this.form.value.directions}}</option>
+        <option hidden selected>{{this.Directions}}</option>
         <option value="Update Name">Update Name</option>
         <option value="Update Email">Update Email</option>
         <option value="Update Password">Update Password</option>
       </select>
       <div *ngIf="f.website.touched && f.website.invalid" class="alert alert-danger">
-        <div class ="fieldMsg" *ngIf="f.website.errors?.['required']">Field is required.</div>
+        <div class="fieldMsg" *ngIf="f.website.errors?.['required']">Field is required.</div>
       </div>
     </div>
   </form>
@@ -24,6 +24,6 @@
 
 <div class="Characters">
   <h1>Character Information</h1>
-  <button class="create" (click)="createCharacter()">Create A New Character</button>
-  <button class="getChars" (click)="getCharacters()">View All Characters</button>
+  <button class="create" id="create" (click)="createCharacter()">Create A New Character</button>
+  <button class="getChars" id="characters" (click)="getCharacters()">View All Characters</button>
 </div>

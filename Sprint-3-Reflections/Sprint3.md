@@ -26,18 +26,42 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
 
 #### E2E Tests
 
-- Input Invalid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password not in database, then clicks button to login.
+#### Sprint 2
 
-- Input Valid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password in database, then clicks button to login.
+- Login Page
+    - Input Invalid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password not in database, then clicks button to login.
+    - Input Valid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password in database, then clicks button to login.
 
-#### Frontend Tests
+#### Sprint 3
 
-- ItemsComponent
-    - mounts - Tests that the page renders successfully.
+- Home Page
+    - Login Button Redirects Correctly - Tests that the user is correctly redirected to the /login page from the home page.
+    - Sign Up Button Redirects Correctly - Tests that the user is correctly redirected to the /signup page from the home page.
+
+- Sign Up Page
+    - User Already Exists - POST Request and Expected Response - Tests that the post response is correct when a user with matching credentials already exists in the backend.
+    - User Already Exists - Tests that the signup attempt is rejected when a user with matching credentials already exists in the backend.
+
+- Login Page
+    - Input Invalid Username and Password - POST Request and Expected Response - Tests that the post response is correct when a user enters invalid credentials to login.
+
+- Profile Page
+    - Update Name Option Redirects Correctly - Tests that the user is correctly redirected to the /profile/name page from the /profile page.
+    - Update Email Option Redirects Correctly - Tests that the user is correctly redirected to the /profile/email page from the /profile page.
+    - Update Password Option Redirects Correctly - Tests that the user is correctly redirected to the /profile/pass page from the /profile page.
+
+- Edit Name Page
+    - Successfully Updates Name then Redirects to Profile Page - Tests that the updating name process works, starting from a user logging in to a user changing their password successfully.
+
+- Edit Email Page
+    - Successfully Updates Email then Redirects to Profile Page - Tests that the updating email process works, starting from a user logging in to a user changing their password successfully.
+
+- Edit Password Page
+    - Successfully Updates Password then Redirects to Profile Page - Tests that the updating password process works, starting from a user logging in to a user changing their password successfully.
 
 ### Angular Tests
 
-#### Sprint 2 Tests
+#### Sprint 2
 
 - AppComponent
     - The home page (/) renders - Tests that the page renders successfully.
@@ -117,7 +141,7 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
         - User Input is Received - Tests that the ngForm data is populated successfully.
 
-#### Sprint 3 Tests
+#### Sprint 3
 
 #### Removed Tests
 
@@ -172,6 +196,12 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
         - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
         - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
+
+- UsersComponent
+    - submit
+        - Update Name Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Email Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Password Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
 
 - ItemsComponent
     - add
