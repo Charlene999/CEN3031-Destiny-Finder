@@ -1,4 +1,19 @@
 describe('Home Page', () => {
+
+  it('Login Button Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/')
+    cy.url().should('include', 'http://localhost:4200/')
+    cy.get('#login').click()
+    cy.url().should('include', 'http://localhost:4200/login')
+  })
+
+  it('Sign Up Button Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/')
+    cy.url().should('include', 'http://localhost:4200/')
+    cy.get('#signup').click()
+    cy.url().should('include', 'http://localhost:4200/signup')
+  })
+
 })
 
 //
@@ -46,37 +61,21 @@ describe('Sign Up Page', () => {
   //NOTE: The input data will have to change for this everytime the test is ran
   //      until the delete user functionality is added to the admin view users page.
   /*
-  it('New User Creation - POST Request and Expected Response', () => {
-    cy.visit('http://localhost:4200/signup')
-    cy.url().should('include', 'http://localhost:4200/signup')
-
-    cy.request({
-      method: 'POST', 
-      url: 'http://localhost:8080/users/create', 
-      body: JSON.stringify({ name: 'd55', username: 'd55', email: 'd55', password: 'd55' }),
-      headers: {'Content-Type': 'application/json'}
-    })
-    .then( (response) => {
-        expect(response.status).to.eq(201)
-      }
-    )
-  })
-
   it('New User Creation', () => {
     cy.visit('http://localhost:4200/signup')
     cy.url().should('include', 'http://localhost:4200/signup')
 
-    cy.get('input[type=name]').type('d55')
-    cy.get('input[type=name]').should('have.value', 'd55')
+    cy.get('input[type=name]').type('Dylan T')
+    cy.get('input[type=name]').should('have.value', 'Dylan T')
 
-    cy.get('input[type=username]').type('d55')
-    cy.get('input[type=username]').should('have.value', 'd55')
+    cy.get('input[type=username]').type('dylan111')
+    cy.get('input[type=username]').should('have.value', 'dylan111')
 
-    cy.get('input[type=email]').type('d55')
-    cy.get('input[type=email]').should('have.value', 'd55')
+    cy.get('input[type=email]').type('dct@email.com')
+    cy.get('input[type=email]').should('have.value', 'dct@email.com')
 
-    cy.get('input[type=password]').type('d55')
-    cy.get('input[type=password]').should('have.value', 'd55')
+    cy.get('input[type=password]').type('dylandylan')
+    cy.get('input[type=password]').should('have.value', 'dylandylan')
 
     cy.get('button').click()
   })
@@ -113,29 +112,6 @@ describe('Login Page', () => {
     
     cy.get('#submit').click()    
   })
-
-  //TODO - Add testing functionality that does a POST request to http://localhost:8080/users/get
-  //        to get and set the user token status after the first POST request
-  /*
-  it('Input Valid Username and Password - POST Request and Expected Response', () => {
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.request({
-      method: 'POST', 
-      url: 'http://localhost:8080/users/login', 
-      body: JSON.stringify({ username: 'd2', password: 'd2' }),
-      headers: {'Content-Type': 'application/json'}
-    })
-    .then((response) => {
-        expect(response.status).to.eq(200)
-
-        ///ADD POST request to http://localhost:8080/users/get and other functionality here///
-
-      }
-    )
-  })
-  */
   
   it('Input Valid Username and Password', () => {
     cy.visit('http://localhost:4200/login')
@@ -147,7 +123,9 @@ describe('Login Page', () => {
     cy.get('#password').type('dylandylan')
     cy.get('#password').should('have.value', 'dylandylan')
     
-    cy.get('#submit').click()    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
   })
 })
 
@@ -156,6 +134,150 @@ describe('Login Page', () => {
 //
 
 describe('Profile Page', () => {
+
+  it('Update Name Option Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('select').select(1).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/name')
+  })
+
+  it('Update Username Option Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('select').select(2).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/email')
+  })
+
+  it('Update Password Option Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('select').select(3).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/pass')
+  })
+
+  //it('Create A New Character Button Redirects Correctly', () => {
+  //})
+
+  //it('View All Characters Button Redirects Correctly', () => {
+  //})
+})
+
+describe('Edit Name Page', () => {
+
+  it('Successfully Updates Name then Redirects to Profile Page', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('select').select(1).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/name')
+
+    cy.get('#name').type('Dylan')
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+  })
+})
+
+describe('Edit Email Page', () => {
+
+  it('Successfully Updates Email then Redirects to Profile Page', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('select').select(2).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/email')
+
+    cy.get('#email').type('dct@ufl.edu')
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+  })
+})
+
+describe('Edit Password Page', () => {
+
+  it('Successfully Updates Password then Redirects to Profile Page', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('select').select(3).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/pass')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+  })
 })
 
 describe('Create A New Character Page', () => {
@@ -165,9 +287,73 @@ describe('View All Characters Page', () => {
 })
 
 describe('Spells Page', () => {
+/* 
+  it('Successfully Adds a Spell to a Character', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+  })
+
+  it('Successfully Removes a Spell from a Character', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+  })
+*/
 })
 
 describe('Items Page', () => {
+/* 
+  it('Successfully Adds an Item to a Character', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+  })
+
+  it('Successfully Removes an Item from a Character', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan10')
+    cy.get('#username').should('have.value', 'dylan10')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+  })
+*/
 })
 
 //
