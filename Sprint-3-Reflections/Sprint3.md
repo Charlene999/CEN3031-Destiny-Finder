@@ -5,7 +5,7 @@ This sprint saw the completion of allowing for the updating of character and use
 
 ### Frontend Accomplishments
 
-For this sprint, the frontend team added the ability to choose a character's class to the create a character and view all characters forms. The ability to view, add, and remove spells and items from individuals characters to the application was also added. A profile information view on the /profile page was implemented this sprint. Under the user's profile information, a dropdown box was added where a user may select a profile field to edit. The user may edit their name, email, or password, but not their username.
+For this sprint, the frontend team added the ability to choose a character's class to the create a character and view all characters forms. The ability for a user to update character information was also added, so a user could view and then edit their characters. The ability to view, add, and remove spells and items from individuals characters to the application was also added. A profile information view on the /profile page was implemented this sprint. Under the user's profile information, a dropdown box was added where a user may select a profile field to edit. The user may edit their name, email, or password, but not their username. 
 
 A significant change to the application was the addition of input validation to most of the user input forms. Specifically, the signup, login, user profile edit, create a new character and view all characters pages have all gained various validation rules that prevent a user from submitting invalid forms. For example, when creating a new account on signup, the name field is limited to only capital or lowercase letters or spaces, a minimum of 4 characters, and no more than 30 characters. 
 
@@ -26,18 +26,42 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
 
 #### E2E Tests
 
-- Input Invalid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password not in database, then clicks button to login.
+#### Sprint 2
 
-- Input Valid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password in database, then clicks button to login.
+- Login Page
+    - Input Invalid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password not in database, then clicks button to login.
+    - Input Valid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password in database, then clicks button to login.
 
-#### Frontend Tests
+#### Sprint 3
 
-- ItemsComponent
-    - mounts - Tests that the page renders successfully.
+- Home Page
+    - Login Button Redirects Correctly - Tests that the user is correctly redirected to the /login page from the home page.
+    - Sign Up Button Redirects Correctly - Tests that the user is correctly redirected to the /signup page from the home page.
+
+- Sign Up Page
+    - User Already Exists - POST Request and Expected Response - Tests that the post response is correct when a user with matching credentials already exists in the backend.
+    - User Already Exists - Tests that the signup attempt is rejected when a user with matching credentials already exists in the backend.
+
+- Login Page
+    - Input Invalid Username and Password - POST Request and Expected Response - Tests that the post response is correct when a user enters invalid credentials to login.
+
+- Profile Page
+    - Update Name Option Redirects Correctly - Tests that the user is correctly redirected to the /profile/name page from the /profile page.
+    - Update Email Option Redirects Correctly - Tests that the user is correctly redirected to the /profile/email page from the /profile page.
+    - Update Password Option Redirects Correctly - Tests that the user is correctly redirected to the /profile/pass page from the /profile page.
+
+- Edit Name Page
+    - Successfully Updates Name then Redirects to Profile Page - Tests that the updating name process works, starting from a user logging in to a user changing their password successfully.
+
+- Edit Email Page
+    - Successfully Updates Email then Redirects to Profile Page - Tests that the updating email process works, starting from a user logging in to a user changing their password successfully.
+
+- Edit Password Page
+    - Successfully Updates Password then Redirects to Profile Page - Tests that the updating password process works, starting from a user logging in to a user changing their password successfully.
 
 ### Angular Tests
 
-#### Sprint 2 Tests
+#### Sprint 2
 
 - AppComponent
     - The home page (/) renders - Tests that the page renders successfully.
@@ -117,7 +141,7 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
         - User Input is Received - Tests that the ngForm data is populated successfully.
 
-#### Sprint 3 Tests
+#### Sprint 3
 
 #### Removed Tests
 
@@ -172,6 +196,12 @@ Multiple unit tests were written to test each of the developed endpoints. In ord
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
         - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
         - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
+
+- UsersComponent
+    - submit
+        - Update Name Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Email Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Password Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
 
 - ItemsComponent
     - add
@@ -298,6 +328,10 @@ Unit tests were designed in order to test the functionality of each server endpo
 
 - TestDeleteItem_403 - Tests to ensure that the delete item endpoint fails gracefully if the user identified by the token is not an admin.
 
+- **Added in Sprint 3** - TestUpdateItem_202 - Tests to ensure that an item can be updated as expected.
+
+- **Added in Sprint 3** - TestGetFilteredItems_200 - Tests to ensure that items can be filtered by ClassReq and/or LevelReq.
+
 ### Spell Tests
 - TestCreateSpell_201 - Tests to ensure that a spell can be created as expected.
 
@@ -312,6 +346,10 @@ Unit tests were designed in order to test the functionality of each server endpo
 - TestDeleteSpell_500 - Tests to ensure that the delete spell endpoint fails gracefully if the user identified by the token is non-existent.
 
 - TestDeleteSpell_403 - Tests to ensure that the delete spell endpoint fails gracefully if the user identified by the token is not an admin.
+
+- **Added in Sprint 3** - TestUpdateSpell_202 - Tests to ensure that a spell can be updated as expected.
+
+- **Added in Sprint 3** - TestGetFilteredSpells_200 - Tests to ensure that spells can be filtered by ClassReq and/or LevelReq.
 
 ## Backend API Documentation     
 Endpoints have been grouped by whether they manage Users, Characters, Items, or Spells.  
@@ -643,6 +681,70 @@ Example Response (202):
 }
 ```
 
+#### **New in Sprint 3** - POST /characters/additem
+The request body should contain the following attributes: ```OwnerToken``` (string), ```CharacterID``` (uint), and ```ItemID``` (uint).
+The provided ```OwnerToken``` should be a JWT representing the User performing a request (either the user themselves or an admin).
+If the character is not found from the given ```CharacterID```, a 404 Not Found status will be returned.
+If the spell is not found from the given ```ItemID```, a 404 Not Found status will be returned.
+If the User making the request is not an admin and the provided ```CharacterID``` represents a Character that does not belong to the User represented by the ```OwnerToken```, a 403 Forbidden status will be returned.
+If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
+Upon sucessful completion of the operation, a 202 Accepted status will be sent back along with the given Item's attributes as defined in /server/models/item.go.
+
+Example Request:
+```
+{
+    "ItemID":4,
+    "CharacterID":42,
+    "OwnerToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ"
+}
+```
+
+Example Response (202):
+```
+{
+    "ID": 4,
+    "CreatedAt": "2023-02-23T17:38:52.753-05:00",
+    "UpdatedAt": "2023-02-23T17:38:52.753-05:00",
+    "DeletedAt": null,
+    "Name": "Test item",
+    "Description": "It's the best item",
+    "LevelReq": 2,
+    "ClassReq": 5
+}
+```
+
+#### **New in Sprint 3** - POST /characters/addspell
+The request body should contain the following attributes: ```OwnerToken``` (string), ```CharacterID``` (uint), and ```SpellID``` (uint).
+The provided ```OwnerToken``` should be a JWT representing the User performing a request (either the user themselves or an admin).
+If the character is not found from the given ```CharacterID```, a 404 Not Found status will be returned.
+If the spell is not found from the given ```SpellID```, a 404 Not Found status will be returned.
+If the User making the request is not an admin and the provided ```CharacterID``` represents a Character that does not belong to the User represented by the ```OwnerToken```, a 403 Forbidden status will be returned.
+If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
+Upon sucessful completion of the operation, a 202 Accepted status will be sent back along with the given Spell's attributes as defined in /server/models/spell.go.
+
+Example Request:
+```
+{
+    "SpellID":12,
+    "CharacterID":42,
+    "OwnerToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ"
+}
+```
+
+Example Response (202):
+```
+{
+    "ID": 12,
+    "CreatedAt": "2023-03-18T19:16:40.94-04:00",
+    "UpdatedAt": "2023-03-18T19:16:40.94-04:00",
+    "DeletedAt": null,
+    "Name": "Test description",
+    "Description": "Eeeee",
+    "LevelReq": 1,
+    "ClassReq": 2
+}
+```
+
 ### Item API Endpoints   
 #### POST /items/create 
 Creates and returns the item with a 201 Created status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body.  Fails with a 500 status if the user could not be found or unexpected errors ocurred. The ```LevelReq``` and ```ClassReq``` values should correspond to what level and class the character must have before obtaining this item.
@@ -710,6 +812,79 @@ Example Response (202):
 }
 ```
 
+#### **New in Sprint 3** - POST /items/update
+The request body should contain an ```AdminToken``` (string), an ```ItemID``` (integer) and any of the following properties to be updated: 
+```Name``` (string), ```Description``` (string), ```LevelReq``` (integer), and/or ```ClassReq``` (integer).
+The provided ```AdminToken``` should be a JWT representing the Admin performing a request.
+If the item is not found from the given ```ItemID```, a 404 Not Found status will be returned.
+If the User making the request is not an admin, a 403 Forbidden status will be returned.
+If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
+Upon sucessful completion of the operation, a 202 Accepted status will be sent back along with the given Item's attributes as defined in /server/models/item.go.
+
+Example Request:
+```
+{
+    "Name":"Tree branch",
+    "Description":"You can whack people with it",
+    "LevelReq":3,
+    "ClassReq":4,
+    "ItemID":1,
+    "AdminToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ"
+}
+```
+
+Example Response (202):
+```
+{
+    "ID": 1,
+    "CreatedAt": "2023-02-22T15:46:13.713-05:00",
+    "UpdatedAt": "2023-03-27T15:38:14.919-04:00",
+    "DeletedAt": null,
+    "Name": "Tree branch",
+    "Description": "You can whack people with it",
+    "LevelReq": 3,
+    "ClassReq": 4
+}
+```
+
+#### **New in Sprint 3** - POST /items/getfiltered
+The request body should contain a specified ```ClassReq```, ```LevelReq``` or both for filtering item results. 
+The items returned will be of equal or lower ```LevelReq```, and/or of equal ```ClassReq```.
+If no items are found, a 404 status will be returned. If any error occurs during the operations a 500 status will be returned. 
+
+Example Request:
+```
+{
+    "ClassReq":5
+}
+```
+
+Example Response (200):
+```
+[
+    {
+        "ID": 4,
+        "CreatedAt": "2023-02-23T17:38:52.753-05:00",
+        "UpdatedAt": "2023-02-23T17:38:52.753-05:00",
+        "DeletedAt": null,
+        "Name": "Test item",
+        "Description": "It's the best item",
+        "LevelReq": 2,
+        "ClassReq": 5
+    },
+    {
+        "ID": 5,
+        "CreatedAt": "2023-02-23T17:40:22.555-05:00",
+        "UpdatedAt": "2023-02-23T17:40:22.555-05:00",
+        "DeletedAt": null,
+        "Name": "Test item",
+        "Description": "It's the best item",
+        "LevelReq": 2,
+        "ClassReq": 5
+    }...
+]
+```
+
 ### Spell API Endpoints   
 #### POST /spells/create 
 Creates and returns the spell with a 201 Created status if the user is an admin, otherwise returns a 403 Forbidden status. The user is identified via the token from the request body. Fails with a 500 status if the user could not be found or unexpected errors ocurred. The ```LevelReq``` and ```ClassReq``` values should correspond to what level and class the character must have before obtaining this spell.
@@ -775,4 +950,75 @@ Example Response (202):
 {
     "Successfully deleted spell": 2
 }
+```
+
+#### **New in Sprint 3** - POST /spells/update
+The request body should contain an ```AdminToken``` (string), an ```SpellID``` (integer) and any of the following properties to be updated: 
+```Name``` (string), ```Description``` (string), ```LevelReq``` (integer), and/or ```ClassReq``` (integer).
+The provided ```AdminToken``` should be a JWT representing the Admin performing a request.
+If the item is not found from the given ```SpellID```, a 404 Not Found status will be returned.
+If the User making the request is not an admin, a 403 Forbidden status will be returned.
+If any errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
+Upon sucessful completion of the operation, a 202 Accepted status will be sent back along with the given Spell's attributes as defined in /server/models/spell.go.
+
+Example Request:
+```
+{
+    "Name":"Magic Spell",
+    "LevelReq":7,
+    "SpellID":1,
+    "AdminToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ"
+}
+```
+
+Example Response (202):
+```
+{
+    "ID": 1,
+    "CreatedAt": "2023-02-22T15:12:24.847-05:00",
+    "UpdatedAt": "2023-03-27T15:39:46.229-04:00",
+    "DeletedAt": null,
+    "Name": "Magic Spell",
+    "Description": "Does some voodoo magic that no one understands",
+    "LevelReq": 7,
+    "ClassReq": 2
+}
+```
+
+#### **New in Sprint 3** - POST /spells/getfiltered
+The request body should contain a specified ```ClassReq```, ```LevelReq``` or both for filtering spell results. 
+The spells returned will be of equal or lower ```LevelReq```, and/or of equal ```ClassReq```.
+If no spells are found, a 404 status will be returned. If any error occurs during the operations a 500 status will be returned. 
+
+Example Request:
+```
+{
+    "LevelReq":7
+}
+```
+
+Example Response (200):
+```
+[
+    {
+        "ID": 1,
+        "CreatedAt": "2023-02-22T15:12:24.847-05:00",
+        "UpdatedAt": "2023-03-27T15:39:46.229-04:00",
+        "DeletedAt": null,
+        "Name": "Magic Spell",
+        "Description": "Does some voodoo magic that no one understands",
+        "LevelReq": 7,
+        "ClassReq": 2
+    },
+    {
+        "ID": 4,
+        "CreatedAt": "2023-02-23T19:44:02.418-05:00",
+        "UpdatedAt": "2023-02-23T19:44:02.418-05:00",
+        "DeletedAt": null,
+        "Name": "Magic spell",
+        "Description": "Does some voodoo magic that no one understands",
+        "LevelReq": 1,
+        "ClassReq": 2
+    }...
+]
 ```

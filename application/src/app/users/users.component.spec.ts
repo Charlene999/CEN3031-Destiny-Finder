@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UsersComponent } from './users.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('UsersComponent', () => {
@@ -27,6 +26,13 @@ describe('UsersComponent', () => {
     fixture.detectChanges();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UsersComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+    fixture.detectChanges();
+  });
+
   it('The /profile page renders', () => {
     expect(component).toBeTruthy();
   });
@@ -44,6 +50,27 @@ describe('UsersComponent', () => {
     it('View All Characters Button Works', async () => {
     component.getCharacters();
     expect(component.viewCharactersSubmitted).toBeTruthy();
+    });
+  });
+
+  //Describe is the function name being tested
+  describe('submit', () => {
+    it('Update Name Option Works', async () => {
+      component.form.value.website = "Update Name";
+      component.submit();
+      expect(component.editNameSubmitted).toBeTruthy();
+    });
+
+    it('Update Email Option Works', async () => {
+      component.form.value.website = "Update Email";
+      component.submit();
+      expect(component.editEmailSubmitted).toBeTruthy();
+    });
+
+    it('Update Password Option Works', async () => {
+      component.form.value.website = "Update Password";
+      component.submit();
+      expect(component.editPasswordSubmitted).toBeTruthy();
     });
   });
 

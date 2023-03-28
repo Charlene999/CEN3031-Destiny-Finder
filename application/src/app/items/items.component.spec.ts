@@ -50,4 +50,12 @@ describe('ItemsComponent', () => {
       expect(component.removeSubmitted).toBeTruthy();
     });
   });
+
+  // Test showItems performs properly
+  describe('showItems', () => {
+    it('Items Successfully Shown', () => {
+      component.showItems();
+      expect(component.viewSubmitted).toBeTruthy();
+    })
+  })
 });

@@ -80,6 +80,8 @@ export class ItemsComponent {
     // Current character equals user's selected option'
     var char = this.allChars.at(index - 1)!;
 
+    // this.curChar has to be set here
+    this.curChar = char;
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/items/get', options).subscribe(data => {
       if (200) {
@@ -96,9 +98,12 @@ export class ItemsComponent {
           // Filter items by class that matches current character's class
           if (items[i].ClassReq === char.Class) {
             //Create new item object
-            var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ID);
+
+            // Only show item if level requirement is met along with class
+            if (this.levelReqMet(items[i].LevelReq)) { 
+              var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ID);
             //Push item into allItems array
-            this.allItems.push(item);
+              this.allItems.push(item);}
           }
         }
       }
@@ -125,11 +130,6 @@ export class ItemsComponent {
     else
       return false;
   }
-
-  setCharacter(char: character) {
-    this.curChar = char;
-  }
-
   levelReqMet(itemLevel: number) {
     if (itemLevel === this.curChar.Level || itemLevel < this.curChar.Level) {
       return true;

@@ -144,3 +144,39 @@ func TestDeleteItem_403(t *testing.T) {
 
 	assert.Equal(t, 403, res.Code)
 }
+
+func TestUpdateItem_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"Name":"New name",
+		"Description":"New description",
+		"LevelReq":3,
+		"ItemID":2,
+		"AdminToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo"
+	}`)
+
+	req, _ := http.NewRequest("PUT", "/items/update", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	json.NewDecoder(res.Body).Decode(res)
+
+	assert.Equal(t, 202, res.Code)
+}
+
+func TestGetFilteredItems_200(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"ClassReq":5
+	}`)
+
+	req, _ := http.NewRequest("POST", "/items/getfiltered", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.Spell{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, uint(5), (*results)[0].ClassReq)
+}

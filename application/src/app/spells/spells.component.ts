@@ -80,6 +80,9 @@ export class SpellsComponent {
     // Current character equals user's selected option'
     var char = this.allChars.at(index - 1)!;
 
+    // this.curChar has to be set here
+    this.curChar = char;
+
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/get', options).subscribe(data => {
       if (200) {
@@ -92,8 +95,11 @@ export class SpellsComponent {
 
         for (var i = 0; i < spells.length; i++) {
           if (spells[i].ClassReq === char.Class) {
-            var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
-            this.allSpells.push(spell);
+
+            // Only show spell if level requirement is met along with class
+            if (this.levelReqMet(spells[i].LevelReq)) { 
+              var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
+              this.allSpells.push(spell);}
           }
         }
       }
@@ -116,10 +122,6 @@ export class SpellsComponent {
       return true;
     else
       return false;
-  }
-
-  setCharacter(char: character) {
-    this.curChar = char;
   }
 
   levelReqMet(spellLevel: number) {

@@ -13,9 +13,9 @@ export class UsersComponent {
   Name: string;
   Username: string;
   Email: string;
+  Directions: string;
 
   editNameSubmitted: Boolean;
-  editUsernameSubmitted: Boolean;
   editEmailSubmitted: Boolean;
   editPasswordSubmitted: Boolean;
 
@@ -23,7 +23,7 @@ export class UsersComponent {
   viewCharactersSubmitted: Boolean;
 
   form = new FormGroup({  
-    website: new FormControl('', Validators.required)  
+    website: new FormControl('', Validators.required),
   });
 
   constructor(private http:HttpClient, private router:Router){
@@ -31,9 +31,9 @@ export class UsersComponent {
     this.Name = "";
     this.Username = "";
     this.Email = "";
+    this.Directions = "Select a Profile Field to Update";
 
-    this.editNameSubmitted = false;
-    this.editUsernameSubmitted = false; 
+    this.editNameSubmitted = false; 
     this.editEmailSubmitted = false;
     this.editPasswordSubmitted = false; 
 
@@ -65,16 +65,9 @@ export class UsersComponent {
   }
     
   submit(){  
-    console.log(this.form.value.website);
-
     if(this.form.value.website === 'Update Name') {
       this.editNameSubmitted = true;
       this.router.navigateByUrl("/profile/name");
-    }
-
-    if(this.form.value.website === 'Update Username') {
-      this.editUsernameSubmitted = true;
-      this.router.navigateByUrl("/profile/username");
     }
 
     if(this.form.value.website === 'Update Email') {
