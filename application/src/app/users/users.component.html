@@ -9,13 +9,13 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-group">
       <select formControlName="website" class="form-control" id="userData" (click)="submit()">
-        <option formControlName="directions" hidden selected>{{this.form.value.directions}}</option>
+        <option id="directions" hidden selected>{{this.Directions}}</option>
         <option value="Update Name">Update Name</option>
         <option value="Update Email">Update Email</option>
         <option value="Update Password">Update Password</option>
       </select>
       <div *ngIf="f.website.touched && f.website.invalid" class="alert alert-danger">
-        <div class ="fieldMsg" *ngIf="f.website.errors?.['required']">Field is required.</div>
+        <div class="fieldMsg" *ngIf="f.website.errors?.['required']">Field is required.</div>
       </div>
     </div>
   </form>
