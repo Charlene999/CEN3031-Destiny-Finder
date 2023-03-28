@@ -80,6 +80,9 @@ export class SpellsComponent {
     // Current character equals user's selected option'
     var char = this.allChars.at(index - 1)!;
 
+    // this.curChar has to be set here
+    this.curChar = char;
+
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/get', options).subscribe(data => {
       if (200) {
@@ -116,10 +119,6 @@ export class SpellsComponent {
       return true;
     else
       return false;
-  }
-
-  setCharacter(char: character) {
-    this.curChar = char;
   }
 
   levelReqMet(spellLevel: number) {

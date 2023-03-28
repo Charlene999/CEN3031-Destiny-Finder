@@ -80,6 +80,8 @@ export class ItemsComponent {
     // Current character equals user's selected option'
     var char = this.allChars.at(index - 1)!;
 
+    // this.curChar has to be set here
+    this.curChar = char;
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/items/get', options).subscribe(data => {
       if (200) {
@@ -125,11 +127,6 @@ export class ItemsComponent {
     else
       return false;
   }
-
-  setCharacter(char: character) {
-    this.curChar = char;
-  }
-
   levelReqMet(itemLevel: number) {
     if (itemLevel === this.curChar.Level || itemLevel < this.curChar.Level) {
       return true;
