@@ -281,9 +281,71 @@ describe('Edit Password Page', () => {
 })
 
 describe('Create A New Character Page', () => {
+  it('Successfully Creates a New Character', () => {
+
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('Toretto')
+    cy.get('#username').should('have.value', 'Toretto')
+
+    cy.get('#password').type('fastfurious')
+    cy.get('#password').should('have.value', 'fastfurious')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.visit('http://localhost:4200/profile/create-character')
+
+    // Character should be submitted properly
+    cy.get('#Name').type('Aslan')
+    cy.get('#Name').should('have.value', 'Aslan')
+
+    cy.get('#Desc').type('The Lion')
+    cy.get('#Desc').should('have.value', 'The Lion')
+
+
+    cy.get('#Level').type('2')
+    cy.get('#Level').should('have.value', '2')
+
+
+    cy.get('#Class').type('5')
+    cy.get('#Class').should('have.value', '5')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile/create-character')
+
+  })
 })
 
 describe('View All Characters Page', () => {
+  it('Successfully Shows all Characters', () => {
+
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('Toretto')
+    cy.get('#username').should('have.value', 'Toretto')
+
+    cy.get('#password').type('fastfurious')
+    cy.get('#password').should('have.value', 'fastfurious')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+
+    cy.get('#characters').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile/characters')
+
+    // Table should have all characters that were created
+    cy.get('#tabl').contains('td', 'Test2').should('be.visible')
+    cy.get('#tabl').contains('td', 'Eustace').should('be.visible')
+    cy.get('#tabl').contains('td', 'Jadis').should('be.visible')
+  })
 })
 
 describe('Spells Page', () => {
@@ -322,6 +384,35 @@ describe('Spells Page', () => {
 })
 
 describe('Items Page', () => {
+
+  // Show All items accessible to users character
+
+  it('Successfully Shows all Items accessbible to character', () => {
+
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('Toretto')
+    cy.get('#username').should('have.value', 'Toretto')
+
+    cy.get('#password').type('fastfurious')
+    cy.get('#password').should('have.value', 'fastfurious')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    // Go to items page
+    cy.visit('http://localhost:4200/items')
+
+    cy.url().should('include', 'http://localhost:4200/items')
+
+    cy.get('#chars').select('Eustace')
+
+    // Table should have all items that were created
+    cy.get('#tabl').contains('td', 'Tree Branch').should('be.visible')
+  })
+
 /* 
   it('Successfully Adds an Item to a Character', () => {
     cy.visit('http://localhost:4200/login')
@@ -354,6 +445,7 @@ describe('Items Page', () => {
     cy.url().should('include', 'http://localhost:4200/profile')
   })
 */
+
 })
 
 //
