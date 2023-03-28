@@ -52,7 +52,7 @@ describe('ItemsComponent', () => {
   });
 
   // Test showItems performs properly
-  describe('show', () => {
+  describe('showItems', () => {
     it('Items Successfully Shown', () => {
 
       component.showItems();
