@@ -5,7 +5,7 @@ This sprint saw the completion of allowing for the updating of character and use
 
 ### Frontend Accomplishments
 
-For this sprint, the frontend team added the ability to choose a character's class to the create a character and view all characters forms. The ability to view, add, and remove spells and items from individuals characters to the application was also added. A profile information view on the /profile page was implemented this sprint. Under the user's profile information, a dropdown box was added where a user may select a profile field to edit. The user may edit their name, email, or password, but not their username.
+For this sprint, the frontend team added the ability to choose a character's class to the create a character and view all characters forms. The ability for a user to update character information was also added, so a user could view and then edit their characters. The ability to view, add, and remove spells and items from individuals characters to the application was also added. A profile information view on the /profile page was implemented this sprint. Under the user's profile information, a dropdown box was added where a user may select a profile field to edit. The user may edit their name, email, or password, but not their username. 
 
 A significant change to the application was the addition of input validation to most of the user input forms. Specifically, the signup, login, user profile edit, create a new character and view all characters pages have all gained various validation rules that prevent a user from submitting invalid forms. For example, when creating a new account on signup, the name field is limited to only capital or lowercase letters or spaces, a minimum of 4 characters, and no more than 30 characters. 
 
