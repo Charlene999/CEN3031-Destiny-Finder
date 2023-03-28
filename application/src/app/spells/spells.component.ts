@@ -95,8 +95,11 @@ export class SpellsComponent {
 
         for (var i = 0; i < spells.length; i++) {
           if (spells[i].ClassReq === char.Class) {
-            var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
-            this.allSpells.push(spell);
+
+            // Only show spell if level requirement is met along with class
+            if (this.levelReqMet(spells[i].LevelReq)) { 
+              var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
+              this.allSpells.push(spell);}
           }
         }
       }

@@ -98,9 +98,12 @@ export class ItemsComponent {
           // Filter items by class that matches current character's class
           if (items[i].ClassReq === char.Class) {
             //Create new item object
-            var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ID);
+
+            // Only show item if level requirement is met along with class
+            if (this.levelReqMet(items[i].LevelReq)) { 
+              var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ID);
             //Push item into allItems array
-            this.allItems.push(item);
+              this.allItems.push(item);}
           }
         }
       }
