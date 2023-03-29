@@ -486,12 +486,167 @@ describe('Items Page', () => {
 //
 
 describe('Admin Page', () => {
+
+  it('View Existing Users Button Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan5')
+    cy.get('#username').should('have.value', 'dylan5')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin')
+
+    cy.get('#viewusers').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin/view-users')
+  })
+
+  it('Create Spells or Items Button Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan5')
+    cy.get('#username').should('have.value', 'dylan5')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin')
+
+    cy.get('#additemspells').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin/add-spells-and-items')
+  })
+
+  it('Remove Spells or Items Redirects Correctly', () => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan5')
+    cy.get('#username').should('have.value', 'dylan5')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin')
+
+    cy.get('#removeitemspells').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin/delete-spells-and-items')
+  })
+
 })
 
 describe('View Existing Users Page', () => {
+  
 })
 
 describe('Create Spells or Items Page', () => {
+
+  it('Test Item Reset and Successfully Create Item', () => {
+
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan5')
+    cy.get('#username').should('have.value', 'dylan5')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/admin')
+
+    cy.get('#additemspells').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin/add-spells-and-items')
+
+    cy.get('#itemname').type('Dylan')
+    cy.get('#itemname').should('have.value', 'Dylan')
+
+    cy.get('#itemdescription').type('Dylan')
+    cy.get('#itemdescription').should('have.value', 'Dylan')
+
+    cy.get('#itemlevel').type('10')
+    cy.get('#itemlevel').should('have.value', '10')
+
+    cy.get('#itemclass').type('10')
+    cy.get('#itemclass').should('have.value', '10')
+
+    cy.get('#itemreset').click();
+
+    cy.get('#itemname').type('Fireball')
+    cy.get('#itemname').should('have.value', 'Fireball')
+
+    cy.get('#itemdescription').type('A fiery blast.')
+    cy.get('#itemdescription').should('have.value', 'A fiery blast.')
+
+    cy.get('#itemlevel').type('10')
+    cy.get('#itemlevel').should('have.value', '10')
+
+    cy.get('#itemclass').type('10')
+    cy.get('#itemclass').should('have.value', '10')
+
+    cy.get('#itemsubmit').click();
+  })
+
+  it('Test Spell Reset and Successfully Create Spell', () => {
+
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('dylan5')
+    cy.get('#username').should('have.value', 'dylan5')
+
+    cy.get('#password').type('dylandylan')
+    cy.get('#password').should('have.value', 'dylandylan')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/admin')
+
+    cy.get('#additemspells').click()
+
+    cy.url().should('include', 'http://localhost:4200/admin/add-spells-and-items')
+
+    cy.get('#spellname').type('Dylan')
+    cy.get('#spellname').should('have.value', 'Dylan')
+
+    cy.get('#spelldescription').type('Dylan')
+    cy.get('#spelldescription').should('have.value', 'Dylan')
+
+    cy.get('#spelllevel').type('10')
+    cy.get('#spelllevel').should('have.value', '10')
+
+    cy.get('#spellclass').type('10')
+    cy.get('#spellclass').should('have.value', '10')
+
+    cy.get('#spellreset').click();
+
+    cy.get('#spellname').type('Fireball')
+    cy.get('#spellname').should('have.value', 'Fireball')
+
+    cy.get('#spelldescription').type('A fiery blast.')
+    cy.get('#spelldescription').should('have.value', 'A fiery blast.')
+
+    cy.get('#spelllevel').type('10')
+    cy.get('#spelllevel').should('have.value', '10')
+
+    cy.get('#spellclass').type('10')
+    cy.get('#spellclass').should('have.value', '10')
+
+    cy.get('#spellsubmit').click();
+  })
 })
 
 describe('Delete Spells or Items Page', () => {

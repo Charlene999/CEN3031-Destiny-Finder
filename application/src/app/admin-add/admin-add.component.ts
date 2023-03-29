@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-admin-add',
   templateUrl: './admin-add.component.html',
@@ -10,41 +10,56 @@ import { Router } from '@angular/router';
 })
 export class AdminAddComponent {
 
-  submitItemSubmitted: Boolean;
-  submitSpellSubmitted: Boolean;
-  deletePageSubmitted: Boolean;
+  itemForm: FormGroup = new FormGroup({});
+  spellForm: FormGroup = new FormGroup({});
 
-  constructor(private http: HttpClient, private router: Router) { 
-    this.submitItemSubmitted = false;
-    this.submitSpellSubmitted = false;
-    this.deletePageSubmitted = false;
+  itemSubmitted: Boolean;
+  spellSubmitted: Boolean;
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { 
+    this.itemSubmitted = false;
+    this.spellSubmitted = false;
   }
 
-  // Route back to home if admin is not logged in
   ngOnInit() {
+    // Route back to home if admin is not logged in
     if (localStorage.getItem('id_token') === null || localStorage.getItem('adminstatus') !== 'true') {
       this.router.navigateByUrl('/');
     }
+
+    this.itemForm = this.fb.group({
+      itemname: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
+      itemdescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z.,? ]*')]),
+      itemlevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
+      itemclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
+    })
+
+    this.spellForm = this.fb.group({
+      spellname: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
+      spelldescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z.,? ]*')]),
+      spelllevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
+      spellclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
+    })
   }
 
   // New Item Submitted
-  submitItem(f: NgForm) {
+  submitItem() {
+
+    this.itemSubmitted = true;
 
     let BuildItem = {
       "AdminToken": localStorage.getItem('id_token'),
-      "Name": f.value.name,
-      "Description": f.value.description,
-      "LevelReq": Number(f.value.level),
-      "ClassReq": Number(f.value.class),
+      "Name": this.itemForm.controls['itemname'].value,
+      "Description": this.itemForm.controls['itemdescription'].value,
+      "LevelReq": Number(this.itemForm.controls['itemlevel'].value),
+      "ClassReq": Number(this.itemForm.controls['itemclass'].value),
     }
-
-    this.submitItemSubmitted = true;
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/items/create', JSON.stringify(BuildItem), options).subscribe((res: any) => {
       if (200) {
         // Show item as created
-        alert("Item " + f.value.name +  " Successfully Created");
+        alert("Item " + this.itemForm.controls['itemname'].value +  " Successfully Created");
       }
     }, (error) => {
       if (error.status === 404) {
@@ -61,23 +76,23 @@ export class AdminAddComponent {
   }
 
   // New Spell Submitted
-  submitSpell(g: NgForm) {
+  submitSpell() {
+
+    this.spellSubmitted = true;
 
     let BuildSpell = {
       "AdminToken": localStorage.getItem('id_token'),
-      "Name": g.value.name,
-      "Description": g.value.description,
-      "LevelReq": Number(g.value.level),
-      "ClassReq": Number(g.value.class),
+      "Name": this.spellForm.controls['spellname'].value,
+      "Description": this.spellForm.controls['spelldescription'].value,
+      "LevelReq": Number(this.spellForm.controls['spelllevel'].value),
+      "ClassReq": Number(this.spellForm.controls['spellclass'].value),
     }
-
-    this.submitSpellSubmitted = true;
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/create', JSON.stringify(BuildSpell), options).subscribe((res: any) => {
       if (200) {
         // Show spell as created
-        alert("Spell " + g.value.name + " Successfully Created");
+        alert("Spell " + this.spellForm.controls['spellname'].value + " Successfully Created");
       }
     }, (error) => {
       if (error.status === 404) {
@@ -91,5 +106,13 @@ export class AdminAddComponent {
       }
     }
     );
+  }
+
+  itemreset() {
+    this.itemForm.reset();
+  }
+
+  spellreset() {
+    this.spellForm.reset();
   }
 }
