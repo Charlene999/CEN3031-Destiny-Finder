@@ -44,3 +44,8 @@ type AdminUpdateUser struct {
 	Password  string
 	IsAdmin   bool
 }
+
+type AdminDeleteUser struct {
+	AuthToken string
+	Username  string
+}
