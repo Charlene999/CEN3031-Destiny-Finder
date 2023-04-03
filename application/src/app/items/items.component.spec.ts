@@ -3,6 +3,7 @@ import { ItemsComponent } from './items.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 describe('ItemsComponent', () => {
   let component: ItemsComponent;
@@ -14,7 +15,8 @@ describe('ItemsComponent', () => {
         HttpClientModule, 
         HttpClientTestingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        Ng2SearchPipeModule
         ],
       declarations: [ ItemsComponent ],
       providers: []

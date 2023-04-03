@@ -16,6 +16,7 @@ import { SignupComponent } from './signup/signup.component';
 import { SpellsComponent } from './spells/spells.component';
 import { UsersComponent } from './users/users.component';
 import { ViewUsersComponent } from './view-users/view-users.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -40,7 +41,8 @@ describe('AppComponent', () => {
         HttpClientModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        Ng2SearchPipeModule
       ],
       providers: []
     }).compileComponents();
