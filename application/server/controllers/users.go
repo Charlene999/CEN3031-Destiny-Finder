@@ -240,7 +240,7 @@ func (repository *Repos) AdminUpdateUser(c *gin.Context) {
 	if updateUser.Email != "" {
 		user.Email = updateUser.Email
 	}
-	//Can only give users admin permissions; cannot take awaya admin permissions.
+	//Can only give users admin permissions; cannot take away admin permissions.
 	//Can't think of a way to allow permission removal, but I think it sort of makes sense to allow just permission granting and not permission removal.
 	if updateUser.IsAdmin == true {
 		user.IsAdmin = true
