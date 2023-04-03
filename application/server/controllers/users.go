@@ -180,7 +180,6 @@ func (repository *Repos) UpdateUser(c *gin.Context) {
 	c.JSON(http.StatusAccepted, user)
 }
 
-// This doesn't work yet and will be implemented in Sprint 4. Just saving a few snippets from the first implementation of UpdateUser
 func (repository *Repos) AdminUpdateUser(c *gin.Context) {
 	var updateUser models.AdminUpdateUser
 	err := c.ShouldBindJSON(&updateUser)
@@ -189,7 +188,7 @@ func (repository *Repos) AdminUpdateUser(c *gin.Context) {
 		return
 	}
 
-	//Identify the user making the change
+	//Identify the user from the provided token
 	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
 	claims := jwt.MapClaims{}
 	_, err = jwt.ParseWithClaims(updateUser.AuthToken, claims, func(token *jwt.Token) (interface{}, error) {
@@ -201,7 +200,55 @@ func (repository *Repos) AdminUpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusNotImplemented, "Not implemented")
+	//Ensure user is an admin
+	var admin models.User
+	err = repository.UserDb.First(&admin, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if !admin.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": admin.ID})
+		return
+	}
+
+	//Grab the existing user to change
+	var user models.User
+	err = repository.UserDb.First(&user, "username = ?", updateUser.Username).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": updateUser.Username})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if updateUser.Name != "" {
+		user.Name = updateUser.Name
+	}
+	if updateUser.Password != "" {
+		newHashedPassword, err := utilities.HashPassword(updateUser.Password)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"Could not hash password": updateUser.Password})
+			return
+		}
+
+		user.Password = newHashedPassword
+	}
+	if updateUser.Email != "" {
+		user.Email = updateUser.Email
+	}
+	//Can only give users admin permissions; cannot take away admin permissions.
+	//Can't think of a way to allow permission removal, but I think it sort of makes sense to allow just permission granting and not permission removal.
+	if updateUser.IsAdmin == true {
+		user.IsAdmin = true
+	}
+
+	repository.UserDb.Save(&user)
+
+	c.JSON(http.StatusAccepted, user)
 }
 
 func (repository *Repos) AdminGetAllUsers(c *gin.Context) {
@@ -224,6 +271,7 @@ func (repository *Repos) AdminGetAllUsers(c *gin.Context) {
 		return
 	}
 
+	//Ensure user is an admin
 	var user models.User
 	err = repository.UserDb.First(&user, "username = ?", claims["Username"]).Error
 	if err != nil {
@@ -248,4 +296,58 @@ func (repository *Repos) AdminGetAllUsers(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, users)
+}
+
+func (repository *Repos) AdminDeleteUser(c *gin.Context) {
+	var deleteUser models.AdminDeleteUser
+	err := c.ShouldBindJSON(&deleteUser)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Identify the user from the provided token
+	secret := utilities.GoDotEnvVariable("TOKEN_SECRET")
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(deleteUser.AuthToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//Ensure user is an admin
+	var admin models.User
+	err = repository.UserDb.First(&admin, "username = ?", claims["Username"]).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if !admin.IsAdmin {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": admin.ID})
+		return
+	}
+
+	var users []models.User
+	err = repository.UserDb.Find(&users, "username = ?", deleteUser.Username).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) || len(users) == 0 {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": deleteUser.Username})
+		return
+	}
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user []models.User
+	err = repository.UserDb.Unscoped().Delete(&user, "username = ?", deleteUser.Username).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, users[0])
 }

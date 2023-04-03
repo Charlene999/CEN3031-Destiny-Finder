@@ -219,3 +219,168 @@ func TestUpdateUser_404(t *testing.T) {
 
 	assert.Equal(t, 404, res.Code)
 }
+
+func TestAdminDeleteUser_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"Username": "tester9999"
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/users/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 202, res.Code)
+	assert.Equal(t, "tester9999", results.Username)
+}
+
+func TestAdminDeleteUser_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "bad token",
+		"Username": "Tester9999"
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/users/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestAdminDeleteUser_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU",
+		"Username": "Tester9999"
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/users/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestAdminDeleteUser_404(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+		"Username": "Nonexistent user"
+	}`)
+
+	req, _ := http.NewRequest("DELETE", "/users/delete", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 404, res.Code)
+}
+
+func TestAdminUpdateUser_202(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+    	"Username": "AdminUpdateUserTester",
+    	"Email": "dontyoudaredeletemeorelse@smileyface.com",
+    	"IsAdmin": true,
+		"Name": "AdminUpdateUserTesterSupreme",
+		"Password": "a very secure password"
+	}`)
+
+	req, _ := http.NewRequest("PUT", "/users/admin_update", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 202, res.Code)
+	assert.Equal(t, "AdminUpdateUserTesterSupreme", results.Name)
+	assert.Equal(t, "dontyoudaredeletemeorelse@smileyface.com", results.Email)
+	assert.Equal(t, "AdminUpdateUserTester", results.Username)
+	assert.Equal(t, true, results.IsAdmin)
+}
+
+func TestAdminUpdateUser_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "bad token",
+    	"Username": "AdminUpdateUserTester",
+    	"Email": "dontyoudaredeletemeorelse@smileyface.com",
+    	"IsAdmin": true,
+		"Name": "AdminUpdateUserTesterSupreme",
+		"Password": "a very secure password"
+	}`)
+
+	req, _ := http.NewRequest("PUT", "/users/admin_update", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.Character{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 500, res.Code)
+}
+
+func TestAdminUpdateUser_404(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo",
+    	"Username": "A user that doesn't exist in the database",
+    	"Email": "dontyoudaredeletemeorelse@smileyface.com",
+    	"IsAdmin": true,
+		"Name": "AdminUpdateUserTesterSupreme",
+		"Password": "a very secure password"
+	}`)
+
+	req, _ := http.NewRequest("PUT", "/users/admin_update", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 404, res.Code)
+}
+
+func TestAdminUpdateUser_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	//JSON request and parsing information at https://www.kirandev.com/http-post-golang
+	body := []byte(`{
+		"AuthToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU",
+    	"Username": "AdminUpdateUserTester",
+    	"Email": "dontyoudaredeletemeorelse@smileyface.com",
+    	"IsAdmin": true,
+		"Name": "AdminUpdateUserTesterSupreme",
+		"Password": "a very secure password"
+	}`)
+
+	req, _ := http.NewRequest("PUT", "/users/admin_update", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 403, res.Code)
+}

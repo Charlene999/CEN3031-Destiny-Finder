@@ -24,6 +24,8 @@ func PrepareRouter(test bool) *gin.Engine {
 	Router.POST("/users/login", repos.LogIn)
 	Router.PUT("/users/update", repos.UpdateUser)
 	Router.POST("/users/getall", repos.AdminGetAllUsers)
+	Router.PUT("/users/admin_update", repos.AdminUpdateUser)
+	Router.DELETE("/users/delete", repos.AdminDeleteUser)
 
 	Router.POST("/characters/create", repos.CreateCharacter)
 	Router.POST("/characters/get", repos.GetCharacters)
