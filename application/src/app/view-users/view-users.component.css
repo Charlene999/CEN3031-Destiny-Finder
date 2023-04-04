@@ -25,18 +25,11 @@
   *margin-left: .3em;
 }
 
-  .submit:hover {
-  }
-
-  .submit.active, .btn.disabled, .btn[disabled] {
-  }
-
   .submit:active {
     background-color: transparent;
   }
 
 .submit {
-    width: 300px;
   padding: 9px 14px;
   font-size: 15px;
   line-height: normal;
@@ -77,9 +70,10 @@
   }
 
 .submit {
-  position: absolute;
-  top: 595%;
-  left: 57%;
+  width: 300px;
+  position:absolute;
+  right: 37%;
+  top: 295%;
   display: block;
 }
 
@@ -139,19 +133,10 @@ h1 {
 }
 
 table {
+  width: 300px;
   font-family: Georgia, 'Times New Roman', Times, serif;
   border-color: rgb(255,180,0);
   text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
-  position: absolute;
-  top: 700%;
-  left: 50%;
-  width: 477px;
-  margin-top: 0px;
-  background-color: rgba(226, 88, 34, .36);
-  border: 1px solid rgba(255,180,0,1.0);
-  text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
-  overflow-y: auto;
-  text-align: center;
 }
 
 .tbl-header {
@@ -160,7 +145,17 @@ table {
 }
 
 .tbl-content {
-  
+  border-radius: 6px;
+  position:absolute;
+  right: 21%;
+  top: 370%;
+  height: 390px;
+  margin-top: 0px;
+  background-color: rgba(226, 88, 34, .36);
+  border: 1px solid rgba(255,180,0,1.0);
+  text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
+  overflow-y: auto;
+  text-align: center;
 }
 
 th {
@@ -176,15 +171,15 @@ th {
 
 td {
   color: rgb(255, 180, 0);
-  padding: 15px;
+  padding: 20px;
   text-align: center;
   vertical-align: middle;
   font-weight: 300;
-  font-size: 12px;
+  font-size: 14px;
   border: 1px solid rgb(255,180,0);
+  border-bottom: solid 1px rgba(255,255,255,0.1);
   text-shadow: 0 0 10px rgba(0,0,0,1);
   overflow-x: auto;
-  text-transform: uppercase;
 }
 
 
