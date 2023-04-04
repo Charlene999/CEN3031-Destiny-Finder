@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   templateUrl: './view-users.component.html',
   styleUrls: ['./view-users.component.css']
@@ -9,14 +11,14 @@ export class ViewUsersComponent {
   Users: myUser[];
   text: string;
   view: boolean;
-  viewCharsSubmitted: Boolean;
+  viewUsersSubmitted: Boolean;
   deleteUserSubmitted: Boolean;
 
-  constructor(private router:Router) {
+  constructor(private http: HttpClient, private router: Router) {
     this.Users = [];
     this.text = "View All Users";
     this.view = false;
-    this.viewCharsSubmitted = false;
+    this.viewUsersSubmitted = false;
     this.deleteUserSubmitted = false;
   }
 
@@ -24,33 +26,50 @@ export class ViewUsersComponent {
     if (localStorage.getItem('id_token') === null || localStorage.getItem('adminstatus') !== 'true') {
       this.router.navigateByUrl('/');
     }
+
+    this.viewUsers();
   }
 
-  // Allow admin to show and hide characters
-  // Temporarily shows current User only, need to update
-  viewChars() {
+  // Allow admin to view all characters
+  viewUsers() {
 
-    this.viewCharsSubmitted = true;
+    this.viewUsersSubmitted = true;
 
-    if (this.view === true) {
-      this.text = "View All Users";
-      this.view = false;
-      //this.Users.splice(0);
-      return;
-    }
+    // Post admin variable to get all users
+    let Admin = {
+      "UserToken": localStorage.getItem('id_token'),
+    };
+    const options = { headers: { 'Content-Type': 'application/json' } };
+    this.http.post('http://localhost:8080/users/getall', JSON.stringify(Admin), options).subscribe(data => {
 
-    else {
-      this.text = "Hide All Users";
-      this.view = true;
-      //var User = JSON.parse(localStorage.getItem('User')!);
-      //var Admin = JSON.parse(localStorage.getItem('Admin')!);
-      //var curUser = new myUser(User.Name, User.Username, User.Email, Admin.ID, Admin.IsAdmin);
-      //this.Users.push(curUser);
-      return;
-    }
+      if (200) {
+
+        // All users in Users variable and stored in table
+        this.Users.splice(0);
+        var users = JSON.parse(JSON.stringify(data));
+        for (let i = 0; i < users.length; i++) {
+          var user = new myUser(users[i].Name, users[i].Username, users[i].Email, users[i].ID, users[i].IsAdmin);
+          this.Users.push(user);
+        }
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Resource not found.');
+      }
+      else if (error.status === 409) {
+        alert('Character already exists. Please try another one.');
+      }
+      else if (error.status === 500) {
+
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    })
   }
 
-  // Admin can click to delete user
+  // Admin can click to delete user (not yet implemented)
   deleteUser(id: number, username: string) {
 
     this.deleteUserSubmitted = true;
@@ -60,6 +79,22 @@ export class ViewUsersComponent {
     }
     else {
       alert("User deletion canceled");
+    }
+  }
+
+  viewHide() {
+    if (document.getElementById('tableData')?.style.visibility === "hidden")
+    {
+
+      var tablRow = document.getElementById('tableData');
+      tablRow!.style.visibility = "visible";
+      return;
+    }
+
+    else {
+      var tablRow = document.getElementById('tableData');
+      tablRow!.style.visibility = "hidden";
+      return;
     }
   }
 }
