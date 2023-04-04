@@ -16,7 +16,7 @@ export class ViewUsersComponent {
 
   constructor(private http: HttpClient, private router: Router) {
     this.Users = [];
-    this.text = "View All Users";
+    this.text = "Hide All Users";
     this.view = false;
     this.viewUsersSubmitted = false;
     this.deleteUserSubmitted = false;
@@ -85,7 +85,7 @@ export class ViewUsersComponent {
   viewHide() {
     if (document.getElementById('tableData')?.style.visibility === "hidden")
     {
-
+      this.text = "Hide All Users";
       var tablRow = document.getElementById('tableData');
       tablRow!.style.visibility = "visible";
       return;
@@ -93,6 +93,7 @@ export class ViewUsersComponent {
 
     else {
       var tablRow = document.getElementById('tableData');
+      this.text = "View All Users";
       tablRow!.style.visibility = "hidden";
       return;
     }
