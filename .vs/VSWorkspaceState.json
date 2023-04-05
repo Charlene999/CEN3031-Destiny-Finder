@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\application",
+    "\\application\\cypress",
+    "\\application\\cypress\\e2e",
     "\\application\\server",
+    "\\application\\server\\controllers",
     "\\application\\server\\models",
-    "\\application\\server\\router",
     "\\application\\src",
     "\\application\\src\\app",
-    "\\application\\src\\app\\characters",
-    "\\application\\src\\app\\characters\\create-characters",
-    "\\application\\src\\app\\spells"
+    "\\Sprint-3-Reflections"
   ],
-  "SelectedNode": "\\application\\src\\app\\characters\\characters.component.html",
+  "SelectedNode": "\\application\\server\\controllers\\users.go",
   "PreviewInSolutionExplorer": false
 }
