@@ -4,7 +4,15 @@
 This sprint saw the completion of all the issues/stories for the application. Namely, admin functionality for adding users - including updating, deleting, and getting all users - was implemented. In addition, final touches such as search boxes for various lists, additional text descriptions, population of the database with production data, and minor updates to the UI.
 
 ### Frontend Accomplishments
+The /classes page has been updated to display 10 buttons whose names are the currently playable classes in the game. When a user clicks one of the buttons, a window alert will pop up that gives a brief description of the class, along with instructions on what number to input on the Create a New Character page to create a character of that class.
 
+The /admin/add-spells-and-items page forms were updated to check for input validation and introduced a reset button to both the add spells and add items form so an admin could easily reset the form if a mistake was made. 
+
+The /admin/view-users page was given functionality this sprint. Upon load, the page will display the information of all users in the database. This information includes the user’s name, username, email, database ID, and admin status. This table has one last column, which is delete user. Clicking on the box in a user’s row will prompt the admin if they are sure they want to delete the user. If the admin clicks ok, the user will be deleted from the database. Finally, by clicking on the View All Users and Hide All Users button, the admin can either view or hide the user information table.
+
+The /spells and /items pages received a complete redesign this sprint. The previous functionality of the /spells and /items pages has been moved to the /profile/spells and /profile/items pages respectively. These pages can be accessed via the new View All Spells By Character and View All Items By Character buttons on the /profile page. The /spells and /items page now prompt a user to select a class from the dropdown box instead of a character. Upon selecting one of ten characters, the tables for both pages will now display the name of the item or spell, its description, and the level required to use it. Additionally, for all 4 pages mentioned above, a new search bar has been added where a user can filter the results by typing in an item or spell’s name, description, or level required. 
+
+A few tests added during Sprints 2 and 3 have been updated to reflect the addition of new features. Many new tests have been added to Cypress and Angular to test the new functionality added during this sprint.
 
 ### Backend Accomplishments
 In total, three endpoints for the admin functionality were implemented, completing the backend API. The new admin get all users endpoint, admin update user endpoint, and admin delete user endpoint all require an admin account and offer some functionality not available to regular users. In addition to the endpoints themselves, multiple unit tests were added for each endpoint, completing the unit test suite. Finally, the database was populated with production-quality data for demonstration.
@@ -15,13 +23,12 @@ In total, three endpoints for the admin functionality were implemented, completi
 
 #### E2E Tests
 
-#### Sprint 2
+#### Sprints 2 & 3
 
 - Login Page
+    - Input Invalid Username and Password - POST Request and Expected Response - Tests that the post response is correct when a user enters invalid credentials to login.
     - Input Invalid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password not in database, then clicks button to login.
     - Input Valid Username and Password - Tests that the user is on http://localhost:4200/login, inputs username and password in database, then clicks button to login.
-
-#### Sprint 3
 
 - Home Page
     - Login Button Redirects Correctly - Tests that the user is correctly redirected to the /login page from the home page.
@@ -30,9 +37,6 @@ In total, three endpoints for the admin functionality were implemented, completi
 - Sign Up Page
     - User Already Exists - POST Request and Expected Response - Tests that the post response is correct when a user with matching credentials already exists in the backend.
     - User Already Exists - Tests that the signup attempt is rejected when a user with matching credentials already exists in the backend.
-
-- Login Page
-    - Input Invalid Username and Password - POST Request and Expected Response - Tests that the post response is correct when a user enters invalid credentials to login.
 
 - Profile Page
     - Update Name Option Redirects Correctly - Tests that the user is correctly redirected to the /profile/name page from the /profile page.
@@ -48,9 +52,19 @@ In total, three endpoints for the admin functionality were implemented, completi
 - Edit Password Page
     - Successfully Updates Password then Redirects to Profile Page - Tests that the updating password process works, starting from a user logging in to a user changing their password successfully.
 
+#### Sprint 4
+
+#### Removed Tests
+
+
+
+#### New Tests
+
+
+
 ### Angular Tests
 
-#### Sprint 2
+#### Sprints 2 & 3
 
 - AppComponent
     - The home page (/) renders - Tests that the page renders successfully.
@@ -67,11 +81,16 @@ In total, three endpoints for the admin functionality were implemented, completi
 - LoginComponent
     - The /login page renders - Tests that the page renders successfully.
     - onSubmit
-        - Login Button Works - Tests that the button successfully calls the onSubmit function.
-        - User Input is Received - Tests that the ngForm data is populated successfully.
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Username  field validity - Tests that various invalid username inputs are correctly identified invalid.
+        - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
 
 - SpellsComponent
     - The /spells page renders - Tests that the page renders successfully.
+    - add
+        - ADD button works - Tests that the button successfully calls the add function.
+    - remove
+        - REMOVE button works - Tests that the button successfully calls the remove function.
 
 - UsersComponent
     - The /profile page renders - Tests that the page renders successfully.
@@ -79,7 +98,11 @@ In total, three endpoints for the admin functionality were implemented, completi
         - Create A New Character Button Works - Tests that the button successfully calls the createCharacter function.
     - getCharacters
         - View All Characters Button Works - Tests that the button successfully calls the getCharacters function.
-    
+    - submit
+        - Update Name Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Email Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        - Update Password Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+        
 - CharactersComponent
     - The /profile/characters page renders - Tests that the page renders successfully.
 
@@ -102,8 +125,10 @@ In total, three endpoints for the admin functionality were implemented, completi
     
 - ItemsComponent
     - The /items page renders - Tests that the page renders successfully.
-    - onSubmit
-        - View Your Items Button Works - Tests that the button successfully calls the onSubmit function.
+    - add
+        - ADD button works - Tests that the button successfully calls the add function.
+    - remove
+        - REMOVE button works - Tests that the button successfully calls the remove function.
 
 - AdminComponent
     - The /admin page renders - Tests that the page renders successfully.
@@ -128,41 +153,10 @@ In total, three endpoints for the admin functionality were implemented, completi
     - The /signup page renders - Tests that the page renders successfully.
     - onSubmit
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
-        - User Input is Received - Tests that the ngForm data is populated successfully.
-
-#### Sprint 3
-
-#### Removed Tests
-
-- SignupComponent
-    - onSubmit
-        - User Input is Received - Tests that the ngForm data is populated successfully.
-        - Reason: SignUpComponent no longer uses ngForm, so test was removed.
-
-- LoginComponent
-    - onSubmit
-        - User Input is Received - Tests that the ngForm data is populated successfully.
-        - Reason: LoginComponent no longer uses ngForm, so test was removed.
-
-- ItemsComponent
-    - onSubmit
-        - View Your Items Button Works - Tests that the button successfully calls the onSubmit function.
-        - Reason: ItemsComponent no longer has an onSubmit function, so test was removed.
-
-#### New Tests
-
-- SignupComponent
-    - onSubmit
         - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
         - Name field validity - Tests that various invalid name inputs are correctly identified invalid.
         - Username  field validity - Tests that various invalid username inputs are correctly identified invalid.
         - Email field validity - Tests that various invalid email inputs are correctly identified invalid.
-        - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
-
-- LoginComponent
-    - onSubmit
-        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
-        - Username  field validity - Tests that various invalid username inputs are correctly identified invalid.
         - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
 
 - NameComponent
@@ -171,7 +165,7 @@ In total, three endpoints for the admin functionality were implemented, completi
         - Submit Button Works - Tests that the button successfully calls the onSubmit function.
         - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
         - Name field validity - Tests that various invalid name inputs are correctly identified invalid.
-
+        
 - EmailComponent
     - The /profile/email page renders - Tests that the page renders successfully.
     - onSubmit
@@ -186,23 +180,16 @@ In total, three endpoints for the admin functionality were implemented, completi
         - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
         - Password field validity - Tests that various invalid password inputs are correctly identified invalid.
 
-- UsersComponent
-    - submit
-        - Update Name Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
-        - Update Email Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
-        - Update Password Option Works - Tests that the option is successfully selected after submit is called and based on the component.form.value.website value.
+#### Sprint 4
 
-- ItemsComponent
-    - add
-        - ADD button works - Tests that the button successfully calls the add function.
-    - remove
-        - REMOVE button works - Tests that the button successfully calls the remove function.
+#### Removed Tests
 
-- SpellsComponent
-    - add
-        - ADD button works - Tests that the button successfully calls the add function.
-    - remove
-        - REMOVE button works - Tests that the button successfully calls the remove function.
+
+
+#### New Tests
+
+
+
 
 ## Backend API Unit Tests
 Unit tests were designed in order to test the functionality of each server endpoint. To faciliate this, the tests first start the router and controllers in the same fashion as during regular operation, but a connection to the special testing database is made rather than the main database. Each of the unit tests is contained in a singular function; they are listed below.
