@@ -49,6 +49,7 @@ export class CreateCharactersComponent {
     this.http.post('http://localhost:8080/characters/create', JSON.stringify(Character),options).subscribe((res: any)=> {
       if (200) {
         alert("Successful character creation.");
+        window.location.reload();
       }
       }, (error) => {
         if (error.status === 404) {
