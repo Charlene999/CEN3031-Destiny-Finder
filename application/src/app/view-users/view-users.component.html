@@ -24,5 +24,21 @@
     </tbody>
 
   </table>
-
 </div>
+<div class="users">
+  <select (click)="chooseUser()" id="chooseUser">
+    <option value="Edit User" disabled selected hidden>Edit User</option>
+    <option *ngFor="let user of Users; let i = index" value=user.Username class="Name" id="curUser">{{user.Username}}</option>
+  </select>
+
+  <h1 class="profile">Profile Information</h1>
+  <label>Name</label>
+  <h2 id="Name" contenteditable="true">{{this.curUser.Name}}</h2>
+  <label>Email</label>
+  <h2 id="Email" contenteditable="true">{{this.curUser.Email}}</h2>
+  <label>Password</label>
+  <h2 id="Password" contenteditable="true">************</h2>
+
+  <button (click)="editUser()" class="edit">EDIT</button>
+</div>
+
