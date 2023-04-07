@@ -21,6 +21,8 @@ export class UsersComponent {
 
   newCharactersSubmitted: Boolean;
   viewCharactersSubmitted: Boolean;
+  viewCharactersSpellsSubmitted: Boolean; 
+  viewCharactersItemsSubmitted: Boolean;
 
   form = new FormGroup({  
     website: new FormControl('', Validators.required),
@@ -38,7 +40,9 @@ export class UsersComponent {
     this.editPasswordSubmitted = false; 
 
     this.newCharactersSubmitted = false; 
-    this.viewCharactersSubmitted = false; 
+    this.viewCharactersSubmitted = false;
+    this.viewCharactersSpellsSubmitted = false; 
+    this.viewCharactersItemsSubmitted = false; 
   }
 
   ngOnInit() {
@@ -89,5 +93,15 @@ export class UsersComponent {
   getCharacters() {
     this.viewCharactersSubmitted = true; 
     this.router.navigateByUrl("/profile/characters");
+  }
+
+  viewCharacterSpells() {
+    this.viewCharactersSpellsSubmitted = true;
+    this.router.navigateByUrl("/profile/spells");
+  }
+
+  viewCharacterItems() {
+    this.viewCharactersItemsSubmitted = true; 
+    this.router.navigateByUrl("/profile/items");
   }
 }

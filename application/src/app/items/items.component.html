@@ -1,8 +1,8 @@
 <div class="items">
   <div class="characters">
-    <select id="chars" (click)="showItems()">
-      <option value="Select Character" disabled selected hidden>Select Character</option>
-      <option *ngFor="let character of allChars; let i = index" value=character.Name class="Name" id="character">{{character.Name}}</option>
+    <select id="classes">
+      <option disabled selected hidden>Select Class</option>
+      <option *ngFor="let class of allClasses; let i = index" value=character.Name class="Name" id="class" (click)="showItems(class)">{{class}}</option>
     </select>
   </div>
   <div class="tbl-content">
@@ -15,7 +15,7 @@
         id="search"
         [(ngModel)]="searchText"
         autocomplete="off"
-        placeholder="Start searching for an item by name, description, or level required"
+        placeholder="Start searching for a spell by name, description, or level required"
       />
     </div>
     <table id="tabl" cellpadding="0" cellspacing="0" border="0">
@@ -24,22 +24,16 @@
           <th>Name</th>
           <th>Description</th>
           <th>Level Required</th>
-          <th>Ownership</th>
-          <th>Add to Character</th>
-          <th>Remove from Character</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of allItems | filter : searchText">
-          <td class="Name">{{item.Name}}</td>
-          <td class="Description">{{item.Description}}</td>
-          <td class="Level">{{item.Level}}</td>
-          <td class="Owned" *ngIf="itemOwned(item.ID)">Owned</td>
-          <td class="Unowned" *ngIf="!itemOwned(item.ID)">Unowned</td>
-          <td (click)="add(item.ID)" class="Add" *ngIf="levelReqMet(item.Level)">Add</td>
-          <td (click)="remove(item.ID)" class="Add" *ngIf="levelReqMet(item.Level)">Remove</td>
+        <tr *ngFor="let spell of allItems | filter : searchText">
+          <td class="Name">{{spell.Name}}</td>
+          <td class="Description">{{spell.Description}}</td>
+          <td class="Level">{{spell.Level}}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+

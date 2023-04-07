@@ -1,8 +1,8 @@
 <div class="spells">
   <div class="characters">
-    <select id="chars" (click)="showSpells()">
-      <option value="Select Character" disabled selected hidden>Select Character</option>
-      <option *ngFor="let character of allChars; let i = index" value=character.Name class="Name" id="character">{{character.Name}}</option>
+    <select id="classes">
+      <option disabled selected hidden>Select Class</option>
+      <option *ngFor="let class of allClasses; let i = index" value=character.Name class="Name" id="class" (click)="showSpells(class)">{{class}}</option>
     </select>
   </div>
   <div class="tbl-content">
@@ -24,9 +24,6 @@
           <th>Name</th>
           <th>Description</th>
           <th>Level Required</th>
-          <th>Ownership</th>
-          <th>Add to Character</th>
-          <th>Remove from Character</th>
         </tr>
       </thead>
       <tbody>
@@ -34,12 +31,9 @@
           <td class="Name">{{spell.Name}}</td>
           <td class="Description">{{spell.Description}}</td>
           <td class="Level">{{spell.Level}}</td>
-          <td class="Owned" *ngIf="spellOwned(spell.ID)">Owned</td>
-          <td class="Unowned" *ngIf="!spellOwned(spell.ID)">Unowned</td>
-          <td (click)="add(spell.ID)" class="Add" id="add" *ngIf="levelReqMet(spell.Level)">Add</td>
-          <td (click)="remove(spell.ID)" class="Add" *ngIf="levelReqMet(spell.Level)">Remove</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+

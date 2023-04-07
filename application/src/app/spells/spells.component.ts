@@ -9,8 +9,8 @@ import { HttpClient } from '@angular/common/http';
 
 export class SpellsComponent {
 
-  allChars: character[];
-  curChar: character;
+  allClasses: Array<string>;
+  curClass: Number;
   allSpells: Spell[];
   viewSubmitted: Boolean;
   addSubmitted: Boolean;
@@ -18,9 +18,9 @@ export class SpellsComponent {
   searchText: any;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.allChars = [];
+    this.allClasses = ["Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
     this.allSpells = [];
-    this.curChar = {} as character;
+    this.curClass = 0;
     this.viewSubmitted = false;
     this.addSubmitted = false;
     this.removeSubmitted = false;
@@ -30,64 +30,52 @@ export class SpellsComponent {
     if (localStorage.getItem('id_token') === null) {
       this.router.navigateByUrl('/');
     }
-
-    let Character = {
-      "OwnerToken": localStorage.getItem('id_token'),
-    };
-
-    const options = { headers: { 'Content-Type': 'application/json' } };
-    // Get all user characters
-    this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {
-      if (200) {
-
-        if (data === null)
-          return;
-
-        var chars = JSON.parse(JSON.stringify(data));
-        this.allChars.splice(0);
-
-        for (var i = 0; i < chars.length; i++) {
-          var char = new character(chars[i].Name, chars[i].Level, chars[i].ClassType, chars[i].Description, chars[i].ID, chars[i].Spells);
-          this.allChars.push(char);
-        }
-
-      }
-    }, (error) => {
-      if (error.status === 404) {
-        alert('Resource not found.');
-      }
-      else if (error.status === 500) {
-        alert('Server down.');
-      }
-      else if (error.status === 502) {
-        alert('Bad gateway.');
-      }
-    }
-    );
   }
 
-  // show all spells owned and unowned for that class and level
-  showSpells() {
+  //Show all spells by class
+  showSpells(f: string) {
 
     this.viewSubmitted = true;
 
-    const select = document.getElementById("chars") as HTMLSelectElement;
-    const index = select.selectedIndex;
-
-    // Get selected index 
-    if (index === 0 || index === -1 || index - 1 >= this.allChars.length)
-      return;
-
-    // Current character equals user's selected option'
-    var char = this.allChars.at(index - 1)!;
-
-    // this.curChar has to be set here
-    this.curChar = char;
+    switch (f) {
+      case "Sorcerer":
+        this.curClass = 1;
+        break;
+      case "Barbarian":
+        this.curClass = 2;
+        break;
+      case "Bard":
+        this.curClass = 3;
+        break;
+      case "Druid":
+        this.curClass = 4;
+        break;
+      case "Shaman":
+        this.curClass = 5;
+        break;
+      case "Hunter":
+        this.curClass = 6;
+        break;
+      case "Necromancer":
+        this.curClass = 7;
+        break;
+      case "Rogue":
+        this.curClass = 8;
+        break;
+      case "Paladin":
+        this.curClass = 9;
+        break;
+      case "Priest":
+        this.curClass = 10;
+        break;
+      default:
+        alert("Invalid class choice.");
+        break;
+    }
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/get', options).subscribe(data => {
       if (200) {
-
         if (data === null)
           return;
 
@@ -95,12 +83,9 @@ export class SpellsComponent {
         this.allSpells.splice(0);
 
         for (var i = 0; i < spells.length; i++) {
-          if (spells[i].ClassReq === char.Class) {
-
-            //if (this.levelReqMet(spells[i].LevelReq)) { 
-              var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
-              this.allSpells.push(spell);}
-          //}
+          if (spells[i].ClassReq === this.curClass) {
+            var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
+            this.allSpells.push(spell);}
         }
       }
     }, (error) => {
@@ -115,114 +100,6 @@ export class SpellsComponent {
       }
     }
     );
-  }
-
-  spellOwned(spellID: number): boolean {
-    if (this.curChar.spells.get(spellID))
-      return true;
-    else
-      return false;
-  }
-
-  levelReqMet(spellLevel: number) {
-    if (spellLevel === this.curChar.Level || spellLevel < this.curChar.Level) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  //Add Item To Character
-  add(spellId: number) {
-
-    this.addSubmitted = true;
-
-    let addSpell = {
-      "SpellID": spellId,
-      "OwnerToken": localStorage.getItem('id_token'),
-      "CharacterID": this.curChar.ID,
-    }
-
-    const options = { headers: { 'Content-Type': 'application/json' } };
-    this.http.post('http://localhost:8080/characters/addspell', JSON.stringify(addSpell), options).subscribe(data => {
-      if (202) {
-          alert("Spell added.");
-          window.location.reload();
-        }
-      }, 
-      (error) => {
-      if (error.status === 404) {
-        alert('Resource not found.');
-      }
-      else if (error.status === 500) {
-        alert('Server down.');
-      }
-      else if (error.status === 502) {
-        alert('Bad gateway.');
-      }
-    }
-    );
-  }
-
-  //Add Item To Character
-  remove(spellID: number) {
-
-    this.removeSubmitted = true;
-
-    const options = { 
-      headers: { 'Content-Type': 'application/json' },
-      body: {       
-        "SpellID": spellID,
-        "OwnerToken": localStorage.getItem('id_token'),
-        "CharacterID": this.curChar.ID, 
-      }
-    };
-    
-    this.http.delete('http://localhost:8080/characters/removespell', options).subscribe(data => {
-      if (202) {
-          alert("Spell removed.");
-          window.location.reload();
-        }
-      }, 
-      (error) => {
-      if (error.status === 404) {
-        alert('Resource not found.');
-      }
-      else if (error.status === 500) {
-        alert('Server down.');
-      }
-      else if (error.status === 502) {
-        alert('Bad gateway.');
-      }
-    }
-    );
-  }
-}
-
-
-// Character and item schema stored
-class character {
-  Name: string;
-  Level: number;
-  Class: number;
-  Description: string;
-  ID: number;
-  spells: Map<number, Spell>;
-
-  constructor(name: string, level: number, myclass: number, desc: string, id: number, allspells: Spell[]) {
-    this.Name = name;
-    this.Level = level;
-    this.Class = myclass;
-    this.Description = desc;
-    this.ID = id;
-    this.spells = new Map<number, Spell>;
-
-    if (allspells !== null) {
-      for (var i = 0; i < allspells.length; i++) {
-        this.spells.set(allspells[i].ID, allspells[i]);
-      }
-    }
   }
 }
 
@@ -232,9 +109,7 @@ class Spell {
   Level: number;
   Class: number;
   ID: number;
-  Owned: boolean;
   constructor(name: string, desc: string, level: number, myclass: number, id: number) {
-    this.Owned = false;
     this.Name = name;
     this.Description = desc;
     this.Level = level;

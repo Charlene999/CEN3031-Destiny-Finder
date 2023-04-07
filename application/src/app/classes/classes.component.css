@@ -84,3 +84,10 @@
     width: 50%;
     display: block;
   }
+
+p {
+  text-align: center;
+  --bgcolor: rgba(256,256,256,50%);
+  background-color: var(--bgcolor);
+  box-shadow: 0 0 8px 8px var(--bgcolor);
+}

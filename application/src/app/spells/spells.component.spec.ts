@@ -31,18 +31,4 @@ describe('SpellsComponent', () => {
   it('The /spells page renders', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('add', () => { 
-    it('ADD button works', () => {
-      component.add(12);
-      expect(component.addSubmitted).toBeTruthy();
-    });
-  });
-
-  describe('remove', () => {
-    it('REMOVE button works', () => {
-      component.remove(12);
-      expect(component.removeSubmitted).toBeTruthy();
-    });
-  });
 });

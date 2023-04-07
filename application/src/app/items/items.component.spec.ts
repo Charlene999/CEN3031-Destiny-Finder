@@ -38,26 +38,4 @@ describe('ItemsComponent', () => {
   it('The /items page renders', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('add', () => { 
-    it('ADD button works', () => {
-      component.add(17);
-      expect(component.addSubmitted).toBeTruthy();
-    });
-  });
-
-  describe('remove', () => {
-    it('REMOVE button works', () => {
-      component.remove(17);
-      expect(component.removeSubmitted).toBeTruthy();
-    });
-  });
-
-  // Test showItems performs properly
-  describe('showItems', () => {
-    it('Items Successfully Shown', () => {
-      component.showItems();
-      expect(component.viewSubmitted).toBeTruthy();
-    })
-  })
 });
