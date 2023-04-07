@@ -28,13 +28,11 @@ const routes: Routes = [
   
   //If user is logged in, display the following tabs
   { path: 'profile', component: UsersComponent },
-    { path: 'profile/name', component: NameComponent },
-    { path: 'profile/email', component: EmailComponent },
-    { path: 'profile/pass', component: PasswordComponent },
-
+  { path: 'profile/name', component: NameComponent },
+  { path: 'profile/email', component: EmailComponent },
+  { path: 'profile/pass', component: PasswordComponent },
   { path: 'profile/create-character', component: CreateCharactersComponent },
   { path: 'profile/characters', component: CharactersComponent },
-  //TODO:  Add profile/characters/:id component and path for viewing individual characters
 
   //If user is admin, display following tabs
   { path: 'admin', component: AdminComponent },

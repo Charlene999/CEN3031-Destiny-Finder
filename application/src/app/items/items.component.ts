@@ -15,6 +15,7 @@ export class ItemsComponent {
   viewSubmitted: Boolean;
   addSubmitted: Boolean;
   removeSubmitted: Boolean;
+  searchText: any;
 
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
@@ -41,8 +42,6 @@ export class ItemsComponent {
 
         if (data === null)
           return;
-
-        console.log(data)
         
         var chars = JSON.parse(JSON.stringify(data));
         this.allChars.splice(0);
@@ -97,14 +96,13 @@ export class ItemsComponent {
         for (var i = 0; i < items.length; i++) {
           // Filter items by class that matches current character's class
           if (items[i].ClassReq === char.Class) {
-            //Create new item object
-
-            // Only show item if level requirement is met along with class
-            if (this.levelReqMet(items[i].LevelReq)) { 
+            // Only show item if level requirements are met along with class
+            //if (this.levelReqMet(items[i].LevelReq)) {
+              //Create new item object
               var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ID);
-            //Push item into allItems array
+              //Push item into allItems array
               this.allItems.push(item);}
-          }
+          //}
         }
       }
     }, (error) => {
@@ -130,6 +128,7 @@ export class ItemsComponent {
     else
       return false;
   }
+
   levelReqMet(itemLevel: number) {
     if (itemLevel === this.curChar.Level || itemLevel < this.curChar.Level) {
       return true;

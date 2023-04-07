@@ -15,6 +15,7 @@ export class SpellsComponent {
   viewSubmitted: Boolean;
   addSubmitted: Boolean;
   removeSubmitted: Boolean;
+  searchText: any;
 
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
@@ -96,11 +97,10 @@ export class SpellsComponent {
         for (var i = 0; i < spells.length; i++) {
           if (spells[i].ClassReq === char.Class) {
 
-            // Only show spell if level requirement is met along with class
-            if (this.levelReqMet(spells[i].LevelReq)) { 
+            //if (this.levelReqMet(spells[i].LevelReq)) { 
               var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
               this.allSpells.push(spell);}
-          }
+          //}
         }
       }
     }, (error) => {
