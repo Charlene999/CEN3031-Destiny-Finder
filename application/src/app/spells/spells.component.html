@@ -1,18 +1,27 @@
 <div class="spells">
   <div class="characters">
     <select id="classes">
-      <option disabled selected hidden>Select Class</option>
+      <option disabled selected hidden>Select Option</option>
       <option *ngFor="let class of allClasses; let i = index" value=character.Name class="Name" id="class" (click)="showSpells(class)">{{class}}</option>
     </select>
   </div>
   <div class="tbl-content">
     <h1>All Spells</h1>
     <div class="search-spells">
-      <input
+      <input *ngIf="All()"
         class="form-control"
         type="text"
-        name="search"
-        id="search"
+        name="searchAll"
+        id="searchAll"
+        [(ngModel)]="searchText"
+        autocomplete="off"
+        placeholder="Start searching for a spell by class, name, description, or level required"
+      />
+      <input *ngIf="!All()"
+        class="form-control"
+        type="text"
+        name="searchNotAll"
+        id="searchNotAll"
         [(ngModel)]="searchText"
         autocomplete="off"
         placeholder="Start searching for a spell by name, description, or level required"
@@ -21,13 +30,22 @@
     <table id="tabl" cellpadding="0" cellspacing="0" border="0">
       <thead>
         <tr>
+          <th *ngIf="All()">Class</th>
           <th>Name</th>
           <th>Description</th>
           <th>Level Required</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="All()">
         <tr *ngFor="let spell of allSpells | filter : searchText">
+          <td class="Class">{{spell.Class}}</td>
+          <td class="Name">{{spell.Name}}</td>
+          <td class="Description">{{spell.Description}}</td>
+          <td class="Level">{{spell.Level}}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="!All()">
+        <tr *ngFor="let spell of curClassSpells | filter : searchText">
           <td class="Name">{{spell.Name}}</td>
           <td class="Description">{{spell.Description}}</td>
           <td class="Level">{{spell.Level}}</td>
