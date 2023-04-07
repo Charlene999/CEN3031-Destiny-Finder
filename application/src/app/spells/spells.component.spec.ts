@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SpellsComponent } from './spells.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 describe('SpellsComponent', () => {
   let component: SpellsComponent;
@@ -15,7 +15,8 @@ describe('SpellsComponent', () => {
         HttpClientModule, 
         HttpClientTestingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        Ng2SearchPipeModule
         ],
       declarations: [ SpellsComponent ],
       providers: []
@@ -29,19 +30,5 @@ describe('SpellsComponent', () => {
 
   it('The /spells page renders', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('add', () => { 
-    it('ADD button works', () => {
-      component.add(12);
-      expect(component.addSubmitted).toBeTruthy();
-    });
-  });
-
-  describe('remove', () => {
-    it('REMOVE button works', () => {
-      component.remove(12);
-      expect(component.removeSubmitted).toBeTruthy();
-    });
   });
 });

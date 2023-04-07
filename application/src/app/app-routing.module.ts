@@ -16,6 +16,8 @@ import { PasswordComponent } from './users/users-edit/password/password.componen
 import { NameComponent } from './users/users-edit/name/name.component';
 import { EmailComponent } from './users/users-edit/email/email.component';
 import { HomeComponent } from './home/home.component';
+import { CharactersItemsComponent } from './characters/characters-items/characters-items.component';
+import { CharactersSpellsComponent } from './characters/characters-spells/characters-spells.component';
 
 //Routing for the Entire Application
 //NOTE: path must match the routerLink indicated in app.component.html
@@ -28,13 +30,13 @@ const routes: Routes = [
   
   //If user is logged in, display the following tabs
   { path: 'profile', component: UsersComponent },
-    { path: 'profile/name', component: NameComponent },
-    { path: 'profile/email', component: EmailComponent },
-    { path: 'profile/pass', component: PasswordComponent },
-
+  { path: 'profile/name', component: NameComponent },
+  { path: 'profile/email', component: EmailComponent },
+  { path: 'profile/pass', component: PasswordComponent },
   { path: 'profile/create-character', component: CreateCharactersComponent },
   { path: 'profile/characters', component: CharactersComponent },
-  //TODO:  Add profile/characters/:id component and path for viewing individual characters
+  { path: 'profile/items', component: CharactersItemsComponent },
+  { path: 'profile/spells', component: CharactersSpellsComponent },
 
   //If user is admin, display following tabs
   { path: 'admin', component: AdminComponent },

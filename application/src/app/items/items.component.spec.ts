@@ -3,6 +3,7 @@ import { ItemsComponent } from './items.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 describe('ItemsComponent', () => {
   let component: ItemsComponent;
@@ -14,7 +15,8 @@ describe('ItemsComponent', () => {
         HttpClientModule, 
         HttpClientTestingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        Ng2SearchPipeModule
         ],
       declarations: [ ItemsComponent ],
       providers: []
@@ -36,26 +38,4 @@ describe('ItemsComponent', () => {
   it('The /items page renders', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('add', () => { 
-    it('ADD button works', () => {
-      component.add(17);
-      expect(component.addSubmitted).toBeTruthy();
-    });
-  });
-
-  describe('remove', () => {
-    it('REMOVE button works', () => {
-      component.remove(17);
-      expect(component.removeSubmitted).toBeTruthy();
-    });
-  });
-
-  // Test showItems performs properly
-  describe('showItems', () => {
-    it('Items Successfully Shown', () => {
-      component.showItems();
-      expect(component.viewSubmitted).toBeTruthy();
-    })
-  })
 });

@@ -70,15 +70,32 @@ export class ViewUsersComponent {
   }
 
   // Admin can click to delete user (not yet implemented)
-  deleteUser(id: number, username: string) {
+  deleteUser(username: string) {
 
     this.deleteUserSubmitted = true;
 
     if (confirm("Are you sure you want to permanently delete this user?")) {
-      alert("User " + username + " deleted permanently");
+      const opts = { headers: { 'Content-Type': 'application/json' }, body: { "AuthToken": localStorage.getItem('id_token'), "Username": username, }};
+      this.http.delete('http://localhost:8080/users/delete', opts).subscribe(data => {
+        if (202) {
+          alert("User " + username + " deleted permanently.");
+          window.location.reload();
+        }
+      }, (error) => {
+        if (error.status === 404) {
+          alert('Resource not found');
+        }
+        else if (error.status === 500) {
+          alert('Server down.');
+        }
+        else if (error.status === 502) {
+          alert('Bad gateway.');
+        }
+      }
+      );
     }
     else {
-      alert("User deletion canceled");
+      alert("User deletion canceled.");
     }
   }
 

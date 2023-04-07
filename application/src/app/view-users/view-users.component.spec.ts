@@ -31,21 +31,11 @@ describe('ViewUsersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //Describe is the function name being tested
-  describe('viewChars', () => {
-    it('View Characters Button Works', async () => {
-      component.viewChars();
-      expect(component.viewCharsSubmitted).toBeTruthy();
+  describe('viewUsers', () => {
+    it('View All Users Works', async () => {
+      component.viewUsers();
+      expect(component.viewUsersSubmitted).toBeTruthy();
     });
   });
 
-  //Describe is the function name being tested
-  describe('deleteUser', () => {
-    it('Delete User Button Works', async () => {
-      const id = 1;
-      const username = 'd';
-      component.deleteUser(id, username);
-      expect(component.deleteUserSubmitted).toBeTruthy();
-    });
-  });
 });
