@@ -104,11 +104,17 @@ export class SpellsComponent {
   }
 
   //Show all spells by class
-  showSpells(f: string) {
+  showSpells() {
+
+    const select = document.getElementById("classes") as HTMLSelectElement;
+    const index = select.selectedIndex;
+
+    if(index === 0 || index == -1 || index -1 >= this.allClasses.length)
+      return;
 
     this.viewSubmitted = true;
 
-    this.curClass = f;
+    this.curClass = this.allClasses.at(index - 1) as string;
 
     if (this.curClass !== "All Spells") {
 
@@ -116,7 +122,7 @@ export class SpellsComponent {
 
       //For loop that goes through all items in allItems
       for (let item = 0; item < this.allSpells.length; item++) {
-        if (f === this.allSpells[item].Class) {
+        if (this.curClass === this.allSpells[item].Class) {
           //Push item into allItems array
           this.curClassSpells.push(this.allSpells[item]);
         }
