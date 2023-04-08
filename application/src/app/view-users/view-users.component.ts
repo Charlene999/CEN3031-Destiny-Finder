@@ -129,7 +129,7 @@ export class ViewUsersComponent {
       this.http.put('http://localhost:8080/users/admin_update', JSON.stringify(Admin), options).subscribe(data => {
         
         if (200) {
-
+          alert("User " + this.curUser.Username + " updated successfully.");
           window.location.reload();
         }
       }, (error) => {

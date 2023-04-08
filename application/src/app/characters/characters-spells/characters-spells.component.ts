@@ -47,6 +47,43 @@ export class CharactersSpellsComponent {
         this.allChars.splice(0);
 
         for (var i = 0; i < chars.length; i++) {
+
+          switch (chars[i].ClassType) {
+            case 1:
+              chars[i].ClassType = "Sorcerer";
+              break;
+            case 2:
+              chars[i].ClassType = "Barbarian";
+              break;
+            case 3:
+              chars[i].ClassType = "Bard";
+              break;
+            case 4:
+              chars[i].ClassType = "Druid";
+              break;
+            case 5:
+              chars[i].ClassType = "Shaman";
+              break;
+            case 6:
+              chars[i].ClassType = "Hunter";
+              break;
+            case 7:
+              chars[i].ClassType = "Necromancer";
+              break;
+            case 8:
+              chars[i].ClassType = "Rogue";
+              break;
+            case 9:
+              chars[i].ClassType = "Paladin";
+              break;
+            case 10:
+              chars[i].ClassType = "Priest";
+              break;
+            default:
+              alert("Invalid class choice.");
+              break;
+          }
+
           var char = new character(chars[i].Name, chars[i].Level, chars[i].ClassType, chars[i].Description, chars[i].ID, chars[i].Spells);
           this.allChars.push(char);
         }
@@ -95,7 +132,46 @@ export class CharactersSpellsComponent {
         this.allSpells.splice(0);
 
         for (var i = 0; i < spells.length; i++) {
-          if (spells[i].ClassReq === char.Class) {
+
+          let compareClass = 0;
+
+          switch (char.Class) {
+            case "Sorcerer":
+              compareClass = 1;
+              break;
+            case "Barbarian":
+              compareClass = 2;
+              break;
+            case "Bard":
+              compareClass = 3;
+              break;
+            case "Druid":
+              compareClass = 4;
+              break;
+            case "Shaman":
+              compareClass = 5;
+              break;
+            case "Hunter":
+              compareClass = 6;
+              break;
+            case "Necromancer":
+              compareClass = 7;
+              break;
+            case "Rogue":
+              compareClass = 8;
+              break;
+            case "Paladin":
+              compareClass = 9;
+              break;
+            case "Priest":
+              compareClass = 10;
+              break;
+            default:
+              alert("Invalid class choice.");
+              break;
+          }
+
+          if (spells[i].ClassReq === compareClass) {
             if (this.levelReqMet(spells[i].LevelReq)) { 
               var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
               this.allSpells.push(spell);}
@@ -203,12 +279,12 @@ export class CharactersSpellsComponent {
 class character {
   Name: string;
   Level: number;
-  Class: number;
+  Class: string;
   Description: string;
   ID: number;
   spells: Map<number, Spell>;
 
-  constructor(name: string, level: number, myclass: number, desc: string, id: number, allspells: Spell[]) {
+  constructor(name: string, level: number, myclass: string, desc: string, id: number, allspells: Spell[]) {
     this.Name = name;
     this.Level = level;
     this.Class = myclass;
@@ -228,10 +304,11 @@ class Spell {
   Name: string;
   Description: string;
   Level: number;
-  Class: number;
+  Class: string;
   ID: number;
   Owned: boolean;
-  constructor(name: string, desc: string, level: number, myclass: number, id: number) {
+
+  constructor(name: string, desc: string, level: number, myclass: string, id: number) {
     this.Owned = false;
     this.Name = name;
     this.Description = desc;

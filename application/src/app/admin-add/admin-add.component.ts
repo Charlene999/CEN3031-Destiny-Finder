@@ -12,11 +12,15 @@ export class AdminAddComponent {
 
   itemForm: FormGroup = new FormGroup({});
   spellForm: FormGroup = new FormGroup({});
+  allClasses: Array<string>;
+  allLevels: Array<Number>;
 
   itemSubmitted: Boolean;
   spellSubmitted: Boolean;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { 
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
+    this.allClasses = ["Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
+    this.allLevels = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     this.itemSubmitted = false;
     this.spellSubmitted = false;
   }
@@ -30,15 +34,15 @@ export class AdminAddComponent {
     this.itemForm = this.fb.group({
       itemname: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
       itemdescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z.,? ]*')]),
-      itemlevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
-      itemclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
+      //itemlevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
+      //itemclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
     })
 
     this.spellForm = this.fb.group({
       spellname: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
       spelldescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z.,? ]*')]),
-      spelllevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
-      spellclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
+      //spelllevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
+      //spellclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
     })
   }
 
@@ -47,12 +51,57 @@ export class AdminAddComponent {
 
     this.itemSubmitted = true;
 
+    const selectLevel = document.getElementById("character_dropdown_item") as HTMLSelectElement;
+    let level = selectLevel.options[selectLevel.selectedIndex].value;
+    
+    const select = document.getElementById("class_dropdown_item") as HTMLSelectElement;
+    let curClass = select.options[select.selectedIndex].value;
+    let currentClass = 0;
+
+    switch (curClass) {
+      case "Sorcerer":
+        currentClass = 1;
+        break;
+      case "Barbarian":
+        currentClass = 2;
+        break;
+      case "Bard":
+        currentClass = 3;
+        break;
+      case "Druid":
+        currentClass = 4;
+        break;
+      case "Shaman":
+        currentClass = 5;
+        break;
+      case "Hunter":
+        currentClass = 6;
+        break;
+      case "Necromancer":
+        currentClass = 7;
+        break;
+      case "Rogue":
+        currentClass = 8;
+        break;
+      case "Paladin":
+        currentClass = 9;
+        break;
+      case "Priest":
+        currentClass = 10;
+        break;
+      default:
+        alert("Invalid class choice.");
+        break;
+    }
+
     let BuildItem = {
       "AdminToken": localStorage.getItem('id_token'),
       "Name": this.itemForm.controls['itemname'].value,
       "Description": this.itemForm.controls['itemdescription'].value,
-      "LevelReq": Number(this.itemForm.controls['itemlevel'].value),
-      "ClassReq": Number(this.itemForm.controls['itemclass'].value),
+      "LevelReq": Number(level),
+      "ClassReq": currentClass,
+      //"LevelReq": Number(this.itemForm.controls['itemlevel'].value),
+      //"ClassReq": Number(this.itemForm.controls['itemclass'].value),
     }
 
     const options = { headers: { 'Content-Type': 'application/json' } };
@@ -80,12 +129,57 @@ export class AdminAddComponent {
 
     this.spellSubmitted = true;
 
+    const selectLevel = document.getElementById("character_dropdown_spell") as HTMLSelectElement;
+    let level = selectLevel.options[selectLevel.selectedIndex].value;
+    
+    const select = document.getElementById("class_dropdown_spell") as HTMLSelectElement;
+    let curClass = select.options[select.selectedIndex].value;
+    let currentClass = 0;
+
+    switch (curClass) {
+      case "Sorcerer":
+        currentClass = 1;
+        break;
+      case "Barbarian":
+        currentClass = 2;
+        break;
+      case "Bard":
+        currentClass = 3;
+        break;
+      case "Druid":
+        currentClass = 4;
+        break;
+      case "Shaman":
+        currentClass = 5;
+        break;
+      case "Hunter":
+        currentClass = 6;
+        break;
+      case "Necromancer":
+        currentClass = 7;
+        break;
+      case "Rogue":
+        currentClass = 8;
+        break;
+      case "Paladin":
+        currentClass = 9;
+        break;
+      case "Priest":
+        currentClass = 10;
+        break;
+      default:
+        alert("Invalid class choice.");
+        break;
+    }
+
     let BuildSpell = {
       "AdminToken": localStorage.getItem('id_token'),
       "Name": this.spellForm.controls['spellname'].value,
       "Description": this.spellForm.controls['spelldescription'].value,
-      "LevelReq": Number(this.spellForm.controls['spelllevel'].value),
-      "ClassReq": Number(this.spellForm.controls['spellclass'].value),
+      "LevelReq": Number(level),
+      "ClassReq": currentClass,
+      //"LevelReq": Number(this.spellForm.controls['spelllevel'].value),
+      //"ClassReq": Number(this.spellForm.controls['spellclass'].value),
     }
 
     const options = { headers: { 'Content-Type': 'application/json' } };
