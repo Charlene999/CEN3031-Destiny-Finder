@@ -342,6 +342,24 @@ func (repository *Repos) AdminDeleteUser(c *gin.Context) {
 		return
 	}
 
+	var characters []models.Character
+	err = repository.CharacterDb.Preload("Items").Preload("Spells").Find(&characters, "owner_id = ?", users[0].ID).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	for j := 0; j < len(characters); j++ {
+		repository.CharacterDb.Debug().Model(&characters[j]).Association("Items").Delete(&characters[j].Items)
+		repository.CharacterDb.Debug().Model(&characters[j]).Association("Spells").Delete(&characters[j].Spells)
+	}
+
+	err = repository.CharacterDb.Unscoped().Delete(&characters, "owner_id = ?", users[0].ID).Error
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	var user []models.User
 	err = repository.UserDb.Unscoped().Delete(&user, "username = ?", deleteUser.Username).Error
 	if err != nil {
