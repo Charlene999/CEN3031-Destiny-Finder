@@ -17,7 +17,7 @@ export class ViewUsersComponent {
 
   constructor(private http: HttpClient, private router: Router) {
     this.Users = [];
-    this.curUser = new myUser("", "", "", -1, false, "");
+    this.curUser = new myUser("Name", "Username", "Email", -1, false, "********");
     this.text = "Hide All Users";
     this.view = false;
     this.viewUsersSubmitted = false;
@@ -93,17 +93,34 @@ export class ViewUsersComponent {
     // Get selected index 
     if (index === 0 || index === -1 || index - 1 >= this.Users.length)
       return;
-    const name = document.getElementById("Name")?.textContent;
-    const email = document.getElementById("Email")?.textContent;
+    const name = document.getElementById("Name") as HTMLInputElement;
+    const email = document.getElementById("Email") as HTMLInputElement;
+    const pwd = document.getElementById("Pwd") as HTMLInputElement;
+    const adm = document.getElementById("Adm") as HTMLInputElement;
 
+    if (name.value) {
+      this.curUser.Name = name.value;
+    }
+
+    if (email.value) {
+      this.curUser.Email = email.value;
+    }
+
+    if (pwd.value) {
+      this.curUser.Password = pwd.value;
+    }
+
+    if (adm.checked === true) {
+      this.curUser.IsAdmin = true;
+    }
     const options = { headers: { 'Content-Type': 'application/json' } };
     if (confirm("Warning! Are you sure you want to edit this user? This is potentially a destructive action!")) {
       // Post admin and user data to edit user
       let Admin = {
         "AuthToken": localStorage.getItem('id_token'),
         "Username": this.curUser.Username,
-        "Name": name,
-        "Email": email,
+        "Name": this.curUser.Name,
+        "Email": this.curUser.Email,
         "Password": this.curUser.Password,
         "IsAdmin": this.curUser.IsAdmin,
       };

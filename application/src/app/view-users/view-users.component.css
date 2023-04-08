@@ -100,7 +100,7 @@ html {
   text-align: center;
 }
 
-input {
+.name, .uName, .email, .pwd {
   width: 100%;
   margin-bottom: 10px;
   background: rgba(0,0,0,.7);
@@ -119,10 +119,14 @@ input {
   transition: box-shadow .5s ease;
 }
 
-  input:focus {
+  .name:focus, .uName:focus, .email:focus, .pwd :focus {
     box-shadow: inset 0 -5px 45px rgba(100,100,100,0.05), 0 1px 1px rgba(255,255,255,0.1);
   }
 
+.adm {
+  transform: scale(1.4);
+  margin-right: 11px;
+}
 h1 {
   font-size: 30px;
   color: #fff;
@@ -219,12 +223,12 @@ body {
     color: rgb(255, 120, 0);
   }
 
-.Username:hover {
+.Username:hover{
   cursor: pointer;
   color: rgb(255, 255, 0);
 }
 
-.Username:active {
+.Username:active{
   color: rgb(255, 120, 0);
 }
 
@@ -280,10 +284,9 @@ body {
   color: rgba(0, 0, 0, 1);
   text-shadow: 0 0 10px rgba(0,0,0,1);
 }
-label
-{
-    font-size: 18px;
-
-    font-weight:700;
-    text-shadow: rgba(0, 0, 0, 1);
+label {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 18px;
+  color: white;
+  text-shadow: rgba(0, 0, 0, 1);
 }

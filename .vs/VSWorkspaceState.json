@@ -1,14 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\application",
-    "\\application\\server\\controllers",
-    "\\application\\src",
-    "\\application\\src\\app\\characters",
-    "\\application\\src\\app\\characters\\characters-items",
-    "\\application\\src\\app\\characters\\characters-spells",
-    "\\application\\src\\app\\items",
-    "\\application\\src\\app\\view-users"
+    "\\application"
   ],
+  "SelectedNode": "\\application\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

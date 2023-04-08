@@ -32,13 +32,16 @@
   </select>
 
   <h1 class="profile">Profile Information</h1>
-  <label>Name</label>
-  <h2 id="Name" contenteditable="true">{{this.curUser.Name}}</h2>
-  <label>Email</label>
-  <h2 id="Email" contenteditable="true">{{this.curUser.Email}}</h2>
-  <label>Password</label>
-  <h2 id="Password" contenteditable="true">************</h2>
+  <form>
+    <input id="Name" class="name" placeholder="{{curUser.Name}}" type="text" />
+    <input id="Email" class="email" placeholder="{{curUser.Email}}" type="email" />
+    <input id="Pwd" class="pwd" placeholder="Password" type="password" />
+    <div>
+      <input id="Adm" class="adm" name="Set As Admin" type="checkbox" />
+      <label>Set as Admin</label>
+    </div>
+    <button (click)="editUser()" class="edit">EDIT</button>
+  </form>
 
-  <button (click)="editUser()" class="edit">EDIT</button>
 </div>
 
