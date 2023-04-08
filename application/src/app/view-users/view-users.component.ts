@@ -118,12 +118,12 @@ export class ViewUsersComponent {
     const email = document.getElementById("email") as HTMLInputElement;
     const pwd = document.getElementById("password") as HTMLInputElement;
     const adm = document.getElementById("Adm") as HTMLInputElement;
-
-    if (name.value) {
+    this.curUser = this.Users.at(index - 1)!;
+    if (name.value != "") {
       this.curUser.Name = name.value;
     }
 
-    if (email.value) {
+    if (email.value != "") {
       this.curUser.Email = email.value;
     }
 
@@ -134,23 +134,41 @@ export class ViewUsersComponent {
     if (adm.checked === true) {
       this.curUser.IsAdmin = true;
     }
+
+    console.log(this.curUser);
     const options = { headers: { 'Content-Type': 'application/json' } };
     if (confirm("Warning! Are you sure you want to edit this user? This is potentially a destructive action!")) {
 
       // Post admin and user data to edit user
-      let Admin = {
-        "AuthToken": localStorage.getItem('id_token'),
-        "Username": this.curUser.Username,
-        "Name": this.curUser.Name,
-        "Email": this.curUser.Email,
-        "Password": this.curUser.Password,
-        "IsAdmin": this.curUser.IsAdmin,
-      };
+      var Admin;
+      if (pwd.value) {
+        Admin = {
+          "AuthToken": localStorage.getItem('id_token'),
+          "Username": this.curUser.Username,
+          "Name": this.curUser.Name,
+          "Email": this.curUser.Email,
+          "Password": this.curUser.Password,
+          "IsAdmin": this.curUser.IsAdmin,
+        }
+
+      }
+
+      else {
+        Admin = {
+
+          "AuthToken": localStorage.getItem('id_token'),
+          "Username": this.curUser.Username,
+          "Name": this.curUser.Name,
+          "Email": this.curUser.Email,
+          "IsAdmin": this.curUser.IsAdmin,
+        }
+      }
+        
 
       this.http.put('http://localhost:8080/users/admin_update', JSON.stringify(Admin), options).subscribe(data => {
         
         if (200) {
-          window.location.reload();
+          //window.location.reload();
           this.editUsersSubmitted = false;
         }
 
