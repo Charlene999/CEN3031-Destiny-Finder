@@ -10,17 +10,19 @@ import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 export class ItemsComponent {
 
   allClasses: Array<string>;
-  curClass: Number;
+  curClass: string;
   allItems: Item[];
+  curClassItems: Item[];
   viewSubmitted: Boolean;
   addSubmitted: Boolean;
   removeSubmitted: Boolean;
   searchText: any;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.allClasses = ["Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
+    this.allClasses = ["All Items", "Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
     this.allItems = [];
-    this.curClass = 0;
+    this.curClass = "All Items";
+    this.curClassItems = [];
     this.viewSubmitted = false;
     this.addSubmitted = false;
     this.removeSubmitted = false;
@@ -29,48 +31,6 @@ export class ItemsComponent {
   ngOnInit() {
     if (localStorage.getItem('id_token') === null) {
       this.router.navigateByUrl('/');
-    }
-  }
-
-  // show all items owned and unowned for that class and level
-  showItems(f: string) {
-
-    this.viewSubmitted = true;
-
-    switch (f) {
-      case "Sorcerer":
-        this.curClass = 1;
-        break;
-      case "Barbarian":
-        this.curClass = 2;
-        break;
-      case "Bard":
-        this.curClass = 3;
-        break;
-      case "Druid":
-        this.curClass = 4;
-        break;
-      case "Shaman":
-        this.curClass = 5;
-        break;
-      case "Hunter":
-        this.curClass = 6;
-        break;
-      case "Necromancer":
-        this.curClass = 7;
-        break;
-      case "Rogue":
-        this.curClass = 8;
-        break;
-      case "Paladin":
-        this.curClass = 9;
-        break;
-      case "Priest":
-        this.curClass = 10;
-        break;
-      default:
-        alert("Invalid class choice.");
-        break;
     }
 
     const options = { headers: { 'Content-Type': 'application/json' } };
@@ -85,12 +45,45 @@ export class ItemsComponent {
 
         //For all items in the database
         for (var i = 0; i < items.length; i++) {
-          // Filter items by class that matches current character's class
-          if (items[i].ClassReq === this.curClass) {
-            var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ID);
-            //Push item into allItems array
-            this.allItems.push(item);
+
+          switch (items[i].ClassReq) {
+            case 1:
+              items[i].ClassReq = "Sorcerer";
+              break;
+            case 2:
+              items[i].ClassReq = "Barbarian";
+              break;
+            case 3:
+              items[i].ClassReq = "Bard";
+              break;
+            case 4:
+              items[i].ClassReq = "Druid";
+              break;
+            case 5:
+              items[i].ClassReq = "Shaman";
+              break;
+            case 6:
+              items[i].ClassReq = "Hunter";
+              break;
+            case 7:
+              items[i].ClassReq = "Necromancer";
+              break;
+            case 8:
+              items[i].ClassReq = "Rogue";
+              break;
+            case 9:
+              items[i].ClassReq = "Paladin";
+              break;
+            case 10:
+              items[i].ClassReq = "Priest";
+              break;
+            default:
+              alert("Invalid class choice.");
+              break;
           }
+
+          var item = new Item(items[i].Name, items[i].Description, items[i].LevelReq, items[i].ClassReq, items[i].ID);
+          this.allItems.push(item);
         }
       }
     }, (error) => {
@@ -106,6 +99,42 @@ export class ItemsComponent {
     }
     );
   }
+
+  // show all items owned and unowned for that class and level
+  showItems() {
+
+    const select = document.getElementById("classes") as HTMLSelectElement;
+    const index = select.selectedIndex;
+
+    if(index === 0 || index == -1 || index -1 >= this.allClasses.length)
+      return;
+
+    this.viewSubmitted = true;
+
+    this.curClass = this.allClasses.at(index - 1) as string;
+
+    if (this.curClass !== "All Items") {
+
+      this.curClassItems.splice(0);
+
+      //For loop that goes through all items in allItems
+      for (let item = 0; item < this.allItems.length; item++) {
+        if (this.curClass === this.allItems[item].Class) {
+          //Push item into allItems array
+          this.curClassItems.push(this.allItems[item]);
+        }
+      }
+    }
+  }
+
+  All() {
+    if (this.curClass === "All Items") {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }
 
 // Item schema stored
@@ -113,10 +142,10 @@ class Item {
   Name: string;
   Description: string;
   Level: number;
-  Class: number;
+  Class: string;
   ID: number;
 
-  constructor(name: string, desc: string, level: number, myclass: number, id: number) {
+  constructor(name: string, desc: string, level: number, myclass: string, id: number) {
     this.Name = name;
     this.Description = desc;
     this.Level = level;

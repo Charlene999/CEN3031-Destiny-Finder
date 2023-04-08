@@ -129,10 +129,10 @@ func (repository *Repos) DeleteCharacter(c *gin.Context) {
 	}
 
 	//Determine if the user has permission to delete the character (either they are an admin or the owner)
-	var characters []models.Character
-	err = repository.CharacterDb.Find(&characters, "id = ?", deleteCharacter.CharacterID).Error
+	var character models.Character
+	err = repository.CharacterDb.Preload("Items").Preload("Spells").First(&character, "id = ?", deleteCharacter.CharacterID).Error
 
-	if errors.Is(err, gorm.ErrRecordNotFound) || len(characters) == 0 {
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": deleteCharacter.CharacterID})
 		return
 	}
@@ -140,10 +140,13 @@ func (repository *Repos) DeleteCharacter(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	if characters[0].OwnerID != user.ID && !user.IsAdmin {
+	if character.OwnerID != user.ID && !user.IsAdmin {
 		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": user.ID})
 		return
 	}
+
+	repository.CharacterDb.Debug().Model(&character).Association("Items").Delete(&character.Items)
+	repository.CharacterDb.Debug().Model(&character).Association("Spells").Delete(&character.Spells)
 
 	//Delete the character (hard delete)
 	err = repository.CharacterDb.Unscoped().Delete(&models.Character{}, deleteCharacter.CharacterID).Error
@@ -152,7 +155,7 @@ func (repository *Repos) DeleteCharacter(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, characters[0])
+	c.JSON(http.StatusAccepted, character)
 }
 
 // Update character provided a user token and character id
