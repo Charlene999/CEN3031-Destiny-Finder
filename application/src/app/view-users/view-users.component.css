@@ -290,3 +290,9 @@ label {
   color: white;
   text-shadow: rgba(0, 0, 0, 1);
 }
+
+.divEmail, .divPwd, .divName {
+    color:white;
+    text-shadow: rgba(0, 0, 0, 1);
+}
+
