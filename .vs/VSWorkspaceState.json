@@ -1,16 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\application",
-    "\\application\\cypress",
-    "\\application\\cypress\\e2e",
-    "\\application\\server",
-    "\\application\\server\\controllers",
-    "\\application\\server\\models",
-    "\\application\\src",
-    "\\application\\src\\app",
-    "\\Sprint-3-Reflections"
+    "\\application"
   ],
-  "SelectedNode": "\\application\\server\\controllers\\users.go",
+  "SelectedNode": "\\application\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

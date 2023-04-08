@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class ViewUsersComponent {
   Users: myUser[];
+  curUser: myUser;
   text: string;
   view: boolean;
   viewUsersSubmitted: Boolean;
@@ -16,6 +17,7 @@ export class ViewUsersComponent {
 
   constructor(private http: HttpClient, private router: Router) {
     this.Users = [];
+    this.curUser = new myUser("Name", "Username", "Email", -1, false, "********");
     this.text = "Hide All Users";
     this.view = false;
     this.viewUsersSubmitted = false;
@@ -48,7 +50,7 @@ export class ViewUsersComponent {
         this.Users.splice(0);
         var users = JSON.parse(JSON.stringify(data));
         for (let i = 0; i < users.length; i++) {
-          var user = new myUser(users[i].Name, users[i].Username, users[i].Email, users[i].ID, users[i].IsAdmin);
+          var user = new myUser(users[i].Name, users[i].Username, users[i].Email, users[i].ID, users[i].IsAdmin, users[i].Password);
           this.Users.push(user);
         }
       }
@@ -69,6 +71,86 @@ export class ViewUsersComponent {
     })
   }
 
+  chooseUser() {
+    const select = document.getElementById("chooseUser") as HTMLSelectElement;
+    const index = select.selectedIndex;
+
+    // Get selected index 
+    if (index === 0 || index === -1 || index - 1 >= this.Users.length)
+      return;
+
+    // Current character equals user's selected option'
+    var user = this.Users.at(index - 1)!;
+    this.curUser = user;
+    // this.curChar has to be set here
+    //this.curChar = char;
+  }
+
+  editUser() {
+    const select = document.getElementById("chooseUser") as HTMLSelectElement;
+    const index = select.selectedIndex;
+
+    // Get selected index 
+    if (index === 0 || index === -1 || index - 1 >= this.Users.length)
+      return;
+    const name = document.getElementById("Name") as HTMLInputElement;
+    const email = document.getElementById("Email") as HTMLInputElement;
+    const pwd = document.getElementById("Pwd") as HTMLInputElement;
+    const adm = document.getElementById("Adm") as HTMLInputElement;
+
+    if (name.value) {
+      this.curUser.Name = name.value;
+    }
+
+    if (email.value) {
+      this.curUser.Email = email.value;
+    }
+
+    if (pwd.value) {
+      this.curUser.Password = pwd.value;
+    }
+
+    if (adm.checked === true) {
+      this.curUser.IsAdmin = true;
+    }
+    const options = { headers: { 'Content-Type': 'application/json' } };
+    if (confirm("Warning! Are you sure you want to edit this user? This is potentially a destructive action!")) {
+      // Post admin and user data to edit user
+      let Admin = {
+        "AuthToken": localStorage.getItem('id_token'),
+        "Username": this.curUser.Username,
+        "Name": this.curUser.Name,
+        "Email": this.curUser.Email,
+        "Password": this.curUser.Password,
+        "IsAdmin": this.curUser.IsAdmin,
+      };
+
+      console.log(this.curUser);
+      this.http.put('http://localhost:8080/users/admin_update', JSON.stringify(Admin), options).subscribe(data => {
+        
+        if (200) {
+
+          window.location.reload();
+        }
+      }, (error) => {
+        if (error.status === 404) {
+          alert('Resource not found.');
+        }
+        else if (error.status === 409) {
+          alert('User already exists. Please try another one.');
+        }
+        else if (error.status === 500) {
+
+          alert('Server down.');
+        }
+        else if (error.status === 502) {
+          alert('Bad gateway.');
+        }
+      })
+
+
+    }
+  }
   // Admin can click to delete user (not yet implemented)
   deleteUser(username: string) {
 
@@ -125,13 +207,14 @@ class myUser {
   ID: number;
   IsAdmin: boolean;
   adm: string;
-
-  constructor(name: string, username: string, email: string, id: number, isadmin: boolean) {
+  Password: string;
+  constructor(name: string, username: string, email: string, id: number, isadmin: boolean, password: string) {
     this.Name = name;
     this.Username = username;
     this.Email = email;
     this.ID = id;
     this.IsAdmin = isadmin;
+    this.Password = password;
     if (isadmin === true) {
       this.adm = "TRUE";
     }
