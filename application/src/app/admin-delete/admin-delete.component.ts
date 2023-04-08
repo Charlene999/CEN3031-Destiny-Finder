@@ -60,6 +60,43 @@ export class AdminDeleteComponent {
           this.allItems.splice(0);
           var AllItems = JSON.parse(JSON.stringify(data));
           for (let i = 0; i < AllItems.length; i++) {
+
+            switch (AllItems[i].ClassReq) {
+              case 1:
+                AllItems[i].ClassReq = "Sorcerer";
+                break;
+              case 2:
+                AllItems[i].ClassReq = "Barbarian";
+                break;
+              case 3:
+                AllItems[i].ClassReq = "Bard";
+                break;
+              case 4:
+                AllItems[i].ClassReq = "Druid";
+                break;
+              case 5:
+                AllItems[i].ClassReq = "Shaman";
+                break;
+              case 6:
+                AllItems[i].ClassReq = "Hunter";
+                break;
+              case 7:
+                AllItems[i].ClassReq = "Necromancer";
+                break;
+              case 8:
+                AllItems[i].ClassReq = "Rogue";
+                break;
+              case 9:
+                AllItems[i].ClassReq = "Paladin";
+                break;
+              case 10:
+                AllItems[i].ClassReq = "Priest";
+                break;
+              default:
+                alert("Invalid class choice.");
+                break;
+            }
+
             var item = new Items(AllItems[i].Name, AllItems[i].Description, AllItems[i].LevelReq, AllItems[i].ClassReq, AllItems[i].ID);
             this.allItems.push(item);
           }
@@ -108,6 +145,43 @@ export class AdminDeleteComponent {
           this.allSpells.splice(0);
           var AllSpells = JSON.parse(JSON.stringify(data));
           for (let i = 0; i < AllSpells.length; i++) {
+
+            switch (AllSpells[i].ClassReq) {
+              case 1:
+                AllSpells[i].ClassReq = "Sorcerer";
+                break;
+              case 2:
+                AllSpells[i].ClassReq = "Barbarian";
+                break;
+              case 3:
+                AllSpells[i].ClassReq = "Bard";
+                break;
+              case 4:
+                AllSpells[i].ClassReq = "Druid";
+                break;
+              case 5:
+                AllSpells[i].ClassReq = "Shaman";
+                break;
+              case 6:
+                AllSpells[i].ClassReq = "Hunter";
+                break;
+              case 7:
+                AllSpells[i].ClassReq = "Necromancer";
+                break;
+              case 8:
+                AllSpells[i].ClassReq = "Rogue";
+                break;
+              case 9:
+                AllSpells[i].ClassReq = "Paladin";
+                break;
+              case 10:
+                AllSpells[i].ClassReq = "Priest";
+                break;
+              default:
+                alert("Invalid class choice.");
+                break;
+            }
+
             var spell = new Items(AllSpells[i].Name, AllSpells[i].Description, AllSpells[i].LevelReq, AllSpells[i].ClassReq, AllSpells[i].ID);
             this.allSpells.push(spell);
           }
@@ -221,10 +295,10 @@ class Items {
   name: string;
   description: string;
   levelReq: number;
-  classReq: number;
+  classReq: string;
   id: number;
 
-  constructor(Name: string, Description: string, LevelReq: number, ClassReq: number, ID: number) {
+  constructor(Name: string, Description: string, LevelReq: number, ClassReq: string, ID: number) {
     this.name = Name;
     this.description = Description;
     this.levelReq = LevelReq;
@@ -237,10 +311,10 @@ class Spells {
   name: string;
   description: string;
   levelReq: number;
-  classReq: number;
+  classReq: string;
   id: number;
 
-  constructor(Name: string, Description: string, LevelReq: number, ClassReq: number, ID: number) {
+  constructor(Name: string, Description: string, LevelReq: number, ClassReq: string, ID: number) {
     this.name = Name;
     this.description = Description;
     this.levelReq = LevelReq;

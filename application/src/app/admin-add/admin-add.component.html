@@ -53,7 +53,17 @@
       </div>
     </div>
 
-    <!-- The user inputs the item's level here -->
+    <select id="character_dropdown_item">
+      <option disabled selected hidden>Character Level</option>
+      <option *ngFor="let level of allLevels">{{level}}</option>
+    </select>
+
+    <select id="class_dropdown_item">
+      <option disabled selected hidden>Character Class</option>
+      <option *ngFor="let iclass of allClasses">{{iclass}}</option>
+    </select>
+
+    <!-- The user inputs the item's level here 
     <input type="text"
            id="itemlevel"
            placeholder="Level" 
@@ -61,7 +71,7 @@
            required      
     />
 
-    <!-- The user input for the item's level is checked here -->
+     The user input for the item's level is checked here 
     <div *ngIf="itemForm.controls['itemlevel'].invalid && (itemForm.controls['itemlevel'].dirty || itemForm.controls['itemlevel'].touched)" class="alert alert-danger">
       <div *ngIf="itemForm.controls['itemlevel'].errors?.['required']">
         Item level is required.
@@ -71,7 +81,7 @@
       </div>
     </div>
 
-    <!-- The user inputs the item's class here -->
+     The user inputs the item's class here 
     <input type="text"
            id="itemclass"
            placeholder="Class" 
@@ -79,7 +89,7 @@
            required
     />
 
-    <!-- The user input for the item's class is checked here -->
+     The user input for the item's class is checked here 
     <div *ngIf="itemForm.controls['itemclass'].invalid && (itemForm.controls['itemclass'].dirty || itemForm.controls['itemclass'].touched)" class="alert alert-danger">
       <div *ngIf="itemForm.controls['itemclass'].errors?.['required']">
         Item class is required.
@@ -88,7 +98,7 @@
         Item class can only be 1 through 10.
       </div>
     </div>
-
+-->
     <button class="submit" type="reset" id="itemreset" (click)="itemreset()">Reset Values</button>
     <button class="submit" type="submit" id="itemsubmit" [disabled]="!itemForm.valid">Submit</button>
   </form>
@@ -151,7 +161,17 @@
         </div>
       </div>
 
-      <!-- The user inputs the spell's level here -->
+      <select id="character_dropdown_spell">
+        <option disabled selected hidden>Character Level</option>
+        <option *ngFor="let level of allLevels">{{level}}</option>
+      </select>
+  
+      <select id="class_dropdown_spell">
+        <option disabled selected hidden>Character Class</option>
+        <option *ngFor="let iclass of allClasses">{{iclass}}</option>
+      </select>
+
+      <!-- The user inputs the spell's level here 
       <input type="text"
             id="spelllevel"
             placeholder="Level" 
@@ -159,7 +179,7 @@
             required      
       />
 
-      <!-- The user input for the spell's level is checked here -->
+       The user input for the spell's level is checked here 
       <div *ngIf="spellForm.controls['spelllevel'].invalid && (spellForm.controls['spelllevel'].dirty || spellForm.controls['spelllevel'].touched)" class="alert alert-danger">
         <div *ngIf="spellForm.controls['spelllevel'].errors?.['required']">
           Spell level is required.
@@ -169,7 +189,7 @@
         </div>
       </div>
 
-      <!-- The user inputs the spell's class here -->
+       The user inputs the spell's class here
       <input type="text"
             id="spellclass"
             placeholder="Class" 
@@ -177,7 +197,7 @@
             required
       />
 
-      <!-- The user input for the spell's class is checked here -->
+       The user input for the spell's class is checked here 
       <div *ngIf="spellForm.controls['spellclass'].invalid && (spellForm.controls['spellclass'].dirty || spellForm.controls['spellclass'].touched)" class="alert alert-danger">
         <div *ngIf="spellForm.controls['spellclass'].errors?.['required']">
           Spell class is required.
@@ -186,7 +206,7 @@
           Spell class can only be 1 through 10.
         </div>
       </div>
-
+-->
       <button class="submit" type="reset" id="spellreset" (click)="spellreset()">Reset Values</button>
       <button class="submit" type="submit" id="spellsubmit" [disabled]="!spellForm.valid">Submit</button>
     </form>
