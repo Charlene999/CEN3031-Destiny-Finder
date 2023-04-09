@@ -16,13 +16,12 @@
         <tr *ngFor="let character of allChars; let i = index">
           <td id="name" contenteditable=true class="Name">{{character.Name}}</td>
           <td id="desc" contenteditable=true class="Description">{{character.Description}}</td>
-          <td id="level" contenteditable=true class="Level">{{character.Level}}</td>
-          <td id="class" contenteditable=true class="Class">{{character.Class}}</td>
+          <td id="level" contenteditable=false class="Level">{{character.Level}}</td>
+          <td id="class" contenteditable=false class="Class">{{character.Class}}</td>
           <td class="delete" (click)="deleteCharacter(character.Name, character.ID)">DELETE</td>
           <td class="edit" (click)="editCharacter(character, i)">EDIT</td>
         </tr>
       </tbody>
-
     </table>
   </div>
   <label>{{invalidName}} <br />{{invalidDesc}} <br />{{invalidLevel}} <br />{{invalidClass}} <br /></label>

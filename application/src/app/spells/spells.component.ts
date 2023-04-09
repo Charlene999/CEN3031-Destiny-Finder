@@ -10,17 +10,19 @@ import { HttpClient } from '@angular/common/http';
 export class SpellsComponent {
 
   allClasses: Array<string>;
-  curClass: Number;
+  curClass: string;
   allSpells: Spell[];
+  curClassSpells: Spell[];
   viewSubmitted: Boolean;
   addSubmitted: Boolean;
   removeSubmitted: Boolean;
   searchText: any;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.allClasses = ["Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
+    this.allClasses = ["All Spells", "Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
     this.allSpells = [];
-    this.curClass = 0;
+    this.curClass = "All Spells";
+    this.curClassSpells = [];
     this.viewSubmitted = false;
     this.addSubmitted = false;
     this.removeSubmitted = false;
@@ -30,62 +32,61 @@ export class SpellsComponent {
     if (localStorage.getItem('id_token') === null) {
       this.router.navigateByUrl('/');
     }
-  }
-
-  //Show all spells by class
-  showSpells(f: string) {
-
-    this.viewSubmitted = true;
-
-    switch (f) {
-      case "Sorcerer":
-        this.curClass = 1;
-        break;
-      case "Barbarian":
-        this.curClass = 2;
-        break;
-      case "Bard":
-        this.curClass = 3;
-        break;
-      case "Druid":
-        this.curClass = 4;
-        break;
-      case "Shaman":
-        this.curClass = 5;
-        break;
-      case "Hunter":
-        this.curClass = 6;
-        break;
-      case "Necromancer":
-        this.curClass = 7;
-        break;
-      case "Rogue":
-        this.curClass = 8;
-        break;
-      case "Paladin":
-        this.curClass = 9;
-        break;
-      case "Priest":
-        this.curClass = 10;
-        break;
-      default:
-        alert("Invalid class choice.");
-        break;
-    }
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/get', options).subscribe(data => {
       if (200) {
+
         if (data === null)
           return;
 
         var spells = JSON.parse(JSON.stringify(data));
+
         this.allSpells.splice(0);
 
+        //For all spells in the database
         for (var i = 0; i < spells.length; i++) {
-          if (spells[i].ClassReq === this.curClass) {
-            var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
-            this.allSpells.push(spell);}
+
+          switch (spells[i].ClassReq) {
+            case 1:
+              spells[i].ClassReq = "Sorcerer";
+              break;
+            case 2:
+              spells[i].ClassReq = "Barbarian";
+              break;
+            case 3:
+              spells[i].ClassReq = "Bard";
+              break;
+            case 4:
+              spells[i].ClassReq = "Druid";
+              break;
+            case 5:
+              spells[i].ClassReq = "Shaman";
+              break;
+            case 6:
+              spells[i].ClassReq = "Hunter";
+              break;
+            case 7:
+              spells[i].ClassReq = "Necromancer";
+              break;
+            case 8:
+              spells[i].ClassReq = "Rogue";
+              break;
+            case 9:
+              spells[i].ClassReq = "Paladin";
+              break;
+            case 10:
+              spells[i].ClassReq = "Priest";
+              break;
+            default:
+              alert("Invalid class choice.");
+              break;
+          }
+        }
+        
+        for (var i = 0; i < spells.length; i++) {
+          var spell = new Spell(spells[i].Name, spells[i].Description, spells[i].LevelReq, spells[i].ClassReq, spells[i].ID);
+          this.allSpells.push(spell);
         }
       }
     }, (error) => {
@@ -101,15 +102,52 @@ export class SpellsComponent {
     }
     );
   }
+
+  //Show all spells by class
+  showSpells() {
+
+    const select = document.getElementById("classes") as HTMLSelectElement;
+    const index = select.selectedIndex;
+
+    if(index === 0 || index == -1 || index -1 >= this.allClasses.length)
+      return;
+
+    this.viewSubmitted = true;
+
+    this.curClass = this.allClasses.at(index - 1) as string;
+
+    if (this.curClass !== "All Spells") {
+
+      this.curClassSpells.splice(0);
+
+      //For loop that goes through all items in allItems
+      for (let item = 0; item < this.allSpells.length; item++) {
+        if (this.curClass === this.allSpells[item].Class) {
+          //Push item into allItems array
+          this.curClassSpells.push(this.allSpells[item]);
+        }
+      }
+    }
+  }
+
+  All() {
+    if (this.curClass === "All Spells") {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }
 
 class Spell {
   Name: string;
   Description: string;
   Level: number;
-  Class: number;
+  Class: string;
   ID: number;
-  constructor(name: string, desc: string, level: number, myclass: number, id: number) {
+
+  constructor(name: string, desc: string, level: number, myclass: string, id: number) {
     this.Name = name;
     this.Description = desc;
     this.Level = level;
