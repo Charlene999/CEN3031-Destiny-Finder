@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -14,13 +15,18 @@ export class ViewUsersComponent {
   view: boolean;
   viewUsersSubmitted: Boolean;
   deleteUserSubmitted: Boolean;
+  editUsersSubmitted: Boolean;
+  // Stores user edit form data
+  form: FormGroup = new FormGroup({});
 
-  constructor(private http: HttpClient, private router: Router) {
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.Users = [];
     this.curUser = new myUser("Name", "Username", "Email", -1, false, "********");
     this.text = "Hide All Users";
     this.view = false;
     this.viewUsersSubmitted = false;
+    this.editUsersSubmitted = false;
     this.deleteUserSubmitted = false;
   }
 
@@ -30,6 +36,13 @@ export class ViewUsersComponent {
     }
 
     this.viewUsers();
+
+    // Same validation here as signup form validation
+    this.form = this.fb.group({
+      name: new FormControl("", [Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
+      email: new FormControl("", [Validators.email,]),
+      password: new FormControl("", [Validators.minLength(8), Validators.maxLength(20),]),
+    })
   }
 
   // Allow admin to view all characters
@@ -62,7 +75,6 @@ export class ViewUsersComponent {
         alert('Character already exists. Please try another one.');
       }
       else if (error.status === 500) {
-
         alert('Server down.');
       }
       else if (error.status === 502) {
@@ -71,6 +83,7 @@ export class ViewUsersComponent {
     })
   }
 
+  // Get admin user option
   chooseUser() {
     const select = document.getElementById("chooseUser") as HTMLSelectElement;
     const index = select.selectedIndex;
@@ -86,23 +99,33 @@ export class ViewUsersComponent {
     //this.curChar = char;
   }
 
+  // Edit user with admin info
   editUser() {
+
+    // double check if submitted form is valid
+    if (!this.form.valid)
+      return;
+
     const select = document.getElementById("chooseUser") as HTMLSelectElement;
     const index = select.selectedIndex;
 
     // Get selected index 
     if (index === 0 || index === -1 || index - 1 >= this.Users.length)
       return;
-    const name = document.getElementById("Name") as HTMLInputElement;
-    const email = document.getElementById("Email") as HTMLInputElement;
-    const pwd = document.getElementById("Pwd") as HTMLInputElement;
+
+    // Only update values that admin entered
+    const name = document.getElementById("name") as HTMLInputElement;
+    const email = document.getElementById("email") as HTMLInputElement;
+    const pwd = document.getElementById("password") as HTMLInputElement;
     const adm = document.getElementById("Adm") as HTMLInputElement;
 
-    if (name.value) {
+    this.curUser = this.Users.at(index - 1)!;
+
+    if (name.value != "") {
       this.curUser.Name = name.value;
     }
 
-    if (email.value) {
+    if (email.value != "") {
       this.curUser.Email = email.value;
     }
 
@@ -113,24 +136,39 @@ export class ViewUsersComponent {
     if (adm.checked === true) {
       this.curUser.IsAdmin = true;
     }
+
+    console.log(this.curUser);
     const options = { headers: { 'Content-Type': 'application/json' } };
     if (confirm("Warning! Are you sure you want to edit this user? This is potentially a destructive action!")) {
-      // Post admin and user data to edit user
-      let Admin = {
-        "AuthToken": localStorage.getItem('id_token'),
-        "Username": this.curUser.Username,
-        "Name": this.curUser.Name,
-        "Email": this.curUser.Email,
-        "Password": this.curUser.Password,
-        "IsAdmin": this.curUser.IsAdmin,
-      };
 
-      console.log(this.curUser);
-      this.http.put('http://localhost:8080/users/admin_update', JSON.stringify(Admin), options).subscribe(data => {
+      // Post admin and user data to edit user
+      var Admin;
+      if (pwd.value) {
+        Admin = {
+          "AuthToken": localStorage.getItem('id_token'),
+          "Username": this.curUser.Username,
+          "Name": this.curUser.Name,
+          "Email": this.curUser.Email,
+          "Password": this.curUser.Password,
+          "IsAdmin": this.curUser.IsAdmin,
+        }
+
+      }
+      else {
+        Admin = {
+
+          "AuthToken": localStorage.getItem('id_token'),
+          "Username": this.curUser.Username,
+          "Name": this.curUser.Name,
+          "Email": this.curUser.Email,
+          "IsAdmin": this.curUser.IsAdmin,
+        }
+      }
         
+      this.http.put('http://localhost:8080/users/admin_update', JSON.stringify(Admin), options).subscribe(data => {
         if (200) {
-          alert("User " + this.curUser.Username + " updated successfully.");
-          window.location.reload();
+          alert("User " + this.curUser.Username + " successfully updated.");
+          this.editUsersSubmitted = false;
         }
       }, (error) => {
         if (error.status === 404) {
@@ -140,7 +178,6 @@ export class ViewUsersComponent {
           alert('User already exists. Please try another one.');
         }
         else if (error.status === 500) {
-
           alert('Server down.');
         }
         else if (error.status === 502) {
@@ -148,9 +185,9 @@ export class ViewUsersComponent {
         }
       })
 
-
     }
   }
+
   // Admin can click to delete user (not yet implemented)
   deleteUser(username: string) {
 
@@ -197,6 +234,15 @@ export class ViewUsersComponent {
       return;
     }
   }
+
+  edited(){
+    
+    if (this.editUsersSubmitted === false) {
+      this.editUsersSubmitted = true;
+    }
+
+    return this.editUsersSubmitted;
+  }
 }
 
 // User Info available for admin
@@ -218,7 +264,6 @@ class myUser {
     if (isadmin === true) {
       this.adm = "TRUE";
     }
-
     else {
       this.adm = "FALSE";
     }
