@@ -40,13 +40,13 @@
 
     <!-- User's name validation -->
     <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class="alert alert-danger">
-      <div class="divName" *ngIf="form.controls['name'].errors?.['minlength']">
+      <div class="divName" *ngIf="this.editUsersSubmitted && form.controls['name'].errors?.['minlength']">
         Name must be at least 4 characters long.
       </div>
-      <div class="divName" *ngIf="form.controls['name'].errors?.['maxlength']">
+      <div class="divName" *ngIf="this.editUsersSubmitted && form.controls['name'].errors?.['maxlength']">
         Name cannot be longer than 30 characters.
       </div>
-      <div class="divName" *ngIf="form.controls['name'].errors?.['pattern']">
+      <div class="divName" *ngIf="this.editUsersSubmitted && form.controls['name'].errors?.['pattern']">
         Name cannot contain special characters or numbers.
       </div>
     </div>
@@ -56,7 +56,7 @@
 
     <!-- User's email validation -->
     <div *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)" class="alert alert-danger">
-      <div class="divEmail" *ngIf="form.controls['email'].errors?.['email']">
+      <div class="divEmail" *ngIf="this.editUsersSubmitted && form.controls['email'].errors?.['email']">
         The email must be valid.
       </div>
     </div>
@@ -66,10 +66,10 @@
 
     <!-- User's password validation -->
     <div *ngIf="form.controls['password'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)" class="alert alert-danger">
-      <div class="divPwd" *ngIf="form.controls['password'].errors?.['minlength']">
+      <div class="divPwd" *ngIf="this.editUsersSubmitted && form.controls['password'].errors?.['minlength']">
         Password must be at least 8 characters long.
       </div>
-      <div class="divPwd" *ngIf="form.controls['password'].errors?.['maxlength']">
+      <div class="divPwd" *ngIf="this.editUsersSubmitted && form.controls['password'].errors?.['maxlength']">
         Password cannot be longer than 30 characters.
       </div>
     </div>

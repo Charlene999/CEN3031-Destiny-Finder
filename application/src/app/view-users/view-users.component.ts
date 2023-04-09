@@ -137,7 +137,6 @@ export class ViewUsersComponent {
       this.curUser.IsAdmin = true;
     }
 
-    console.log(this.curUser);
     const options = { headers: { 'Content-Type': 'application/json' } };
     if (confirm("Warning! Are you sure you want to edit this user? This is potentially a destructive action!")) {
 
