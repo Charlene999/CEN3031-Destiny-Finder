@@ -19,6 +19,7 @@ export class ViewUsersComponent {
   // Stores user edit form data
   form: FormGroup = new FormGroup({});
 
+
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.Users = [];
     this.curUser = new myUser("Name", "Username", "Email", -1, false, "********");
@@ -74,7 +75,6 @@ export class ViewUsersComponent {
         alert('Character already exists. Please try another one.');
       }
       else if (error.status === 500) {
-
         alert('Server down.');
       }
       else if (error.status === 502) {
@@ -118,7 +118,9 @@ export class ViewUsersComponent {
     const email = document.getElementById("email") as HTMLInputElement;
     const pwd = document.getElementById("password") as HTMLInputElement;
     const adm = document.getElementById("Adm") as HTMLInputElement;
+
     this.curUser = this.Users.at(index - 1)!;
+
     if (name.value != "") {
       this.curUser.Name = name.value;
     }
@@ -152,7 +154,6 @@ export class ViewUsersComponent {
         }
 
       }
-
       else {
         Admin = {
 
@@ -164,14 +165,11 @@ export class ViewUsersComponent {
         }
       }
         
-
       this.http.put('http://localhost:8080/users/admin_update', JSON.stringify(Admin), options).subscribe(data => {
-        
         if (200) {
-          //window.location.reload();
+          alert("User " + this.curUser.Username + " successfully updated.");
           this.editUsersSubmitted = false;
         }
-
       }, (error) => {
         if (error.status === 404) {
           alert('Resource not found.');
@@ -180,7 +178,6 @@ export class ViewUsersComponent {
           alert('User already exists. Please try another one.');
         }
         else if (error.status === 500) {
-
           alert('Server down.');
         }
         else if (error.status === 502) {
@@ -190,6 +187,7 @@ export class ViewUsersComponent {
 
     }
   }
+
   // Admin can click to delete user (not yet implemented)
   deleteUser(username: string) {
 
@@ -266,7 +264,6 @@ class myUser {
     if (isadmin === true) {
       this.adm = "TRUE";
     }
-
     else {
       this.adm = "FALSE";
     }

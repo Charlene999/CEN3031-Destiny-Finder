@@ -22,7 +22,6 @@
         <td (click)="deleteUser(user.Username)" class="delete">DELETE</td>
       </tr>
     </tbody>
-
   </table>
 </div>
 
@@ -30,42 +29,48 @@
 <div class="users">
   <select (click)="chooseUser()" id="chooseUser">
     <option value="Edit User" disabled selected hidden>Edit User</option>
-    <option *ngFor="let user of Users; let i = index" value=user.Username class="Name" id="curUser">{{user.Username}}</option>
+    <option *ngFor="let user of Users" value=user.Username class="Name" id="curUser">{{user.Username}}</option>
   </select>
 
   <h1 class="profile">Profile Information</h1>
   <form [formGroup]="form" (ngSubmit)="editUser()">
 
-    <!-- User's name validation-->
+    <!-- User's name input -->
     <input id="name" formControlName="name" class="name" placeholder="{{curUser.Name}}" type="text" />
 
-  <!-- Validation from login component used here -->
-    <div *ngIf="form.controls['name'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)" class="alert alert-danger">
-      <div class="divName" *ngIf="this.editUsersSubmitted && form.controls['name'].errors?.['minlength']">
+    <!-- User's name validation -->
+    <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class="alert alert-danger">
+      <div class="divName" *ngIf="form.controls['name'].errors?.['minlength']">
         Name must be at least 4 characters long.
       </div>
-      <div class="divName" *ngIf="this.editUsersSubmitted && form.controls['name'].errors?.['pattern']">
+      <div class="divName" *ngIf="form.controls['name'].errors?.['maxlength']">
+        Name cannot be longer than 30 characters.
+      </div>
+      <div class="divName" *ngIf="form.controls['name'].errors?.['pattern']">
         Name cannot contain special characters or numbers.
       </div>
     </div>
 
-    <!-- User's email validation-->
+    <!-- User's email input -->
     <input id="email" formControlName="email" class="email" placeholder="{{curUser.Email}}" type="email" />
 
+    <!-- User's email validation -->
     <div *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)" class="alert alert-danger">
-
-      <div class="divEmail" *ngIf="this.editUsersSubmitted && form.controls['email'].errors?.['email']">
+      <div class="divEmail" *ngIf="form.controls['email'].errors?.['email']">
         The email must be valid.
       </div>
     </div>
 
-    <!--User's password validation-->
+    <!-- User's password input -->
     <input id="password" formControlName="password" class="pwd" placeholder="Password" type="password" />
 
-    <!-- The user input for password is checked here -->
-    <div *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)" class="alert alert-danger">
-      <div class="divPwd" *ngIf="this.editUsersSubmitted && form.controls['password'].errors?.['minlength']">
+    <!-- User's password validation -->
+    <div *ngIf="form.controls['password'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)" class="alert alert-danger">
+      <div class="divPwd" *ngIf="form.controls['password'].errors?.['minlength']">
         Password must be at least 8 characters long.
+      </div>
+      <div class="divPwd" *ngIf="form.controls['password'].errors?.['maxlength']">
+        Password cannot be longer than 30 characters.
       </div>
     </div>
 
@@ -74,8 +79,7 @@
       <input id="Adm" class="adm" name="Set As Admin" type="checkbox" />
       <label>Set as Admin</label>
     </div>
+
     <button (click)="edited()" class="edit">EDIT</button>
   </form>
-
 </div>
-
