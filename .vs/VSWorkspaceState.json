@@ -1,8 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\application"
+    "\\application",
+    "\\application\\server",
+    "\\application\\server\\utilities",
+    "\\application\\src",
+    "\\application\\src\\app",
+    "\\application\\src\\app\\users",
+    "\\application\\src\\app\\users\\users-edit",
+    "\\application\\src\\app\\users\\users-edit\\password",
+    "\\application\\src\\app\\view-users"
   ],
-  "SelectedNode": "\\application\\.gitignore",
+  "SelectedNode": "\\application\\src\\app\\view-users\\view-users.component.html",
   "PreviewInSolutionExplorer": false
 }

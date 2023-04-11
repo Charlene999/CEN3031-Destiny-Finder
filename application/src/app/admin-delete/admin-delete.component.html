@@ -4,8 +4,8 @@
   </form>
   <h1></h1>
 
-  <div class="tbl-content">
-    <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+  <div id="itemTabl" class="tbl-content">
+    <table id="itemTable" cellpadding="0" cellspacing="0" border="0">
       <thead>
         <tr>
           <th>Name</th>
@@ -18,12 +18,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of allItems; let i = index">
-          <td class="Name">{{item.name}}</td>
-          <td class="Description">{{item.description}}</td>
+          <td id="itemName" class="Name" contenteditable="true">{{item.name}}</td>
+          <td id="itemDesc" class="Description" contenteditable="true">{{item.description}}</td>
           <td class="Level">{{item.levelReq}}</td>
           <td class="Class">{{item.classReq}}</td>
           <td (click)="deleteItem(item.id, item.name)" class="delete">Delete Item</td>
-          <td class="edit">EDIT</td>
+          <td (click)="editItem(item, i)" class="edit">EDIT</td>
         </tr>
       </tbody>
 
@@ -37,8 +37,8 @@
   </form>
   <h1></h1>
 
-  <div class="tbl-content">
-    <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+  <div id="spellTabl"  class="tbl-content">
+    <table id="spellTable" cellpadding="0" cellspacing="0" border="0">
       <thead>
         <tr>
           <th>Name</th>
@@ -51,12 +51,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let spell of allSpells; let i = index">
-          <td class="Name">{{spell.name}}</td>
-          <td class="Description">{{spell.description}}</td>
+          <td id="spellName" class="Name" contenteditable="true">{{spell.name}}</td>
+          <td id="spellDesc" class="Description" contenteditable="true">{{spell.description}}</td>
           <td class="Level">{{spell.levelReq}}</td>
           <td class="Class">{{spell.classReq}}</td>
           <td (click)="deleteSpell(spell.id, spell.name)" class="delete">Delete Spell</td>
-          <td class="edit">EDIT</td>
+          <td (click)="editSpell(spell, i)" class="edit">EDIT</td>
         </tr>
       </tbody>
 
