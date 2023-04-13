@@ -133,7 +133,7 @@ h1 {
   text-transform: uppercase;
   font-weight: 300;
   text-align: center;
-  margin-bottom: 15px;
+  margin: 0px;
 }
 
 table {
@@ -251,7 +251,8 @@ body {
     outline: groove;
     border-radius: 4px;
     outline-color: rgb(255, 120, 0);
-    position: center;
+    position:relative;
+    margin-bottom: 15px;
   }
 
   users::before {
@@ -296,3 +297,14 @@ label {
     text-shadow: rgba(0, 0, 0, 1);
 }
 
+.tableTitle {
+  position: sticky;
+  top: 0px;
+  font-size: 25px;
+  color: rgb(255, 180, 0);
+  text-shadow: 0 0 10px rgba(0,0,0,1);
+  letter-spacing: 1px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background-color: rgba(226, 88, 34, .45);
+}

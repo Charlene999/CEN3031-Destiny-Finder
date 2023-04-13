@@ -4,6 +4,9 @@
   <table id="tabl" cellpadding="0" cellspacing="0" border="0">
     <thead>
       <tr>
+        <td colspan="6" class="tableTitle">ALL ITEMS</td>
+      </tr>
+      <tr>
         <th>Name</th>
         <th>Username</th>
         <th>Email</th>
@@ -32,7 +35,8 @@
     <option *ngFor="let user of Users" value=user.Username class="Name" id="curUser">{{user.Username}}</option>
   </select>
 
-  <h1 class="profile">Profile Information</h1>
+  <h1 class="profile">Profile</h1>
+  <h1 class="profile">Information</h1>
   <form [formGroup]="form" (ngSubmit)="editUser()">
 
     <!-- User's name input -->

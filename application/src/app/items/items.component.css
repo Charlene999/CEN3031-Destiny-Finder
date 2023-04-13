@@ -13,15 +13,15 @@ html {
 
 .items {
   position: absolute;
-  top: 400%;
-  left: 55%;
-  width: 500px;
+  top: 350%;
+  left: 23%;
+  width: 800px;
   height: 300px;
 }
 
   .items h1 {
     color: rgb(255, 180, 0);
-    text-shadow: 0 0 10px rgba(255,255,255,.6);
+    text-shadow: 0 0 10px rgba(0, 0,0,.6);
     letter-spacing: 1px;
     text-align: center;
   }
@@ -68,7 +68,7 @@ table {
   border-radius: 6px;
   table-layout: fixed;
   position: center;
-  height: 300px;
+  height: 400px;
   margin-top: 0px;
   background-color: rgba(226, 88, 34, .36);
   border: 2.5px solid rgba(255,180,0,1.0);
