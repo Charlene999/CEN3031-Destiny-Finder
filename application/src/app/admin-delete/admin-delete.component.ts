@@ -14,6 +14,8 @@ export class AdminDeleteComponent {
   Spelltext: string;
   itemview: boolean;
   spellview: boolean;
+  ItemValid: boolean;
+  SpellValid: boolean;
   viewItemsSubmitted: Boolean;
   deleteItemSubmitted: Boolean;
   viewSpellsSubmitted: Boolean;
@@ -22,8 +24,10 @@ export class AdminDeleteComponent {
   constructor(private http: HttpClient, private router: Router) {
     this.itemview = false;
     this.spellview = false;
-    this.Itemtext = "Hide All Items"
-    this.Spelltext = "Hide All Spells"
+    this.Itemtext = "Hide All Items";
+    this.Spelltext = "Hide All Spells";
+    this.ItemValid = true;
+    this.SpellValid = true;
     this.allItems = [];
     this.allSpells = [];
     this.viewItemsSubmitted = false;
@@ -309,8 +313,12 @@ export class AdminDeleteComponent {
 
     // Get data admin entered
     var table = document.getElementById("itemTable") as HTMLTableElement;
-    var name = table.rows[index + 1]?.cells[0]?.innerText;
-    var desc = table.rows[index + 1]?.cells[1]?.innerText;
+    var name = table.rows[index + 2]?.cells[0]?.innerText;
+    var desc = table.rows[index + 2]?.cells[1]?.innerText;
+
+    // Don't post request if item data is invalid
+    if (!this.itemValid(name, desc))
+      return;
 
     let Item =
     {
@@ -345,8 +353,12 @@ export class AdminDeleteComponent {
   editSpell(spell: Spells, index: number) {
     // Get data admin entered
     var table = document.getElementById("spellTable") as HTMLTableElement;
-    var name = table.rows[index + 1]?.cells[0]?.innerText;
-    var desc = table.rows[index + 1]?.cells[1]?.innerText;
+    var name = table.rows[index + 2]?.cells[0]?.innerText;
+    var desc = table.rows[index + 2]?.cells[1]?.innerText;
+
+    // Don't post request if spell data is invalid
+    if (!this.spellValid(name, desc))
+      return;
 
     let Spell =
     {
@@ -376,6 +388,84 @@ export class AdminDeleteComponent {
       }
     })
   }
+
+  // Item Validation
+
+  itemValid(itemName: string, itemDesc: string): boolean {
+
+    // Validate edit item with add item validation
+    var itemname = "", itemdesc = "";
+    var valItem = document.getElementById("itemValid") as HTMLTableRowElement;
+    var descVal = new RegExp('[a-zA-Z.,? ]*');
+
+    if (!descVal.test(itemDesc)) 
+      itemdesc = "Description contains invalid characters"
+
+    if (itemDesc.length < 4) 
+      itemdesc = "Description must be at least 4 characters"
+
+    if (itemDesc.length > 38) 
+      itemdesc = "Description cannot exceed 38 characters"
+
+    var nameVal = new RegExp('[a-zA-Z ]*');
+
+    if (!nameVal.test(itemName)) 
+      itemname = "Name contains invalid characters"
+
+    if (itemName.length < 4) 
+      itemname= "Name must be at least 4 characters"
+
+    if (itemName.length > 38) 
+      itemname = "Name cannot exceed 38 characters"
+
+    if (itemname == "" && itemdesc == "") {
+      valItem.innerHTML = "ALL ITEMS";
+      this.ItemValid = true;
+      return this.ItemValid;
+    }
+    valItem.innerHTML = itemname + "<br>" + itemdesc;
+    this.ItemValid = false;
+    return this.ItemValid;
+  }
+
+  // Spell Validation
+  spellValid(spellName: string, spellDesc: string): boolean {
+
+    // Validate edit spell with add spell validation
+    var spellname = "", spelldesc = "";
+    var valSpell = document.getElementById("spellValid") as HTMLTableRowElement;
+    var descVal = new RegExp('[a-zA-Z.,? ]*');
+
+    if (!descVal.test(spellDesc))
+      spelldesc = "Description contains invalid characters"
+
+    if (spellDesc.length < 4)
+      spelldesc = "Description must be at least 4 characters"
+
+    if (spellDesc.length > 38)
+      spelldesc = "Description cannot exceed 38 characters"
+
+    var nameVal = new RegExp('[a-zA-Z ]*');
+
+    if (!nameVal.test(spellName))
+      spellname = "Name contains invalid characters"
+
+    if (spellName.length < 4)
+      spellname = "Name must be at least 4 characters"
+
+    if (spellName.length > 38)
+      spellname = "Name cannot exceed 38 characters"
+
+    if (spellname == "" && spelldesc == "") {
+      valSpell.innerHTML = "ALL SPELLS";
+      this.SpellValid = true;
+      return this.SpellValid;
+    }
+    valSpell.innerHTML = spellname + "<br>" + spelldesc;
+    this.SpellValid = false;
+    return this.SpellValid;
+  }
+
 }
 
 class Items {

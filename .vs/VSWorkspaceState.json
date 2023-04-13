@@ -3,14 +3,13 @@
     "",
     "\\application",
     "\\application\\server",
-    "\\application\\server\\utilities",
+    "\\application\\server\\router",
     "\\application\\src",
     "\\application\\src\\app",
-    "\\application\\src\\app\\users",
-    "\\application\\src\\app\\users\\users-edit",
-    "\\application\\src\\app\\users\\users-edit\\password",
+    "\\application\\src\\app\\admin-add",
+    "\\application\\src\\app\\admin-delete",
+    "\\application\\src\\app\\items",
     "\\application\\src\\app\\view-users"
   ],
-  "SelectedNode": "\\application\\src\\app\\view-users\\view-users.component.html",
   "PreviewInSolutionExplorer": false
 }
