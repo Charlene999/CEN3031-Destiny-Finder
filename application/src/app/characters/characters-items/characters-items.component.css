@@ -10,14 +10,14 @@
     height: 100%;
     overflow: hidden;
   }
-  
-  .items {
-    position: absolute;
-    top: 400%;
-    left: 55%;
-    width: 500px;
-    height: 300px;
-  }
+
+.items {
+  position: absolute;
+  top: 350%;
+  left: 23%;
+  width: 800px;
+  height: 300px;
+}
   
     .items h1 {
       color: rgb(255, 180, 0);
@@ -68,7 +68,7 @@
     border-radius: 6px;
     table-layout: fixed;
     position: center;
-    height: 300px;
+    height: 400px;
     margin-top: 0px;
     background-color: rgba(226, 88, 34, .36);
     border: 2.5px solid rgba(255,180,0,1.0);
@@ -166,4 +166,3 @@
     .Add:active {
       color: rgb(255, 120, 0);
     }
-  
