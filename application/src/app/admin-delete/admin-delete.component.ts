@@ -14,6 +14,8 @@ export class AdminDeleteComponent {
   Spelltext: string;
   itemview: boolean;
   spellview: boolean;
+  ItemValid: boolean;
+  SpellValid: boolean;
   viewItemsSubmitted: Boolean;
   deleteItemSubmitted: Boolean;
   viewSpellsSubmitted: Boolean;
@@ -22,8 +24,10 @@ export class AdminDeleteComponent {
   constructor(private http: HttpClient, private router: Router) {
     this.itemview = false;
     this.spellview = false;
-    this.Itemtext = "View All Items"
-    this.Spelltext = "View All Spells"
+    this.Itemtext = "Hide All Items";
+    this.Spelltext = "Hide All Spells";
+    this.ItemValid = true;
+    this.SpellValid = true;
     this.allItems = [];
     this.allSpells = [];
     this.viewItemsSubmitted = false;
@@ -36,74 +40,67 @@ export class AdminDeleteComponent {
     if (localStorage.getItem('id_token') === null || localStorage.getItem('adminstatus') !== 'true') {
       this.router.navigateByUrl('/');
     }
-  }
 
-  // Allow admin to show and hide ALL items
-  viewItems() {
+    // All items and spells should show on page load
 
     let items = {
       "AdminToken": localStorage.getItem('id_token'),
     };
 
-    this.viewItemsSubmitted = true;
+    let spells = {
+      "AdminToken": localStorage.getItem('id_token'),
+    };
 
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/items/get', JSON.stringify(items), options).subscribe(data => {
       if (200) {
         // Show all items or hide them depending on when admin clicks
-        if (this.itemview === true) {
-          this.allItems.splice(0);
-          this.Itemtext = "View All Items";
-          this.itemview = false;
-        }
-        else {
-          this.allItems.splice(0);
-          var AllItems = JSON.parse(JSON.stringify(data));
-          for (let i = 0; i < AllItems.length; i++) {
 
-            switch (AllItems[i].ClassReq) {
-              case 1:
-                AllItems[i].ClassReq = "Sorcerer";
-                break;
-              case 2:
-                AllItems[i].ClassReq = "Barbarian";
-                break;
-              case 3:
-                AllItems[i].ClassReq = "Bard";
-                break;
-              case 4:
-                AllItems[i].ClassReq = "Druid";
-                break;
-              case 5:
-                AllItems[i].ClassReq = "Shaman";
-                break;
-              case 6:
-                AllItems[i].ClassReq = "Hunter";
-                break;
-              case 7:
-                AllItems[i].ClassReq = "Necromancer";
-                break;
-              case 8:
-                AllItems[i].ClassReq = "Rogue";
-                break;
-              case 9:
-                AllItems[i].ClassReq = "Paladin";
-                break;
-              case 10:
-                AllItems[i].ClassReq = "Priest";
-                break;
-              default:
-                alert("Invalid class choice.");
-                break;
-            }
+        this.allItems.splice(0);
+        var AllItems = JSON.parse(JSON.stringify(data));
+        for (let i = 0; i < AllItems.length; i++) {
 
-            var item = new Items(AllItems[i].Name, AllItems[i].Description, AllItems[i].LevelReq, AllItems[i].ClassReq, AllItems[i].ID);
-            this.allItems.push(item);
+          switch (AllItems[i].ClassReq) {
+            case 1:
+              AllItems[i].ClassReq = "Sorcerer";
+              break;
+            case 2:
+              AllItems[i].ClassReq = "Barbarian";
+              break;
+            case 3:
+              AllItems[i].ClassReq = "Bard";
+              break;
+            case 4:
+              AllItems[i].ClassReq = "Druid";
+              break;
+            case 5:
+              AllItems[i].ClassReq = "Shaman";
+              break;
+            case 6:
+              AllItems[i].ClassReq = "Hunter";
+              break;
+            case 7:
+              AllItems[i].ClassReq = "Necromancer";
+              break;
+            case 8:
+              AllItems[i].ClassReq = "Rogue";
+              break;
+            case 9:
+              AllItems[i].ClassReq = "Paladin";
+              break;
+            case 10:
+              AllItems[i].ClassReq = "Priest";
+              break;
+            default:
+              alert("Invalid class choice.");
+              break;
           }
-          localStorage.setItem('allUserItems', JSON.stringify(this.allItems));
-          this.Itemtext = "Hide All Items";
-          this.itemview = true;
+
+          var item = new Items(AllItems[i].Name, AllItems[i].Description, AllItems[i].LevelReq, AllItems[i].ClassReq, AllItems[i].ID);
+          this.allItems.push(item);
         }
+        localStorage.setItem('allUserItems', JSON.stringify(this.allItems));
+
       }
     }, (error) => {
       if (error.status === 404) {
@@ -121,74 +118,55 @@ export class AdminDeleteComponent {
       }
     }
     );
-  }
 
-  // Allow admin to show and hide ALL spells
-  viewSpells() {
-
-    let spells = {
-      "AdminToken": localStorage.getItem('id_token'),
-    };
-
-    this.viewSpellsSubmitted = true;
-
-    const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/spells/get', JSON.stringify(spells), options).subscribe(data => {
       if (200) {
-        // Show all items or hide them depending on when admin clicks
-        if (this.spellview === true) {
-          this.allSpells.splice(0);
-          this.Spelltext = "View All Spells";
-          this.spellview = false;
-        }
-        else {
-          this.allSpells.splice(0);
-          var AllSpells = JSON.parse(JSON.stringify(data));
-          for (let i = 0; i < AllSpells.length; i++) {
+        // Add all items to table
 
-            switch (AllSpells[i].ClassReq) {
-              case 1:
-                AllSpells[i].ClassReq = "Sorcerer";
-                break;
-              case 2:
-                AllSpells[i].ClassReq = "Barbarian";
-                break;
-              case 3:
-                AllSpells[i].ClassReq = "Bard";
-                break;
-              case 4:
-                AllSpells[i].ClassReq = "Druid";
-                break;
-              case 5:
-                AllSpells[i].ClassReq = "Shaman";
-                break;
-              case 6:
-                AllSpells[i].ClassReq = "Hunter";
-                break;
-              case 7:
-                AllSpells[i].ClassReq = "Necromancer";
-                break;
-              case 8:
-                AllSpells[i].ClassReq = "Rogue";
-                break;
-              case 9:
-                AllSpells[i].ClassReq = "Paladin";
-                break;
-              case 10:
-                AllSpells[i].ClassReq = "Priest";
-                break;
-              default:
-                alert("Invalid class choice.");
-                break;
-            }
+        this.allSpells.splice(0);
+        var AllSpells = JSON.parse(JSON.stringify(data));
+        for (let i = 0; i < AllSpells.length; i++) {
 
-            var spell = new Items(AllSpells[i].Name, AllSpells[i].Description, AllSpells[i].LevelReq, AllSpells[i].ClassReq, AllSpells[i].ID);
-            this.allSpells.push(spell);
+          switch (AllSpells[i].ClassReq) {
+            case 1:
+              AllSpells[i].ClassReq = "Sorcerer";
+              break;
+            case 2:
+              AllSpells[i].ClassReq = "Barbarian";
+              break;
+            case 3:
+              AllSpells[i].ClassReq = "Bard";
+              break;
+            case 4:
+              AllSpells[i].ClassReq = "Druid";
+              break;
+            case 5:
+              AllSpells[i].ClassReq = "Shaman";
+              break;
+            case 6:
+              AllSpells[i].ClassReq = "Hunter";
+              break;
+            case 7:
+              AllSpells[i].ClassReq = "Necromancer";
+              break;
+            case 8:
+              AllSpells[i].ClassReq = "Rogue";
+              break;
+            case 9:
+              AllSpells[i].ClassReq = "Paladin";
+              break;
+            case 10:
+              AllSpells[i].ClassReq = "Priest";
+              break;
+            default:
+              alert("Invalid class choice.");
+              break;
           }
-          localStorage.setItem('allUserSpells', JSON.stringify(this.allSpells));
-          this.Spelltext = "Hide All Spells";
-          this.spellview = true;
+          var spell = new Items(AllSpells[i].Name, AllSpells[i].Description, AllSpells[i].LevelReq, AllSpells[i].ClassReq, AllSpells[i].ID);
+          this.allSpells.push(spell);
         }
+        localStorage.setItem('allUserSpells', JSON.stringify(this.allSpells));
+
       }
     }, (error) => {
       if (error.status === 404) {
@@ -206,6 +184,46 @@ export class AdminDeleteComponent {
       }
     }
     );
+  }
+
+  // Allow admin to show and hide ALL items
+  viewItems() {
+    this.viewItemsSubmitted = true;
+
+    // Hide table if button pressed
+    if (document.getElementById('itemTabl')?.style.visibility === "hidden") {
+      this.Itemtext = "Hide All Items";
+      var tablRow = document.getElementById('itemTabl');
+      tablRow!.style.visibility = "visible";
+      return;
+    }
+
+    else {
+      var tablRow = document.getElementById('itemTabl');
+      this.Itemtext = "View All Items";
+      tablRow!.style.visibility = "hidden";
+      return;
+    }
+  }
+
+  // Allow admin to show and hide spell data
+  viewSpells() {
+
+    this.viewSpellsSubmitted = true;
+    // Hide table if button pressed
+    if (document.getElementById('spellTabl')?.style.visibility === "hidden") {
+      this.Spelltext = "Hide All Spells";
+      var tablRow = document.getElementById('spellTabl');
+      tablRow!.style.visibility = "visible";
+      return;
+    }
+
+    else {
+      var tablRow = document.getElementById('spellTabl');
+      this.Spelltext = "View All Spells";
+      tablRow!.style.visibility = "hidden";
+      return;
+    }
   }
 
   // Delete Item
@@ -289,6 +307,165 @@ export class AdminDeleteComponent {
       }
     });
   }
+
+  // Edit Item
+  editItem(item: Items, index: number) {
+
+    // Get data admin entered
+    var table = document.getElementById("itemTable") as HTMLTableElement;
+    var name = table.rows[index + 2]?.cells[0]?.innerText;
+    var desc = table.rows[index + 2]?.cells[1]?.innerText;
+
+    // Don't post request if item data is invalid
+    if (!this.itemValid(name, desc))
+      return;
+
+    let Item =
+    {
+      "Name": name,
+      "Description": desc,
+      "ItemID": item.id,
+      "AdminToken": localStorage.getItem('id_token')
+    }
+
+    // Send request to edit item
+    this.http.put("http://localhost:8080/items/update", JSON.stringify(Item)).subscribe(data => {
+      if (200) {
+        alert("Item " + name+ " successfully updated.");
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Resource not found.');
+      }
+      else if (error.status === 409) {
+        alert('Item already exists. Please try another one.');
+      }
+      else if (error.status === 500) {
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+      })
+  }
+
+  // Edit Spell
+  editSpell(spell: Spells, index: number) {
+    // Get data admin entered
+    var table = document.getElementById("spellTable") as HTMLTableElement;
+    var name = table.rows[index + 2]?.cells[0]?.innerText;
+    var desc = table.rows[index + 2]?.cells[1]?.innerText;
+
+    // Don't post request if spell data is invalid
+    if (!this.spellValid(name, desc))
+      return;
+
+    let Spell =
+    {
+      "Name": name,
+      "Description": desc,
+      "SpellID": spell.id,
+      "AdminToken": localStorage.getItem('id_token')
+    }
+
+    // Send request to edit spell
+    this.http.put("http://localhost:8080/spells/update", JSON.stringify(Spell)).subscribe(data => {
+      if (200) {
+        alert("Spell " + name + " successfully updated.");
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Resource not found.');
+      }
+      else if (error.status === 409) {
+        alert('Spell already exists. Please try another one.');
+      }
+      else if (error.status === 500) {
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    })
+  }
+
+  // Item Validation
+
+  itemValid(itemName: string, itemDesc: string): boolean {
+
+    // Validate edit item with add item validation
+    var itemname = "", itemdesc = "";
+    var valItem = document.getElementById("itemValid") as HTMLTableRowElement;
+    var descVal = new RegExp('[a-zA-Z.,? ]*');
+
+    if (!descVal.test(itemDesc)) 
+      itemdesc = "Description contains invalid characters"
+
+    if (itemDesc.length < 4) 
+      itemdesc = "Description must be at least 4 characters"
+
+    if (itemDesc.length > 38) 
+      itemdesc = "Description cannot exceed 38 characters"
+
+    var nameVal = new RegExp('[a-zA-Z ]*');
+
+    if (!nameVal.test(itemName)) 
+      itemname = "Name contains invalid characters"
+
+    if (itemName.length < 4) 
+      itemname= "Name must be at least 4 characters"
+
+    if (itemName.length > 38) 
+      itemname = "Name cannot exceed 38 characters"
+
+    if (itemname == "" && itemdesc == "") {
+      valItem.innerHTML = "ALL ITEMS";
+      this.ItemValid = true;
+      return this.ItemValid;
+    }
+    valItem.innerHTML = itemname + "<br>" + itemdesc;
+    this.ItemValid = false;
+    return this.ItemValid;
+  }
+
+  // Spell Validation
+  spellValid(spellName: string, spellDesc: string): boolean {
+
+    // Validate edit spell with add spell validation
+    var spellname = "", spelldesc = "";
+    var valSpell = document.getElementById("spellValid") as HTMLTableRowElement;
+    var descVal = new RegExp('[a-zA-Z.,? ]*');
+
+    if (!descVal.test(spellDesc))
+      spelldesc = "Description contains invalid characters"
+
+    if (spellDesc.length < 4)
+      spelldesc = "Description must be at least 4 characters"
+
+    if (spellDesc.length > 30)
+      spelldesc = "Description cannot exceed 30 characters"
+
+    var nameVal = new RegExp('[a-zA-Z ]*');
+
+    if (!nameVal.test(spellName))
+      spellname = "Name contains invalid characters"
+
+    if (spellName.length < 4)
+      spellname = "Name must be at least 4 characters"
+
+    if (spellName.length > 30)
+      spellname = "Name cannot exceed 30 characters"
+
+    if (spellname == "" && spelldesc == "") {
+      valSpell.innerHTML = "ALL SPELLS";
+      this.SpellValid = true;
+      return this.SpellValid;
+    }
+    valSpell.innerHTML = spellname + "<br>" + spelldesc;
+    this.SpellValid = false;
+    return this.SpellValid;
+  }
+
 }
 
 class Items {
