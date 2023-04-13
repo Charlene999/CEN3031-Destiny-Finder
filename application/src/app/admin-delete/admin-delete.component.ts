@@ -442,8 +442,8 @@ export class AdminDeleteComponent {
     if (spellDesc.length < 4)
       spelldesc = "Description must be at least 4 characters"
 
-    if (spellDesc.length > 38)
-      spelldesc = "Description cannot exceed 38 characters"
+    if (spellDesc.length > 30)
+      spelldesc = "Description cannot exceed 30 characters"
 
     var nameVal = new RegExp('[a-zA-Z ]*');
 
@@ -453,8 +453,8 @@ export class AdminDeleteComponent {
     if (spellName.length < 4)
       spellname = "Name must be at least 4 characters"
 
-    if (spellName.length > 38)
-      spellname = "Name cannot exceed 38 characters"
+    if (spellName.length > 30)
+      spellname = "Name cannot exceed 30 characters"
 
     if (spellname == "" && spelldesc == "") {
       valSpell.innerHTML = "ALL SPELLS";
