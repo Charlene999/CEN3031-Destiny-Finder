@@ -419,7 +419,7 @@ export class AdminDeleteComponent {
       itemname = "Name cannot exceed 38 characters"
 
     if (itemname == "" && itemdesc == "") {
-      valItem.innerHTML = "ALL ITEMS";
+      valItem.innerHTML = "";
       this.ItemValid = true;
       return this.ItemValid;
     }
@@ -457,7 +457,7 @@ export class AdminDeleteComponent {
       spellname = "Name cannot exceed 30 characters"
 
     if (spellname == "" && spelldesc == "") {
-      valSpell.innerHTML = "ALL SPELLS";
+      valSpell.innerHTML = "";
       this.SpellValid = true;
       return this.SpellValid;
     }

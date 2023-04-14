@@ -1,6 +1,6 @@
 <div class="spells">
     <div class="characters">
-      <select id="chars" (click)="showSpells()">
+      <select id="spellChars" (click)="showSpells()">
         <option value="Select Character" disabled selected hidden>Select Character</option>
         <option *ngFor="let character of allChars" value=character.Name class="Name" id="character">{{character.Name}} - {{character.Class}}</option>
       </select>
@@ -23,7 +23,7 @@
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Level Required</th>
+            <th>Level</th>
             <th>Ownership</th>
             <th>Add to Character</th>
             <th>Remove from Character</th>
@@ -43,4 +43,3 @@
       </table>
     </div>
   </div>
-  

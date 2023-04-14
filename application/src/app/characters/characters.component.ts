@@ -82,7 +82,7 @@ export class CharactersComponent {
               chars[i].ClassType = "Priest";
               break;
             default:
-              alert("Invalid class choice.");
+              //alert("Invalid class choice.");
               break;
           }
 
@@ -146,7 +146,7 @@ export class CharactersComponent {
     var table = document.getElementById('tabl') as HTMLTableElement;
     var name = table.rows[index+1]?.cells[0]?.innerText;
     var desc = table.rows[index+1]?.cells[1]?.innerText;
-    var level = new Number(table.rows[index+1]?.cells[2]?.innerText);
+    var level = parseInt(table.rows[index+1]?.cells[2]?.innerText);
 
     //var myclass = new Number(table.rows[index + 1]?.cells[3]?.innerText);
     var myclass = table.rows[index + 1]?.cells[3]?.innerText;
@@ -186,7 +186,7 @@ export class CharactersComponent {
         myclassconvert = 10;
         break;
       default:
-        alert("Invalid class choice.");
+        //alert("Invalid class choice.");
         break;
     }
 
@@ -200,7 +200,7 @@ export class CharactersComponent {
     let Character = {
       "Name": name,
 	    "Description": desc,
-	    "ClassType": myclassconvert,
+	    "ClassType": parseInt(myclass),
 	    "Level": level,
 	    "OwnerToken":  localStorage.getItem('id_token'),
 	    "CharacterID": char.ID,
@@ -214,7 +214,7 @@ export class CharactersComponent {
       if (200) {
         // Character should be updated in allChars variable 
         var curChar = JSON.parse(JSON.stringify(data));
-
+        
         switch (curChar.ClassType) {
           case 1:
             curChar.ClassReq = "Sorcerer";
@@ -247,11 +247,11 @@ export class CharactersComponent {
             curChar.ClassReq = "Priest";
             break;
           default:
-            alert("Invalid class choice.");
+            //alert("Invalid class choice.");
             break;
         }
 
-        char = new character(curChar.Name, curChar.Level, curChar.Description, curChar.ClassReq, curChar.ID);
+        char = new character(curChar.Name, curChar.Level, curChar.Description, myclass, curChar.ID);
         this.allChars[index] = char;
 
         alert("Character " + char.Name + " Updated");

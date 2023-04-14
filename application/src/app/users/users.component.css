@@ -112,51 +112,43 @@
     }
 
 .users h2 {
+    padding-top: 10px;
   text-align: center;
-  --bgcolor: rgba(256, 256, 256, 50%);
-  background-color: var(--bgcolor);
-  box-shadow: 0 0 8px 8px var(--bgcolor);
-  color: rgba(0, 0, 0, 1);
+  color: rgb(255, 180, 0);
   text-shadow: 0 0 10px rgba(0,0,0,1);
+  border-top: 2.5px solid rgba(255,180,0,.8);
+  position: center;
 }
 
-.Characters {
-  position: absolute;
-  top: 50px;
-  right: 65%;
-  width: 300px;
-  height: 300px;
-}
 
-  .Characters h1 {
+  .profile h1 {
     color: rgb(255, 180, 0);
-    text-shadow: 0 0 10px rgba(255,255,255,.8);
+    text-shadow: 0 0 10px rgba(0, 0, 0,.8);
     letter-spacing: 1px;
     text-align: center;
   }
 .form-group select {
   font-family: Georgia, 'Times New Roman', Times, serif;
   text-align: center;
-  --bgcolor: rgba(256, 256, 256, 70%);
-  background-color: var(--bgcolor);
-  box-shadow: 0 0 8px 8px var(--bgcolor);
+  background-color: rgba(226, 108, 34, .9);
+  text-shadow: 0 0 10px rgba(0,0,0,1);
   left: -9px;
-  color: black;
+  color: rgb(255, 180, 0);
   padding: 5px;
   height: 45px;
-  border: none;
+  border-color: rgb(255, 180, 0);
   font-size: 20px;
   -webkit-appearance: button;
   width: 320px;
   appearance: button;
   outline: groove;
   border-radius: 4px;
-  outline-color: rgba(255, 255, 255, 1);
+  border-top-color: transparent;
 }
 
 .form-group select:hover {
 
-  background-color: rgba(226, 88, 34, .36);
+  background-color: rgba(255, 120, 0, .8);
   text-shadow: 0 0 10px rgba(0,0,0,1);
   color: rgb(255, 180, 0);
 }
@@ -173,4 +165,14 @@
   margin: 5px 0 0;
   text-shadow: 0 0 10px rgba(0,0,0,1);
   text-align: center;
+}
+
+.profile {
+    position: absolute;
+    top: 25%;
+    left: -115%;
+  width: 320px;
+  border-radius: 4px;
+  border: 2.5px solid rgba(255,180,0,1.0);
+  background-color: rgba(226, 108, 34, .9);
 }

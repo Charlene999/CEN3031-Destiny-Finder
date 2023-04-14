@@ -45,46 +45,45 @@ export class CharactersItemsComponent {
         
         var chars = JSON.parse(JSON.stringify(data));
         this.allChars.splice(0);
-
+        var className ="";
         for (var i = 0; i < chars.length; i++) {
 
           switch (chars[i].ClassType) {
             case 1:
-              chars[i].ClassType = "Sorcerer";
+              className = "Sorcerer";
               break;
             case 2:
-              chars[i].ClassType = "Barbarian";
+              className = "Barbarian";
               break;
             case 3:
-              chars[i].ClassType = "Bard";
+              className = "Bard";
               break;
             case 4:
-              chars[i].ClassType = "Druid";
+              className = "Druid";
               break;
             case 5:
-              chars[i].ClassType = "Shaman";
+              className = "Shaman";
               break;
             case 6:
-              chars[i].ClassType = "Hunter";
+              className = "Hunter";
               break;
             case 7:
-              chars[i].ClassType = "Necromancer";
+              className = "Necromancer";
               break;
             case 8:
-              chars[i].ClassType = "Rogue";
+              className = "Rogue";
               break;
             case 9:
-              chars[i].ClassType = "Paladin";
+              className = "Paladin";
               break;
             case 10:
-              chars[i].ClassType = "Priest";
+              className = "Priest";
               break;
             default:
-              alert("Invalid class choice.");
               break;
           }
 
-          var char = new character(chars[i].Name, chars[i].Level, chars[i].ClassType, chars[i].Description, chars[i].ID, chars[i].Items);
+          var char = new character(chars[i].Name, chars[i].Level, className, chars[i].Description, chars[i].ID, chars[i].Items);
           this.allChars.push(char);
         }
       }
@@ -106,11 +105,12 @@ export class CharactersItemsComponent {
 
     this.viewSubmitted = true;
 
-    const select = document.getElementById("chars") as HTMLSelectElement;
-    const index = select.selectedIndex;
+    // Id of select element changed to prevent conflicts
+    const select = document.getElementById("itemChars") as HTMLSelectElement;
+    var index = select.selectedIndex;
 
     // Get selected index 
-    if (index === 0 || index === -1 || index -1 >= this.allChars.length)
+    if (index === 0 || index === -1 || index - 1 >= this.allChars.length) 
       return;
 
     // Current character equals user's selected option'
@@ -166,7 +166,6 @@ export class CharactersItemsComponent {
               compareClass = 10;
               break;
             default:
-              alert("Invalid class choice.");
               break;
           }
 
@@ -197,6 +196,7 @@ export class CharactersItemsComponent {
       }
     }
     );
+
   }
 
   itemOwned(itemID: number): boolean {
@@ -230,7 +230,7 @@ export class CharactersItemsComponent {
     this.http.post('http://localhost:8080/characters/additem', JSON.stringify(addItem), options).subscribe(data => {
       if (202) {
           alert("Item added.");
-          window.location.reload();
+        window.location.reload();
         }
       }, 
       (error) => {
@@ -280,6 +280,7 @@ export class CharactersItemsComponent {
     }
     );
   }
+
 }
 
 // Character and item schema stored

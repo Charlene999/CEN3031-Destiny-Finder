@@ -165,11 +165,12 @@ table {
   left: -46%;
   height: 300px;
   margin-top: 0px;
-  background-color: rgba(226, 88, 34, .36);
+  background-color: rgba(226, 108, 34, .9);
   border: 1px solid rgba(255,180,0,1.0);
   text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
   overflow-y: auto;
   text-align: center;
+  border-radius: 4px;
 }
 
 th {
@@ -238,10 +239,11 @@ body {
   position: sticky;
   top: 0px;
   font-size: 25px;
+  height: 65px;;
   color: rgb(255, 180, 0);
   text-shadow: 0 0 10px rgba(0,0,0,1);
   letter-spacing: 1px;
   text-align: center;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  background-color: rgba(226, 88, 34, .45);
+  background-color: rgba(226, 108, 34, .9);
 }

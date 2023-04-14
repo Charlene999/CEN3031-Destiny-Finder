@@ -14,14 +14,14 @@ html {
 .spells {
   position: absolute;
   top: 350%;
-  left: 23%;
+  left: 20%;
   width: 800px;
   height: 300px;
 }
 
   .spells h1 {
     color: rgb(255, 180, 0);
-    text-shadow: 0 0 10px rgba(0,0,0,.6);
+    text-shadow: 0 0 10px rgba(0,0,0,1);
     letter-spacing: 1px;
     text-align: center;
   }
@@ -58,7 +58,8 @@ table {
 }
 
 .tbl-header {
-  background-color: rgba(226, 88, 34, .36);
+  background-color: rgb(255, 180, 0);
+  color: rgb(226, 108, 34);
   background-size: 300px;
   background-position-x: center;
   text-align: center;
@@ -70,21 +71,27 @@ table {
   position: center;
   height: 400px;
   margin-top: 0px;
-  background-color: rgba(226, 88, 34, .36);
+  background-color: rgba(226, 108, 34, .9);
   border: 2.5px solid rgba(255,180,0,1.0);
-  text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
   overflow-y: auto;
   text-align: center;
+}
+
+tbody
+{
+
 }
 
 th {
   padding: 20px 15px;
   text-align: center;
   font-weight: 500;
-  font-size: 14px;
-  color: rgb(255, 255, 255);
-  border: 1px solid rgba(255,180,0,0.9);
-  text-shadow: 0 0 10px rgba(0,0,0,1);
+  font-size: 18px;
+  background-color: rgba(226, 108, 34, .8);
+  color: rgb(255, 180, 0);
+  border: 1px solid rgba(255,180,0,1);
+  text-shadow: 0 0 18px rgba(0,0, 0,1);
   text-transform: uppercase;
 }
 
@@ -102,7 +109,6 @@ td {
   text-transform: uppercase;
 }
 
-
 .characters {
   position: absolute;
   top: -1.25%;
@@ -112,17 +118,21 @@ td {
 
   .characters select {
     background-color: rgb(255, 180, 0);
-    color: white;
+    color: rgb(226, 108, 34);
+    font-weight: 600;
     padding: 12px;
     width: 250px;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
     -webkit-appearance: button;
     appearance: button;
     outline: groove;
     border-radius: 4px;
     outline-color: rgb(255, 120, 0);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-shadow: rgba(0, 0, 0, 1);
+    text-align: center;
   }
 
   .characters::before {
@@ -138,6 +148,7 @@ td {
     color: rgba(255, 255, 255, 0.5);
     background-color: rgba(255, 255, 255, 0.1);
     pointer-events: none;
+    text-shadow: rgba(0, 0, 0, 1);
   }
 
   .characters:hover::before {

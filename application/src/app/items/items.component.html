@@ -32,23 +32,23 @@
         <tr>
           <th *ngIf="All()">Class</th>
           <th>Name</th>
+          <th>Level</th>
           <th>Description</th>
-          <th>Level Required</th>
         </tr>
       </thead>
       <tbody *ngIf="All()">
         <tr *ngFor="let item of allItems | filter : searchText">
           <td class="Class">{{item.Class}}</td>
           <td class="Name">{{item.Name}}</td>
-          <td class="Description">{{item.Description}}</td>
           <td class="Level">{{item.Level}}</td>
+          <td class="Description">{{item.Description}}</td>
         </tr>
       </tbody>
       <tbody *ngIf="!All()">
         <tr *ngFor="let item of curClassItems | filter : searchText">
           <td class="Name">{{item.Name}}</td>
-          <td class="Description">{{item.Description}}</td>
           <td class="Level">{{item.Level}}</td>
+          <td class="Description">{{item.Description}}</td>
         </tr>
       </tbody>
     </table>

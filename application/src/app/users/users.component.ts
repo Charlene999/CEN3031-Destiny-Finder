@@ -85,23 +85,4 @@ export class UsersComponent {
     }
   }
 
-  createCharacter() {
-    this.newCharactersSubmitted = true;
-    this.router.navigateByUrl("/profile/create-character");
-  }
-
-  getCharacters() {
-    this.viewCharactersSubmitted = true; 
-    this.router.navigateByUrl("/profile/characters");
-  }
-
-  viewCharacterSpells() {
-    this.viewCharactersSpellsSubmitted = true;
-    this.router.navigateByUrl("/profile/spells");
-  }
-
-  viewCharacterItems() {
-    this.viewCharactersItemsSubmitted = true; 
-    this.router.navigateByUrl("/profile/items");
-  }
 }

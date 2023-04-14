@@ -1,6 +1,6 @@
 <div class="items">
     <div class="characters">
-      <select id="chars" (click)="showItems()">
+      <select (click)="showItems()" id="itemChars">
         <option value="Select Character" disabled selected hidden>Select Character</option>
         <option *ngFor="let character of allChars" value=character.Name class="Name" id="character">{{character.Name}} - {{character.Class}}</option>
       </select>
@@ -18,12 +18,12 @@
           placeholder="Start searching for an item by name, description, or level required"
         />
       </div>
-      <table id="tabl" cellpadding="0" cellspacing="0" border="0">
+      <table id="charItemsTable" cellpadding="0" cellspacing="0" border="0">
         <thead>
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Level Required</th>
+            <th>Level</th>
             <th>Ownership</th>
             <th>Add to Character</th>
             <th>Remove from Character</th>
@@ -43,4 +43,3 @@
       </table>
     </div>
 </div>
-  
