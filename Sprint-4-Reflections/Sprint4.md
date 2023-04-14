@@ -236,6 +236,12 @@ Unit tests were designed in order to test the functionality of each server endpo
 
 - ***New in Sprint 4*** - TestAdminUpdateUser_403 - Tests to ensure that only admins can successfully update users using the update user endpoint.
 
+- ***New in Sprint 4*** - TestAdminGetAllUsers_200 - Tests to ensure that admins can successfully get all users from the database using the get all users endpoint.
+
+- ***New in Sprint 4*** - TestAdminGetAllUsers_403 - Tests to ensure that only admin can successfully get all users from the get all users endpoint.
+
+- ***New in Sprint 4*** - TestAdminGetAllUsers_500 - Tests to ensure that the admin get all users endpoint can gracefully handle a malformed JWT.
+
 ### Character Tests
 - TestCreateCharacter_201 - Tests to ensure that a character can be created as expected.
 
@@ -534,6 +540,49 @@ Example Response (202):
     "Password": "<insert hashed password here>",
     "IsAdmin": true
 }
+```
+
+#### ***New in Sprint 4*** - POST /users/getall
+The request body should contain the following attributes: ```UserToken``` (string).
+The provided ```UserToken``` should be a JWT representing the admin that is sending the request. The request body should be in the form application/json.
+If the provided ```UserToken``` is not the token of an admin, a 403 Forbidden status will be sent back.
+If any other errors occur during the operation, a 500 Internal Server Error status will be sent back along with a key value pair of "error" and the accompanying error description.
+Upon sucessful completion of the operation, a 200 OK status will be sent back along with all users attributes as defined in /server/models/user.go.
+
+Example Request:
+```
+{
+    "UserToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6ImtlcnJ5c3VlaCJ9.Zq0UK61gdfrC7LA8Azuw1Y4w857GavixVhocqCmpGUQ"
+}
+```
+
+Example Response (200):
+```
+[
+    {
+        "ID": 1,
+        "CreatedAt": "2023-01-31T13:31:12.491-05:00",
+        "UpdatedAt": "2023-01-31T13:31:12.491-05:00",
+        "DeletedAt": null,
+        "Name": "Kerry Hannigan",
+        "Username": "kerrysue",
+        "Email": "kerrysue.hannigan@gmail.com",
+        "Password": "thisisnotarealpassword213234!",
+        "IsAdmin": true
+    },
+    {
+        "ID": 2,
+        "CreatedAt": "2023-01-31T14:20:58.944-05:00",
+        "UpdatedAt": "2023-01-31T14:20:58.944-05:00",
+        "DeletedAt": null,
+        "Name": "Testing Pwd Hashing",
+        "Username": "tester123",
+        "Email": "kerrysue.hannigan@gmail.com",
+        "Password": "$2a$10$/vC6oNhyA3QRccojn1cIFO57EdQhx3KQMzXDl1dACHMXnhOS197TS",
+        "IsAdmin": true
+    },
+    { ... }
+]
 ```
 
 ### Character API Endpoints    
