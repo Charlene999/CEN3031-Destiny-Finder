@@ -384,3 +384,56 @@ func TestAdminUpdateUser_403(t *testing.T) {
 
 	assert.Equal(t, 403, res.Code)
 }
+
+
+func TestAdminGetAllUsers_200(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"UserToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6InRlc3RpbmdhZG1pbiJ9.06xPQiaBk0W0IVx6KXcgBMFn_yvSM-6-Dbk4aiuMnOo"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/getall", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 200, res.Code)
+	assert.Equal(t, "Testing Admin", (*results)[0].Name)
+	assert.Equal(t, "testingadmin", (*results)[0].Username)
+	assert.Equal(t, "testing.admin@gmail.com", (*results)[0].Email)
+}
+
+func TestAdminGetAllUsers_403(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	// Non-admin token
+	body := []byte(`{
+		"UserToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Im5vbmFkbWludXNlciJ9.OK2EEMmBhkmZ65-aSeZiAMx40BYfGTH7h4lO4HBmkxU"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/getall", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 403, res.Code)
+}
+
+func TestAdminGetAllUsers_500(t *testing.T) {
+	res := httptest.NewRecorder()
+
+	body := []byte(`{
+		"UserToken":"bad token"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/users/getall", bytes.NewBuffer(body))
+	router.Router.ServeHTTP(res, req)
+
+	results := &[]models.User{}
+	json.NewDecoder(res.Body).Decode(results)
+
+	assert.Equal(t, 500, res.Code)
+}
