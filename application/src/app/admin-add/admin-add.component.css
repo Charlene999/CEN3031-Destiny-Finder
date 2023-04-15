@@ -1,14 +1,8 @@
 .itemSect
 {
-    width: 300px;
+    width: 100%;
 }
 
-.delete
-{
-    position:absolute;
-    right: 35.3%;
-    top: 310%;
-}
 .item, .deleteButton {
   display: inline-block;
   *display: inline;
@@ -103,11 +97,12 @@ html {
 }
 
 .addItem {
-  position: absolute;
-  top: 400%;
-  left: 65%;
-  width: 305px;
-  height: 332px;
+  width: 25%;
+  position: fixed;
+  left: 75%;
+  top: 50%;
+  -webkit-transform: translate(-25%, -25%);
+  transform: translate(-25%, -25%);
   background-color: rgba(226, 108, 34, .9);
   border: 2.5px solid rgba(255,180,0,1.0);
   border-radius: 6px;
@@ -153,7 +148,7 @@ input {
   }
 
 .spellSect {
-  width: 300px;
+  width: 100%;
 }
 
 .spell {
@@ -233,11 +228,12 @@ input {
 }
 
 .addSpell {
-  position: absolute;
-  top: 400%;
-  right: 65%;
-  width: 305px;
-  height: 332px;
+  width: 25%;
+  position: fixed;
+  left: 15%;
+  top: 50%;
+  -webkit-transform: translate(-25%, -25%);
+  transform: translate(-25%, -25%);
   background-color: rgba(226, 108, 34, .9);
   border: 2.5px solid rgba(255,180,0,1.0);
   border-radius: 6px;

@@ -32,7 +32,7 @@
       <a id="items" class="nav-item nav-link" routerLink="/items" *ngIf="loggedIn()">Items</a>
 
 
-      <select (mouseover)="hovered()" (mouseleave)="unhovered()" (click)="profileChoice()" id="chars" class="Characters">
+      <select (click)="profileChoice()" id="chars" class="Characters">
         <option disabled hidden selected>Characters</option>
           <option id="opts">Create A New Character</option>
           <option id="opts">View All Characters</option>

@@ -1,16 +1,17 @@
 .Characters {
-  position: absolute;
-  right: 33%;
-  width: 350px;
-  height: 477px;
+  width: 23%;
+  position: fixed;
+  left: 50%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   background-color: rgba(226, 108, 34, .9);
   border: 2.5px solid rgba(255,180,0,1.0);
   border-radius: 6px;
 }
 
   .Characters h1 {
-    position: relative;
-    right: -12%;
+      text-align: center;
     color: rgb(255, 180, 0);
     text-shadow: 0 0 10px rgba(0, 0, 0, 1);
     letter-spacing: 1px;
@@ -86,8 +87,6 @@
   }
 
 .create, .getChars {
-  width: 70%;
-  display: block;
-  position: relative;
-  right: -15%;
+    display:block;
+    width: 100%;
 }

@@ -86,14 +86,18 @@
     height: 100%;
     overflow: hidden;
   }
-  
-  .email {
-    position: absolute;
-    top: 500%;
-    left: 65%;
-    width: 300px;
-    height: 300px;
-  }
+
+.email {
+  width: 23%;
+  position: fixed;
+  left: 50%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(226, 108, 34, .9);
+  border: 2.5px solid rgba(255,180,0,1.0);
+  border-radius: 6px;
+}
 
     .email h1 {
       color: rgb(255, 180, 0);
@@ -138,7 +142,7 @@ h2 {
   color: rgb(255, 180, 0);
   text-shadow: 0 0 10px rgba(0, 0, 0,.8);
   background-color: rgba(0, 0, 0, .7);
-  width: 85px;
+  width: 30%;
   border-radius: 4px;
   text-align: center;
 }

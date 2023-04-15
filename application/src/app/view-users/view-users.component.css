@@ -70,10 +70,10 @@
   }
 
 .submit {
-  width: 300px;
-  position:absolute;
-  right: 57%;
-  top: 295%;
+  width: 25%;
+  top: 21.75%;
+  left: 21.5%;
+  position: fixed;
   display: block;
 }
 
@@ -96,7 +96,7 @@ html {
 .allUsers {
 }
 
-.allUsers h1 {
+.users h1 {
   color: rgb(255, 180, 0);
   text-shadow: 0 0 10px rgba(0,0,0,1);
   letter-spacing: 1px;
@@ -153,13 +153,16 @@ table {
 
 .tbl-content {
   position: absolute;
-  top: 375%;
-  left: 0%;
-  width: 800px;
-  height: 300px;
+  width: 60%;
+  position: fixed;
+  left: 35%;
+  top: 60%;
+
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   border-radius: 6px;
   table-layout: fixed;
-  height: 400px;
+  height: 65%;
   margin-top: 0px;
   background-color: rgba(226, 108, 34, .9);
   border: 2.5px solid rgba(255,180,0,1.0);
@@ -220,20 +223,17 @@ body {
   font-size: 18px;
 }
 
-.edit
-{
-    position: relative;
-    left: 78%;
-    top: 4px;
+.edit {
+  position: absolute;
+  top: 84.4%;
+  right: 5%;
 }
   .edit:hover {
     cursor: pointer;
   }
 
 .back {
-  position: relative;
-  left: 1.4%;
-  top: -35px;
+    top: 5%;
 }
 
 .Username:hover{
@@ -247,12 +247,14 @@ body {
 
 .users {
   position: absolute;
+  width: 30%;
+  height: 65%;
+  position: fixed;
+  right: 5%;
+  top: 60%;
+  -webkit-transform: translate(5%, -50%);
+  transform: translate(5%, -50%);
   padding: 10px;
-  
-  top: 270%;
-  left: 70%;
-  width: 355px;
-  height: 360px;
   background-color: rgba(226, 108, 34, .9);
   border: 2.5px solid rgba(255,180,0,1.0);
   border-radius: 6px;
@@ -263,7 +265,7 @@ body {
     background-color: rgb(255, 180, 0);
     color: white;
     padding: 12px;
-    width: 250px;
+    width: 100%;
     border: none;
     font-size: 24px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
@@ -272,8 +274,6 @@ body {
     outline: groove;
     border-radius: 4px;
     outline-color: rgb(255, 120, 0);
-    position: relative;
-    right: -13.5%;
     text-align:center;
     margin-bottom: 15px;
   }

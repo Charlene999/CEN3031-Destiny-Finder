@@ -78,8 +78,6 @@
 .submit {
   width: 100%;
   display: block;
-  position: relative;
-  top: -10%;
 }
 
 * {
@@ -95,11 +93,12 @@ html {
 }
 
 .home {
-  position: absolute;
-  top: 500%;
-  left: 40%;
-  width: 300px;
-  height: 800px;
+  width: 23%;
+  position: fixed;
+  left: 50%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
   .home h1 {
@@ -134,15 +133,10 @@ input {
 
 p {
   text-align: center;
-
-  width: 300px;
-  height: 150px;
   font-size: 22px;
   border-radius: 4px;
   border: 2.5px solid rgba(255,180,0,1.0);
   color: rgb(255, 180, 0);
   background-color: rgba(226, 108, 34, 1);
   text-shadow: rgb(0, 0, 0);
-  position: relative;
-  top: -10%;
 }

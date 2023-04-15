@@ -63,21 +63,4 @@ export class AppComponent {
     select.selectedIndex = 0;
   }
 
-  hovered() {
-    console.log("USER HOVERED");
-    var option = document.getElementById("opts") as HTMLOptionElement;
-    this.hover = true;
-    var event;
-
-    option.style.visibility = "visible";
-    //select.size = 5;
-  }
-
-  unhovered() {
-    this.hover = false;
-
-    var select = document.getElementById("chars") as HTMLSelectElement;
-    //select.size = 1;
-  }
-
 }

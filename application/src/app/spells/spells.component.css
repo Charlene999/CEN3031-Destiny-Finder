@@ -12,11 +12,12 @@ html {
 }
 
 .spells {
-  position: absolute;
-  top: 350%;
-  left: 20%;
-  width: 800px;
-  height: 300px;
+  width: 60%;
+  position: fixed;
+  left: 50%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
   .spells h1 {
