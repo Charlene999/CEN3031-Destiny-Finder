@@ -1,6 +1,7 @@
 .navbar-nav {
   display: block;
-  width: 620px;
+  width: 50%;
+  min-width:620px;
   margin: 0;
   font-size: 25px;
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -11,6 +12,10 @@
   position: absolute;
   top: 12%;
   left: 25%;
+}
+
+.navbar-nav a {
+  padding-right: 6%
 }
 
 a {
