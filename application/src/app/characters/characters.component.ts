@@ -385,8 +385,8 @@ export class CharactersComponent {
     if (charDesc.length < 4)
       chardesc = "Description must be at least 4 characters"
 
-    if (charDesc.length > 38)
-      chardesc = "Description cannot exceed 38 characters"
+    if (charDesc.length > 100)
+      chardesc = "Description cannot exceed 100 characters"
 
     var nameVal = new RegExp('[a-zA-Z ]*');
 
@@ -396,8 +396,8 @@ export class CharactersComponent {
     if (charName.length < 4)
       charname = "Name must be at least 4 characters"
 
-    if (charName.length > 38)
-      charname = "Name cannot exceed 38 characters"
+    if (charName.length > 30)
+      charname = "Name cannot exceed 30 characters"
 
     if (charname == "" && chardesc == "") {
       valChar.innerHTML = "";

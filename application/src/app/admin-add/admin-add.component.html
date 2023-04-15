@@ -46,7 +46,7 @@
         Item description must be at least 4 characters long.
       </div>
       <div *ngIf="itemForm.controls['itemdescription'].errors?.['maxlength']">
-        Item description cannot be longer than 30 characters.
+        Item description cannot be longer than 100 characters.
       </div>
       <div *ngIf="itemForm.controls['itemdescription'].errors?.['pattern']">
         Item description can only contain upper and lowercase letters, periods, commas, and question marks.
@@ -118,7 +118,7 @@
           Spell description must be at least 4 characters long.
         </div>
         <div *ngIf="spellForm.controls['spelldescription'].errors?.['maxlength']">
-          Spell description cannot be longer than 30 characters.
+          Spell description cannot be longer than 100 characters.
         </div>
         <div *ngIf="spellForm.controls['spelldescription'].errors?.['pattern']">
           Spell description can only contain upper and lowercase letters, periods, commas, and question marks.
