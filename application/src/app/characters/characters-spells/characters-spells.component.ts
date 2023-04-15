@@ -45,46 +45,45 @@ export class CharactersSpellsComponent {
 
         var chars = JSON.parse(JSON.stringify(data));
         this.allChars.splice(0);
-
+        var className = "";
         for (var i = 0; i < chars.length; i++) {
 
           switch (chars[i].ClassType) {
             case 1:
-              chars[i].ClassType = "Sorcerer";
+              className = "Sorcerer";
               break;
             case 2:
-              chars[i].ClassType = "Barbarian";
+              className = "Barbarian";
               break;
             case 3:
-              chars[i].ClassType = "Bard";
+              className = "Bard";
               break;
             case 4:
-              chars[i].ClassType = "Druid";
+              className = "Druid";
               break;
             case 5:
-              chars[i].ClassType = "Shaman";
+              className = "Shaman";
               break;
             case 6:
-              chars[i].ClassType = "Hunter";
+              className = "Hunter";
               break;
             case 7:
-              chars[i].ClassType = "Necromancer";
+              className = "Necromancer";
               break;
             case 8:
-              chars[i].ClassType = "Rogue";
+              className = "Rogue";
               break;
             case 9:
-              chars[i].ClassType = "Paladin";
+              className = "Paladin";
               break;
             case 10:
-              chars[i].ClassType = "Priest";
+              className = "Priest";
               break;
             default:
-              alert("Invalid class choice.");
               break;
           }
 
-          var char = new character(chars[i].Name, chars[i].Level, chars[i].ClassType, chars[i].Description, chars[i].ID, chars[i].Spells);
+          var char = new character(chars[i].Name, chars[i].Level, className, chars[i].Description, chars[i].ID, chars[i].Spells);
           this.allChars.push(char);
         }
 
@@ -108,7 +107,8 @@ export class CharactersSpellsComponent {
 
     this.viewSubmitted = true;
 
-    const select = document.getElementById("chars") as HTMLSelectElement;
+    // Id of select element changed to prevent conflicts
+    const select = document.getElementById("spellChars") as HTMLSelectElement;
     const index = select.selectedIndex;
 
     // Get selected index 
@@ -167,7 +167,6 @@ export class CharactersSpellsComponent {
               compareClass = 10;
               break;
             default:
-              alert("Invalid class choice.");
               break;
           }
 

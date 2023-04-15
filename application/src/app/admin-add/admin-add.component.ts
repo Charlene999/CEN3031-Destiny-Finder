@@ -33,14 +33,14 @@ export class AdminAddComponent {
 
     this.itemForm = this.fb.group({
       itemname: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
-      itemdescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z.,? ]*')]),
+      itemdescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern('[a-zA-Z.,? ]*')]),
       //itemlevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
       //itemclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
     })
 
     this.spellForm = this.fb.group({
       spellname: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*')]),
-      spelldescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z.,? ]*')]),
+      spelldescription: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(100), Validators.pattern('[a-zA-Z.,? ]*')]),
       //spelllevel: new FormControl("", [Validators.required, Validators.pattern('^(1?[1-9]|10|20)$')]),
       //spellclass: new FormControl("", [Validators.required, Validators.pattern('^([1-9]|10)$')]),
     })

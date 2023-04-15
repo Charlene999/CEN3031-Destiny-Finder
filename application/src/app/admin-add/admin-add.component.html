@@ -46,7 +46,7 @@
         Item description must be at least 4 characters long.
       </div>
       <div *ngIf="itemForm.controls['itemdescription'].errors?.['maxlength']">
-        Item description cannot be longer than 30 characters.
+        Item description cannot be longer than 100 characters.
       </div>
       <div *ngIf="itemForm.controls['itemdescription'].errors?.['pattern']">
         Item description can only contain upper and lowercase letters, periods, commas, and question marks.
@@ -63,42 +63,6 @@
       <option *ngFor="let iclass of allClasses">{{iclass}}</option>
     </select>
 
-    <!-- The user inputs the item's level here 
-    <input type="text"
-           id="itemlevel"
-           placeholder="Level" 
-           formControlName="itemlevel"
-           required      
-    />
-
-     The user input for the item's level is checked here 
-    <div *ngIf="itemForm.controls['itemlevel'].invalid && (itemForm.controls['itemlevel'].dirty || itemForm.controls['itemlevel'].touched)" class="alert alert-danger">
-      <div *ngIf="itemForm.controls['itemlevel'].errors?.['required']">
-        Item level is required.
-      </div>
-      <div *ngIf="itemForm.controls['itemlevel'].errors?.['pattern']">
-        Item level can only be 1 through 20.
-      </div>
-    </div>
-
-     The user inputs the item's class here 
-    <input type="text"
-           id="itemclass"
-           placeholder="Class" 
-           formControlName="itemclass"
-           required
-    />
-
-     The user input for the item's class is checked here 
-    <div *ngIf="itemForm.controls['itemclass'].invalid && (itemForm.controls['itemclass'].dirty || itemForm.controls['itemclass'].touched)" class="alert alert-danger">
-      <div *ngIf="itemForm.controls['itemclass'].errors?.['required']">
-        Item class is required.
-      </div>
-      <div *ngIf="itemForm.controls['itemclass'].errors?.['pattern']">
-        Item class can only be 1 through 10.
-      </div>
-    </div>
--->
     <button class="submit" type="reset" id="itemreset" (click)="itemreset()">Reset Values</button>
     <button class="submit" type="submit" id="itemsubmit" [disabled]="!itemForm.valid">Submit</button>
   </form>
@@ -154,7 +118,7 @@
           Spell description must be at least 4 characters long.
         </div>
         <div *ngIf="spellForm.controls['spelldescription'].errors?.['maxlength']">
-          Spell description cannot be longer than 30 characters.
+          Spell description cannot be longer than 100 characters.
         </div>
         <div *ngIf="spellForm.controls['spelldescription'].errors?.['pattern']">
           Spell description can only contain upper and lowercase letters, periods, commas, and question marks.
@@ -171,42 +135,6 @@
         <option *ngFor="let iclass of allClasses">{{iclass}}</option>
       </select>
 
-      <!-- The user inputs the spell's level here 
-      <input type="text"
-            id="spelllevel"
-            placeholder="Level" 
-            formControlName="spelllevel"
-            required      
-      />
-
-       The user input for the spell's level is checked here 
-      <div *ngIf="spellForm.controls['spelllevel'].invalid && (spellForm.controls['spelllevel'].dirty || spellForm.controls['spelllevel'].touched)" class="alert alert-danger">
-        <div *ngIf="spellForm.controls['spelllevel'].errors?.['required']">
-          Spell level is required.
-        </div>
-        <div *ngIf="spellForm.controls['spelllevel'].errors?.['pattern']">
-          Spell level can only be 1 through 20.
-        </div>
-      </div>
-
-       The user inputs the spell's class here
-      <input type="text"
-            id="spellclass"
-            placeholder="Class" 
-            formControlName="spellclass"
-            required
-      />
-
-       The user input for the spell's class is checked here 
-      <div *ngIf="spellForm.controls['spellclass'].invalid && (spellForm.controls['spellclass'].dirty || spellForm.controls['spellclass'].touched)" class="alert alert-danger">
-        <div *ngIf="spellForm.controls['spellclass'].errors?.['required']">
-          Spell class is required.
-        </div>
-        <div *ngIf="spellForm.controls['spellclass'].errors?.['pattern']">
-          Spell class can only be 1 through 10.
-        </div>
-      </div>
--->
       <button class="submit" type="reset" id="spellreset" (click)="spellreset()">Reset Values</button>
       <button class="submit" type="submit" id="spellsubmit" [disabled]="!spellForm.valid">Submit</button>
     </form>

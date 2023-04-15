@@ -29,15 +29,6 @@
     background-color: transparent;
   }
 
-.submit {
-  padding: 9px 14px;
-  font-size: 15px;
-  line-height: normal;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
   .submit:hover {
     color: #333333;
     text-decoration: none;
@@ -55,6 +46,12 @@
   }
 
 .submit {
+  padding: 9px 14px;
+  font-size: 15px;
+  line-height: normal;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
   color: white;
   background-color: rgb(255, 180, 0);
   background-repeat: repeat-x;
@@ -72,6 +69,7 @@
 .submit {
   width: 100%;
   display: block;
+  margin-left: 15%;
 }
 
 * {
@@ -88,10 +86,13 @@ html {
 
 .items {
   position: absolute;
-  top: 500%;
-  left: 62%;
-  width: 300px;
-  height: 300px;
+  width: 25%;
+  position: fixed;
+  left: 67.5%;
+  top: 50%;
+  -webkit-transform: translate(-45%, -25%);
+  transform: translate(-45%, -25%);
+  height: 35%;
 }
 
   .items h1 {
@@ -103,10 +104,13 @@ html {
 
 .spells {
   position: absolute;
-  top: 500%;
-  right: 65%;
-  width: 300px;
-  height: 300px;
+  width: 25%;
+  position: fixed;
+  left: 25%;
+  top: 50%;
+  -webkit-transform: translate(-45%, -25%);
+  transform: translate(-45%, -25%);
+  height: 35%;
 }
 
   .spells h1 {
@@ -162,14 +166,14 @@ table {
 
 .tbl-content {
   position: absolute;
-  left: -46%;
-  height: 300px;
+  height: 100%;
   margin-top: 0px;
-  background-color: rgba(226, 88, 34, .36);
+  background-color: rgba(226, 108, 34, .9);
   border: 1px solid rgba(255,180,0,1.0);
   text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
   overflow-y: auto;
   text-align: center;
+  border-radius: 4px;
 }
 
 th {
@@ -238,10 +242,11 @@ body {
   position: sticky;
   top: 0px;
   font-size: 25px;
+  height: 65px;;
   color: rgb(255, 180, 0);
   text-shadow: 0 0 10px rgba(0,0,0,1);
   letter-spacing: 1px;
   text-align: center;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  background-color: rgba(255, 150, 0, .7);
+  background-color: rgba(226, 108, 34, .9);
 }

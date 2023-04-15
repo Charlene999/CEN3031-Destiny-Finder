@@ -1,7 +1,7 @@
 <div class="items">
   <div class="characters">
     <select id="classes" (click)="showItems()">
-      <option disabled selected hidden>Select Option</option>
+      <option disabled selected hidden>Select Class</option>
       <option *ngFor="let iclass of allClasses" class="Name" id="class_dropdown" >{{iclass}}</option>
     </select>
   </div>
@@ -15,7 +15,7 @@
         id="searchAll"
         [(ngModel)]="searchText"
         autocomplete="off"
-        placeholder="Start searching for a item by class, name, description, or level required"
+        placeholder="Start searching for a item by class, name, description, or level"
         />
       <input *ngIf="!All()"
         class="form-control"
@@ -24,7 +24,7 @@
         id="searchNotAll"
         [(ngModel)]="searchText"
         autocomplete="off"
-        placeholder="Start searching for a item by name, description, or level required"
+        placeholder="Start searching for a item by name, description, or level"
       />
     </div>
     <table id="tabl" cellpadding="0" cellspacing="0" border="0">
@@ -32,23 +32,23 @@
         <tr>
           <th *ngIf="All()">Class</th>
           <th>Name</th>
+          <th>Level</th>
           <th>Description</th>
-          <th>Level Required</th>
         </tr>
       </thead>
       <tbody *ngIf="All()">
         <tr *ngFor="let item of allItems | filter : searchText">
           <td class="Class">{{item.Class}}</td>
           <td class="Name">{{item.Name}}</td>
-          <td class="Description">{{item.Description}}</td>
           <td class="Level">{{item.Level}}</td>
+          <td class="Description">{{item.Description}}</td>
         </tr>
       </tbody>
       <tbody *ngIf="!All()">
         <tr *ngFor="let item of curClassItems | filter : searchText">
           <td class="Name">{{item.Name}}</td>
-          <td class="Description">{{item.Description}}</td>
           <td class="Level">{{item.Level}}</td>
+          <td class="Description">{{item.Description}}</td>
         </tr>
       </tbody>
     </table>

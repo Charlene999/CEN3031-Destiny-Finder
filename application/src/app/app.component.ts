@@ -9,7 +9,9 @@ import { HttpClient, HttpHandler, HttpRequest } from '@angular/common/http';
 
 export class AppComponent { 
 
+  hover: boolean;
   constructor(private router: Router) {
+    this.hover = false;
   }
   
   loggedIn() {
@@ -35,4 +37,30 @@ export class AppComponent {
       return false;
     }
   }
+
+  // Get user option from select
+  profileChoice() {
+
+    var select = document.getElementById("chars") as HTMLSelectElement;
+    switch (select.selectedIndex) {
+      case 1:
+        this.router.navigateByUrl("/profile/create-character");
+        break;
+
+      case 2:
+        this.router.navigateByUrl("/profile/characters");
+        break;
+
+      case 3:
+        this.router.navigateByUrl("/profile/spells");
+        break;
+
+      case 4:
+        this.router.navigateByUrl("/profile/items");
+        break;
+    }
+
+    select.selectedIndex = 0;
+  }
+
 }

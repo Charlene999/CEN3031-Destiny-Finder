@@ -78,7 +78,7 @@ export class ItemsComponent {
               items[i].ClassReq = "Priest";
               break;
             default:
-              alert("Invalid class choice.");
+              items[i].ClassReq = "";
               break;
           }
 

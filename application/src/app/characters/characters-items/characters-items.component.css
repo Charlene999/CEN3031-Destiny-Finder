@@ -10,18 +10,19 @@
     height: 100%;
     overflow: hidden;
   }
-  
-  .items {
-    position: absolute;
-    top: 400%;
-    left: 55%;
-    width: 500px;
-    height: 300px;
-  }
+
+.items {
+  width: 60%;
+  position: fixed;
+  left: 50%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
   
     .items h1 {
       color: rgb(255, 180, 0);
-      text-shadow: 0 0 10px rgba(255,255,255,.6);
+      text-shadow: 0 0 10px rgba(0,0,0,1);
       letter-spacing: 1px;
       text-align: center;
     }
@@ -63,29 +64,30 @@
     background-position-x: center;
     text-align: center;
   }
-  
-  .tbl-content {
-    border-radius: 6px;
-    table-layout: fixed;
-    position: center;
-    height: 300px;
-    margin-top: 0px;
-    background-color: rgba(226, 88, 34, .36);
-    border: 2.5px solid rgba(255,180,0,1.0);
-    text-shadow: 0 1px 1px rgba(255, 120, 0, 0.75);
-    overflow-y: auto;
-    text-align: center;
-  }
-  th {
-    padding: 20px 15px;
-    text-align: center;
-    font-weight: 500;
-    font-size: 14px;
-    color: rgb(255, 255, 255);
-    border: 1px solid rgba(255,180,0,0.9);
-    text-shadow: 0 0 10px rgba(0,0,0,1);
-    text-transform: uppercase;
-  }
+
+.tbl-content {
+  border-radius: 6px;
+  table-layout: fixed;
+  position: center;
+  height: 400px;
+  margin-top: 0px;
+  background-color: rgba(226, 108, 34, .9);
+  border: 2.5px solid rgba(255,180,0,1.0);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+  overflow-y: auto;
+  text-align: center;
+}
+th {
+  padding: 20px 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 18px;
+  background-color: rgba(226, 108, 34, .8);
+  color: rgb(255, 180, 0);
+  border: 1px solid rgba(255,180,0,1);
+  text-shadow: 0 0 18px rgba(0,0, 0,1);
+  text-transform: uppercase;
+}
   
   td {
     color: rgb(255, 180, 0);
@@ -108,20 +110,24 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  
+
     .characters select {
       background-color: rgb(255, 180, 0);
-      color: white;
+      color: rgb(226, 108, 34);
+      font-weight: 600;
       padding: 12px;
       width: 250px;
       border: none;
-      font-size: 20px;
+      font-size: 22px;
       box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
       -webkit-appearance: button;
       appearance: button;
-      outline:groove;
+      outline: groove;
       border-radius: 4px;
       outline-color: rgb(255, 120, 0);
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      text-shadow: rgba(0, 0, 0, 1);
+      text-align: center;
     }
   
     .characters::before {
@@ -166,4 +172,3 @@
     .Add:active {
       color: rgb(255, 120, 0);
     }
-  

@@ -7,22 +7,26 @@ import { HttpClient} from '@angular/common/http';
   styleUrls: ['./characters.component.css']
 })
 
-export class CharactersComponent { 
+export class CharactersComponent {
+
+
+  allClasses: Array<string>;
   allChars: character[];
   viewSubmitted: Boolean;
 
-  invalidName: string;
-  invalidDesc: string;
-  invalidLevel: string;
-  invalidClass: string;
+  curClass: string;
+  curClassChars: character[];
 
+  CharValid: boolean;
+    searchText: any;
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
+
+    this.allClasses = ["All Characters", "Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
     this.viewSubmitted = false;
-    this.invalidName = "";
-    this.invalidDesc = "";
-    this.invalidLevel = "";
-    this.invalidClass = "";
+    this.curClass = "All Characters";
+    this.curClassChars = [];
+    this.CharValid = true;
   }
 
   ngOnInit() {
@@ -30,7 +34,76 @@ export class CharactersComponent {
       this.router.navigateByUrl('/');
     }
 
-    this.onLoad()
+    let Character = {
+      "OwnerToken": localStorage.getItem('id_token'),
+    };
+
+    const options = { headers: { 'Content-Type': 'application/json' } };
+    this.http.post('http://localhost:8080/characters/get', JSON.stringify(Character), options).subscribe(data => {
+      if (200) {
+
+        // All user characters put in a variable for html table access
+        this.allChars.splice(0);
+        var chars = JSON.parse(JSON.stringify(data));
+
+        for (let i = 0; i < chars.length; i++) {
+
+          switch (chars[i].ClassType) {
+            case 1:
+              chars[i].ClassType = "Sorcerer";
+              break;
+            case 2:
+              chars[i].ClassType = "Barbarian";
+              break;
+            case 3:
+              chars[i].ClassType = "Bard";
+              break;
+            case 4:
+              chars[i].ClassType = "Druid";
+              break;
+            case 5:
+              chars[i].ClassType = "Shaman";
+              break;
+            case 6:
+              chars[i].ClassType = "Hunter";
+              break;
+            case 7:
+              chars[i].ClassType = "Necromancer";
+              break;
+            case 8:
+              chars[i].ClassType = "Rogue";
+              break;
+            case 9:
+              chars[i].ClassType = "Paladin";
+              break;
+            case 10:
+              chars[i].ClassType = "Priest";
+              break;
+            default:
+              //alert("Invalid class choice.");
+              break;
+          }
+
+          var char = new character(chars[i].Name, chars[i].Level, chars[i].Description, chars[i].ClassType, chars[i].ID);
+          this.allChars.push(char);
+        }
+      }
+    }, (error) => {
+      if (error.status === 404) {
+        alert('Resource not found.');
+      }
+      else if (error.status === 409) {
+        alert('Character already exists. Please try another one.');
+      }
+      else if (error.status === 500) {
+
+        alert('Server down.');
+      }
+      else if (error.status === 502) {
+        alert('Bad gateway.');
+      }
+    }
+    );
   }
 
   onLoad() {
@@ -82,7 +155,7 @@ export class CharactersComponent {
               chars[i].ClassType = "Priest";
               break;
             default:
-              alert("Invalid class choice.");
+              //alert("Invalid class choice.");
               break;
           }
 
@@ -144,12 +217,14 @@ export class CharactersComponent {
 
     // Get info from html table
     var table = document.getElementById('tabl') as HTMLTableElement;
-    var name = table.rows[index+1]?.cells[0]?.innerText;
-    var desc = table.rows[index+1]?.cells[1]?.innerText;
-    var level = new Number(table.rows[index+1]?.cells[2]?.innerText);
+    var name = table.rows[index + 2]?.cells[0]?.innerText;
+    var desc = table.rows[index + 2]?.cells[1]?.innerText;
+    var level = char.Level;
+    var myclass = char.Class;
 
-    //var myclass = new Number(table.rows[index + 1]?.cells[3]?.innerText);
-    var myclass = table.rows[index + 1]?.cells[3]?.innerText;
+    // Don't post request if spell data is invalid
+    if (!this.charValid(name, desc))
+      return;
 
     console.log(myclass)
     let myclassconvert = 0;
@@ -186,21 +261,18 @@ export class CharactersComponent {
         myclassconvert = 10;
         break;
       default:
-        alert("Invalid class choice.");
         break;
     }
 
     //var myChar = new character(name, level as number, desc, myclass as number, char.ID);
     var myChar = new character(name, level as number, desc, myclass, char.ID);
 
-    if (this.validInfo(myChar) === true)
-      return;
 
     // Create character from edited info according to backend schema
     let Character = {
       "Name": name,
 	    "Description": desc,
-	    "ClassType": myclassconvert,
+	    "ClassType": parseInt(myclass),
 	    "Level": level,
 	    "OwnerToken":  localStorage.getItem('id_token'),
 	    "CharacterID": char.ID,
@@ -214,7 +286,7 @@ export class CharactersComponent {
       if (200) {
         // Character should be updated in allChars variable 
         var curChar = JSON.parse(JSON.stringify(data));
-
+        
         switch (curChar.ClassType) {
           case 1:
             curChar.ClassReq = "Sorcerer";
@@ -247,12 +319,12 @@ export class CharactersComponent {
             curChar.ClassReq = "Priest";
             break;
           default:
-            alert("Invalid class choice.");
+            //alert("Invalid class choice.");
             break;
         }
 
-        char = new character(curChar.Name, curChar.Level, curChar.Description, curChar.ClassReq, curChar.ID);
-        this.allChars[index] = char;
+        char = new character(curChar.Name, curChar.Level, curChar.Description, myclass, curChar.ID);
+        this.onLoad();
 
         alert("Character " + char.Name + " Updated");
         window.location.reload;
@@ -275,63 +347,76 @@ export class CharactersComponent {
     }
   }
 
-  // Validate character info
-  validInfo(char: character): boolean {
-    this.validName(char);
-    this.validDesc(char);
-    //this.validLevel(char);
-    //this.validClass(char);
+  showChars() {
+    const select = document.getElementById("charClasses") as HTMLSelectElement;
+    const index = select.selectedIndex;
 
-    // If no invalid data was submitted, character can be updated
-    if (this.invalidName !== "" || this.invalidDesc !== "")// || this.invalidLevel !== "" || this.invalidClass !== "")
+    if (index === 0 || index == -1 || index - 1 >= this.allClasses.length)
+      return;
+
+    this.viewSubmitted = true;
+
+    this.curClass = this.allClasses.at(index - 1) as string;
+
+    if (this.curClass !== "All Characters") {
+
+      this.curClassChars.splice(0);
+
+      //For loop that goes through all items in allItems
+      for (let char = 0; char < this.allChars.length; char++) {
+        if (this.curClass === this.allChars[char].Class) {
+          //Push item into allItems array
+          this.curClassChars.push(this.allChars[char]);
+        }
+      }
+    }
+  }
+
+  charValid(charName: string, charDesc: string): boolean {
+
+    // Validate edit character with add character validation
+    var charname = "", chardesc = "";
+    var valChar = document.getElementById("charValid") as HTMLTableRowElement;
+    var descVal = new RegExp('[a-zA-Z.,? ]*');
+
+    if (!descVal.test(charDesc))
+      chardesc = "Description contains invalid characters"
+
+    if (charDesc.length < 4)
+      chardesc = "Description must be at least 4 characters"
+
+    if (charDesc.length > 100)
+      chardesc = "Description cannot exceed 100 characters"
+
+    var nameVal = new RegExp('[a-zA-Z ]*');
+
+    if (!nameVal.test(charName))
+      charname = "Name contains invalid characters"
+
+    if (charName.length < 4)
+      charname = "Name must be at least 4 characters"
+
+    if (charName.length > 30)
+      charname = "Name cannot exceed 30 characters"
+
+    if (charname == "" && chardesc == "") {
+      valChar.innerHTML = "";
+      this.CharValid = true;
+      return this.CharValid;
+    }
+    valChar.innerHTML = charname + "<br>" + chardesc;
+    this.CharValid = false;
+    return this.CharValid;
+  }
+
+  All() {
+    if (this.curClass === "All Characters") {
       return true;
-
-    return false;
+    }
+    else {
+      return false;
+    }
   }
-
-  validName(char: character) {
-    // Name validation
-    if (char.Name.length === 0)
-      this.invalidName = "Error: Name Required";
-
-    else if (char.Name.length > 0 && char.Name.length < 4)
-      this.invalidName = "Error: Name must be at least 4 characters";
-
-    else if (char.Name.length > 20)
-      this.invalidName = "Error: Name can have up to 20 characters";
-  }
-
-  validDesc(char: character) {
-    // Description Validation
-    if (char.Description.length === 0)
-      this.invalidDesc = "Error: Description Required";
-
-    else if (char.Description.length > 0 && char.Description.length < 4)
-      this.invalidDesc = "Error: Description must be at least 4 characters";
-
-    else if (char.Description.length > 30)
-      this.invalidDesc = "Error: Description can have up to 30 characters";
-  }
-
-  /* 
-  validLevel(char: character) {
-    // Level Validation
-    if (char.Level <= 0)
-      this.invalidLevel = "Error: Level must be greater than 0";
-
-    else if (char.Level > 20)
-      this.invalidLevel = "Error: Character can have a maximum level of 20";
-  }
-
-  validClass(char: character) {
-    // Class Validation
-    if (char.Class <= 0)
-      this.invalidClass = "Error: Class must be greater than 0";
-
-    else if (char.Class > 10)
-      this.invalidClass = "Error: Character can have a maximum class of 10";
-  }
-  */
 }
 
 class character {

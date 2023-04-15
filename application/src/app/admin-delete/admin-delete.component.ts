@@ -404,8 +404,8 @@ export class AdminDeleteComponent {
     if (itemDesc.length < 4) 
       itemdesc = "Description must be at least 4 characters"
 
-    if (itemDesc.length > 38) 
-      itemdesc = "Description cannot exceed 38 characters"
+    if (itemDesc.length > 100) 
+      itemdesc = "Description cannot exceed 100 characters"
 
     var nameVal = new RegExp('[a-zA-Z ]*');
 
@@ -415,11 +415,11 @@ export class AdminDeleteComponent {
     if (itemName.length < 4) 
       itemname= "Name must be at least 4 characters"
 
-    if (itemName.length > 38) 
-      itemname = "Name cannot exceed 38 characters"
+    if (itemName.length > 30) 
+      itemname = "Name cannot exceed 30 characters"
 
     if (itemname == "" && itemdesc == "") {
-      valItem.innerHTML = "ALL ITEMS";
+      valItem.innerHTML = "";
       this.ItemValid = true;
       return this.ItemValid;
     }
@@ -442,8 +442,8 @@ export class AdminDeleteComponent {
     if (spellDesc.length < 4)
       spelldesc = "Description must be at least 4 characters"
 
-    if (spellDesc.length > 30)
-      spelldesc = "Description cannot exceed 30 characters"
+    if (spellDesc.length > 100)
+      spelldesc = "Description cannot exceed 100 characters"
 
     var nameVal = new RegExp('[a-zA-Z ]*');
 
@@ -457,7 +457,7 @@ export class AdminDeleteComponent {
       spellname = "Name cannot exceed 30 characters"
 
     if (spellname == "" && spelldesc == "") {
-      valSpell.innerHTML = "ALL SPELLS";
+      valSpell.innerHTML = "";
       this.SpellValid = true;
       return this.SpellValid;
     }

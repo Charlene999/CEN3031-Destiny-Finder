@@ -242,6 +242,10 @@ export class ViewUsersComponent {
 
     return this.editUsersSubmitted;
   }
+
+  back() {
+    this.router.navigateByUrl("/admin");
+  }
 }
 
 // User Info available for admin

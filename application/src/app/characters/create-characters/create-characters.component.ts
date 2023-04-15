@@ -159,8 +159,8 @@ export class CreateCharactersComponent {
       return true;
     }
 
-    if (description.length > 30) {
-      this.invalidDesc = "Description can have up to 30 characters";
+    if (description.length > 100) {
+      this.invalidDesc = "Description can have up to 100 characters";
       return true;
     }
 

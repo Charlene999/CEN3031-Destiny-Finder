@@ -1,15 +1,21 @@
 .Characters {
-  position: absolute;
-  right: 28%;
-  width: 600px;
-  height: 600px;
+  width: 23%;
+  position: fixed;
+  left: 50%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(226, 108, 34, .9);
+  border: 2.5px solid rgba(255,180,0,1.0);
+  border-radius: 6px;
 }
 
-.Characters h1 {
-  color: rgb(255, 180, 0);
-  text-shadow: 0 0 10px rgba(255,255,255,.8);
-  letter-spacing: 1px;
-}
+  .Characters h1 {
+      text-align: center;
+    color: rgb(255, 180, 0);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    letter-spacing: 1px;
+  }
 
 .create, .getChars {
   display: inline-block;
@@ -80,14 +86,7 @@
     filter: none;
   }
 
-  .create, .getChars {
-    width: 50%;
-    display: block;
-  }
-
-p {
-  text-align: center;
-  --bgcolor: rgba(256,256,256,50%);
-  background-color: var(--bgcolor);
-  box-shadow: 0 0 8px 8px var(--bgcolor);
+.create, .getChars {
+    display:block;
+    width: 100%;
 }
