@@ -65,11 +65,14 @@
     background-color: rgb(255, 180, 0);
     filter: none;
   }
-
 .submit {
-  width: 100%;
+  width: 50%;
+  top: 0%;
+  left: 21.5%;
+  position: fixed;
   display: block;
-  margin-left: 15%;
+  -webkit-transform: translate(15%, -100%);
+  transform: translate(15%, -100%);
 }
 
 * {
@@ -85,14 +88,13 @@ html {
 }
 
 .items {
-  position: absolute;
-  width: 25%;
+  width: 40%;
   position: fixed;
-  left: 67.5%;
-  top: 50%;
-  -webkit-transform: translate(-45%, -25%);
-  transform: translate(-45%, -25%);
-  height: 35%;
+  left: 20%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  height: 50%;
 }
 
   .items h1 {
@@ -103,14 +105,13 @@ html {
   }
 
 .spells {
-  position: absolute;
-  width: 25%;
+  width: 40%;
   position: fixed;
-  left: 25%;
-  top: 50%;
-  -webkit-transform: translate(-45%, -25%);
-  transform: translate(-45%, -25%);
-  height: 35%;
+  left: 74%;
+  top: 60%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  height: 50%;
 }
 
   .spells h1 {
