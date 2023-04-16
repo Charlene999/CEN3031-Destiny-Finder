@@ -229,9 +229,9 @@ export class CharactersItemsComponent {
     const options = { headers: { 'Content-Type': 'application/json' } };
     this.http.post('http://localhost:8080/characters/additem', JSON.stringify(addItem), options).subscribe(data => {
       if (202) {
-          alert("Item added.");
+        alert("Item added.");
         window.location.reload();
-        }
+      }
       }, 
       (error) => {
       if (error.status === 404) {
@@ -280,7 +280,6 @@ export class CharactersItemsComponent {
     }
     );
   }
-
 }
 
 // Character and item schema stored

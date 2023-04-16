@@ -31,4 +31,9 @@ describe('SpellsComponent', () => {
   it('The /spells page renders', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Select Dropdown Works', async () => {
+    component.showSpells();
+    expect(component.viewSubmitted).toBeTruthy();
+  });
 });

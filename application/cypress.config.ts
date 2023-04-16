@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
 
-  viewportWidth: 1600,
+  viewportWidth: 1800,
   viewportHeight: 1050,
 
   component: {

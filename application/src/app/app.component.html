@@ -9,13 +9,6 @@
       <!-- NOTE: The order these tabs are listed are the order they appear on navigation bar-->
       <!-- Example: Logged-In User Only Sees These Tabs In Order = Home/Logout/Profile/Classes/Spells/Items-->
       <!-- NOTE: DO NOT INCLUDE a routerLink here for a "hidden" route, such as items/create-->
-      <!--Home Page Tab-->
-      <!--TODO - Old Home Page Tab: Possibly remove and replace with logo on navbar as home page?-->
-      <!--<a class="nav-item nav-link" routerLink="/">Home</a>-->
-      <!--TODO - Remove these two tabs if new home page changes are approved-->
-      <!--If user or admin not logged in, display login and create user tabs-->
-      <a class="nav-item nav-link" routerLink="/login" *ngIf="!loggedIn()">Login</a>
-      <a class="nav-item nav-link" routerLink="/signup" *ngIf="!loggedIn()">Sign Up</a>
 
       <!--If admin or user is logged in, display logout tab-->
       <a class="nav-item nav-link" routerLink="/" (click)="logout()" *ngIf="loggedIn()">Logout</a>
@@ -27,10 +20,9 @@
       <a class="nav-item nav-link" routerLink="/admin" *ngIf="loggedIn() && isAdmin()">Profile</a>
 
       <!--If admin or user is logged in, display these tabs-->
-      <a class="nav-item nav-link" routerLink="/classes" *ngIf="loggedIn()">Classes</a>
+      <a id="classestab" class="nav-item nav-link" routerLink="/classes" *ngIf="loggedIn()">Classes</a>
       <a id="spells" class="nav-item nav-link" routerLink="/spells" *ngIf="loggedIn()">Spells</a>
       <a id="items" class="nav-item nav-link" routerLink="/items" *ngIf="loggedIn()">Items</a>
-
 
       <select (click)="profileChoice()" id="chars" class="Characters">
         <option disabled hidden selected>Characters</option>

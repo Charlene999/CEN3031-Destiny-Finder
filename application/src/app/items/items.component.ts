@@ -14,8 +14,6 @@ export class ItemsComponent {
   allItems: Item[];
   curClassItems: Item[];
   viewSubmitted: Boolean;
-  addSubmitted: Boolean;
-  removeSubmitted: Boolean;
   searchText: any;
 
   constructor(private http: HttpClient, private router: Router) {
@@ -24,8 +22,6 @@ export class ItemsComponent {
     this.curClass = "All Items";
     this.curClassItems = [];
     this.viewSubmitted = false;
-    this.addSubmitted = false;
-    this.removeSubmitted = false;
   }
 
   ngOnInit() {
@@ -103,13 +99,13 @@ export class ItemsComponent {
   // show all items owned and unowned for that class and level
   showItems() {
 
+    this.viewSubmitted = true;
+
     const select = document.getElementById("classes") as HTMLSelectElement;
     const index = select.selectedIndex;
 
     if(index === 0 || index == -1 || index -1 >= this.allClasses.length)
       return;
-
-    this.viewSubmitted = true;
 
     this.curClass = this.allClasses.at(index - 1) as string;
 
