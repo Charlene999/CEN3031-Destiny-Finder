@@ -27,8 +27,8 @@ Run `git clone https://github.com/Charlene999/CEN3031-The-Perfect-Path.git` from
 Change directory into the newly created CEN3031-The-Perfect-Path folder/application.             
 
 ### Frontend Setup                    
-Run `npm install -g @angular/cli`.
-Run `npm install`.
+Run `npm install -g @angular/cli`.                
+Run `npm install`.                             
 Run the frontend using the command `npm start` (Make sure you are within the application directory).            
             
 ### Backend Setup            
