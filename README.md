@@ -24,16 +24,15 @@ Install Go from https://go.dev/dl/.
 
 ### Initial Project Setup            
 Run `git clone https://github.com/Charlene999/CEN3031-The-Perfect-Path.git` from a terminal or command line pathed into a designated folder.            
-Change directory into the newly created CEN3031-The-Perfect-Path folder.             
+Change directory into the newly created CEN3031-The-Perfect-Path folder/application.             
 
-### Frontend Setup            
-Change directory into application.            
+### Frontend Setup                    
 Run `npm install -g @angular/cli`.
 Run `npm install`.
 Run the frontend using the command `npm start` (Make sure you are within the application directory).            
             
 ### Backend Setup            
-Change directory into application/server.            
+Change directory into server.            
 Run `touch .env`.            
 Enter the following three lines into the .env file and replace with your chosen SQL database information:            
 &emsp;   `DB_USERNAME=replacethiswithdatabaseusername`            
