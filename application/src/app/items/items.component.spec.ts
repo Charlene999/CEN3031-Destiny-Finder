@@ -38,4 +38,9 @@ describe('ItemsComponent', () => {
   it('The /items page renders', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Select Dropdown Works', async () => {
+    component.showItems();
+    expect(component.viewSubmitted).toBeTruthy();
+  });
 });

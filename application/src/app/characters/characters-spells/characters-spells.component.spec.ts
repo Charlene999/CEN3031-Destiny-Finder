@@ -32,6 +32,11 @@ describe('CharactersSpellsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('Select Dropdown Works', async () => {
+    component.showSpells();
+    expect(component.viewSubmitted).toBeTruthy();
+  });
+
   describe('add', () => { 
     it('ADD button works', () => {
       component.add(12);
@@ -45,4 +50,5 @@ describe('CharactersSpellsComponent', () => {
       expect(component.removeSubmitted).toBeTruthy();
     });
   });
+  
 });

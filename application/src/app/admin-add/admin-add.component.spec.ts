@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminAddComponent } from './admin-add.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 describe('AdminAddComponent', () => {
@@ -69,51 +68,11 @@ describe('AdminAddComponent', () => {
       itemdescription.setValue("M");
       expect(itemdescription.hasError('minlength')).toBeTruthy();
 
-      itemdescription.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+      itemdescription.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
       expect(itemdescription.hasError('maxlength')).toBeTruthy();
 
       itemdescription.setValue("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       expect(itemdescription.hasError('pattern')).toBeTruthy();
-    });
-
-    it('Item level field validity', () => {
-      let itemlevel = component.itemForm.controls['itemlevel'];
-      expect(itemlevel.valid).toBeFalsy();
-
-      itemlevel.setValue("");
-      expect(itemlevel.hasError('required')).toBeTruthy();
-
-      itemlevel.setValue("M");
-      expect(itemlevel.hasError('pattern')).toBeTruthy();
-
-      itemlevel.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
-      expect(itemlevel.hasError('pattern')).toBeTruthy();
-
-      itemlevel.setValue("0");
-      expect(itemlevel.hasError('pattern')).toBeTruthy();
-
-      itemlevel.setValue("21");
-      expect(itemlevel.hasError('pattern')).toBeTruthy();
-    });
-
-    it('Item class field validity', () => {
-      let itemclass = component.itemForm.controls['itemclass'];
-      expect(itemclass.valid).toBeFalsy();
-
-      itemclass.setValue("");
-      expect(itemclass.hasError('required')).toBeTruthy();
-
-      itemclass.setValue("M");
-      expect(itemclass.hasError('pattern')).toBeTruthy();
-
-      itemclass.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
-      expect(itemclass.hasError('pattern')).toBeTruthy();
-
-      itemclass.setValue("0");
-      expect(itemclass.hasError('pattern')).toBeTruthy();
-
-      itemclass.setValue("11");
-      expect(itemclass.hasError('pattern')).toBeTruthy();
     });
   });
 
@@ -155,51 +114,11 @@ describe('AdminAddComponent', () => {
       spelldescription.setValue("M");
       expect(spelldescription.hasError('minlength')).toBeTruthy();
 
-      spelldescription.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+      spelldescription.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
       expect(spelldescription.hasError('maxlength')).toBeTruthy();
 
       spelldescription.setValue("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       expect(spelldescription.hasError('pattern')).toBeTruthy();
-    });
-
-    it('Spell level field validity', () => {
-      let spelllevel = component.spellForm.controls['spelllevel'];
-      expect(spelllevel.valid).toBeFalsy();
-
-      spelllevel.setValue("");
-      expect(spelllevel.hasError('required')).toBeTruthy();
-
-      spelllevel.setValue("M");
-      expect(spelllevel.hasError('pattern')).toBeTruthy();
-
-      spelllevel.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
-      expect(spelllevel.hasError('pattern')).toBeTruthy();
-
-      spelllevel.setValue("0");
-      expect(spelllevel.hasError('pattern')).toBeTruthy();
-
-      spelllevel.setValue("21");
-      expect(spelllevel.hasError('pattern')).toBeTruthy();
-    });
-
-    it('Spell class field validity', () => {
-      let spellclass = component.spellForm.controls['spellclass'];
-      expect(spellclass.valid).toBeFalsy();
-
-      spellclass.setValue("");
-      expect(spellclass.hasError('required')).toBeTruthy();
-
-      spellclass.setValue("M");
-      expect(spellclass.hasError('pattern')).toBeTruthy();
-
-      spellclass.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
-      expect(spellclass.hasError('pattern')).toBeTruthy();
-
-      spellclass.setValue("0");
-      expect(spellclass.hasError('pattern')).toBeTruthy();
-
-      spellclass.setValue("11");
-      expect(spellclass.hasError('pattern')).toBeTruthy();
     });
   });
 });

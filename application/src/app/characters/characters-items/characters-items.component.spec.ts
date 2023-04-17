@@ -39,6 +39,11 @@ describe('CharactersItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('Select Dropdown Works', async () => {
+    component.showItems();
+    expect(component.viewSubmitted).toBeTruthy();
+  });
+
   describe('add', () => { 
     it('ADD button works', () => {
       component.add(17);
@@ -52,12 +57,4 @@ describe('CharactersItemsComponent', () => {
       expect(component.removeSubmitted).toBeTruthy();
     });
   });
-
-  // Test showItems performs properly
-  describe('showItems', () => {
-    it('Items Successfully Shown', () => {
-      component.showItems();
-      expect(component.viewSubmitted).toBeTruthy();
-    })
-  })
 });

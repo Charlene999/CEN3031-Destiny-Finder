@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharactersComponent } from './characters.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 describe('CharactersComponent', () => {
   let component: CharactersComponent;
@@ -15,7 +15,8 @@ describe('CharactersComponent', () => {
         HttpClientModule, 
         HttpClientTestingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        Ng2SearchPipeModule
         ],
       declarations: [ CharactersComponent ],
       providers: []
@@ -24,6 +25,13 @@ describe('CharactersComponent', () => {
 
     fixture = TestBed.createComponent(CharactersComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CharactersComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
     fixture.detectChanges();
   });
 

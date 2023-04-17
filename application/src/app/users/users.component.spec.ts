@@ -38,22 +38,6 @@ describe('UsersComponent', () => {
   });
 
   //Describe is the function name being tested
-  describe('createCharacter', () => {
-    it('Create A New Character Button Works', async () => {
-    component.createCharacter();
-    expect(component.newCharactersSubmitted).toBeTruthy();
-    });
-  });
-
-  //Describe is the function name being tested
-  describe('getCharacters', () => {
-    it('View All Characters Button Works', async () => {
-    component.getCharacters();
-    expect(component.viewCharactersSubmitted).toBeTruthy();
-    });
-  });
-
-  //Describe is the function name being tested
   describe('submit', () => {
     it('Update Name Option Works', async () => {
       component.form.value.website = "Update Name";

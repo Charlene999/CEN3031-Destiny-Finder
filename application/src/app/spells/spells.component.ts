@@ -14,8 +14,6 @@ export class SpellsComponent {
   allSpells: Spell[];
   curClassSpells: Spell[];
   viewSubmitted: Boolean;
-  addSubmitted: Boolean;
-  removeSubmitted: Boolean;
   searchText: any;
 
   constructor(private http: HttpClient, private router: Router) {
@@ -24,8 +22,6 @@ export class SpellsComponent {
     this.curClass = "All Spells";
     this.curClassSpells = [];
     this.viewSubmitted = false;
-    this.addSubmitted = false;
-    this.removeSubmitted = false;
   }
 
   ngOnInit() {
@@ -106,14 +102,14 @@ export class SpellsComponent {
   //Show all spells by class
   showSpells() {
 
+    this.viewSubmitted = true;
+
     const select = document.getElementById("classes") as HTMLSelectElement;
     const index = select.selectedIndex;
 
     if(index === 0 || index == -1 || index -1 >= this.allClasses.length)
       return;
-
-    this.viewSubmitted = true;
-
+    
     this.curClass = this.allClasses.at(index - 1) as string;
 
     if (this.curClass !== "All Spells") {

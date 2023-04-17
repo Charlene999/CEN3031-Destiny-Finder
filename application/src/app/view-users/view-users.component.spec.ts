@@ -38,4 +38,13 @@ describe('ViewUsersComponent', () => {
     });
   });
 
+  describe('deleteUser', () => {
+    it('Delete User Button Works', async () => {
+      //NOTE: This test just tests that the button works, not
+      //the functionality. See Cypress testing for that.
+      component.deleteUser('');
+      expect(component.viewUsersSubmitted).toBeTruthy();
+    });
+  });
+
 });
