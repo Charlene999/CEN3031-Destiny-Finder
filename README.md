@@ -12,7 +12,13 @@ Kerry Hannigan
 Connor Wojtak         
 
 ## Project Description
-The Perfect Path is a Dungeons and Dragons inspired website that one can use customize a character's features and abilities. A user can search for keywords associated with certain spells, hero classes, and so on. Results are filtered based on keyword input. For example, if a user wants to find a certain for a level 5 spellcaster, the user can search for a spell by its name or description and spells that match those filters that their character can equip will be displayed. There is a login page, and the backend and database will store the current user’s customized characters. The database will also be used to store the levels of certain users, and the level of a user will determine what abilities and features are available to that user.
+The Perfect Path application is a Dungeons and Dragons inspired website designed to supplement D&D players' games by offering a platform on which to create and keep track of characters and their classes, items, and spells. After signing up, a user can create as many characters as they would like, selecting a name, class, level, description, etc. for each new character. These character's attributes can be updated at any time.     
+
+As a game plays out, one might wish to keep track of any items and abilities or spells that a character has obtained. Users can select items and spells/abilities to add to a character from a list of items/spells/abiilties available only to that character's class and level. Complete lists of items and spells/abilities are also available for users to view. Search bars and filters for items and spells/abilities by class are available to help users more quickly identify what items/spells/abilities they want to add to their character.     
+
+To provide customizability and flexibility, the application has special admin users who can add, update, and remove items and spells/abilities that users can select from. Administrators can also update or delete users as necessary.        
+
+A technology stack consisting of MySQL for the database, Go (with GORM and gin-gonic) for the backend API, and Angular for the frontend was used to develop the application.
 
 ## Getting Started
 Frontend is located in application/src.            
