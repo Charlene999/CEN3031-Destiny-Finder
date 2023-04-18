@@ -37,7 +37,6 @@ describe('UsersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //Describe is the function name being tested
   describe('submit', () => {
     it('Update Name Option Works', async () => {
       component.form.value.website = "Update Name";
@@ -57,7 +56,4 @@ describe('UsersComponent', () => {
       expect(component.editPasswordSubmitted).toBeTruthy();
     });
   });
-
-  //Add test to verify when Create A New Character button is clicked, user is redirected to /users/create-character page
-  //Add test to verify when View All Characters button is clicked, user is redirected to /users/characters
 });

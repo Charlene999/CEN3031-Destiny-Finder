@@ -60,8 +60,6 @@ describe('LoginComponent', () => {
 
         username.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
         expect(username.hasError('maxlength')).toBeTruthy();
-
-        //Add additional username validity test cases for pattern
     });
 
     it('Password field validity', () => {
@@ -78,6 +76,4 @@ describe('LoginComponent', () => {
       expect(password.hasError('maxlength')).toBeTruthy();
     });
   });
-  //Test what happens when a user successfully logs in
-  //Test that logged in admin? and user is redirected to /profile
 });

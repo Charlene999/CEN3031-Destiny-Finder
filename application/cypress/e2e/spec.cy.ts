@@ -26,7 +26,7 @@ describe('Sign Up Page', () => {
     cy.request({
       method: 'POST', 
       url: 'http://localhost:8080/users/create', 
-      body: JSON.stringify({ name: 'dylan', username: 'dylan10', email: 'fake@fakemail.com', password: 'dylanmail1' }),
+      body: JSON.stringify({ name: 'User', username: 'user', email: 'user@user.com', password: 'theperfectpath' }),
       headers: {'Content-Type': 'application/json'},
       failOnStatusCode: false
     })
@@ -40,17 +40,17 @@ describe('Sign Up Page', () => {
     cy.visit('http://localhost:4200/signup')
     cy.url().should('include', 'http://localhost:4200/signup')
 
-    cy.get('#name').type('dylan')
-    cy.get('#name').should('have.value', 'dylan')
+    cy.get('#name').type('User')
+    cy.get('#name').should('have.value', 'User')
 
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
+    cy.get('#username').type('user')
+    cy.get('#username').should('have.value', 'user')
 
-    cy.get('#email').type('fake@fakemail.com')
-    cy.get('#email').should('have.value', 'fake@fakemail.com')
+    cy.get('#email').type('user@user.com')
+    cy.get('#email').should('have.value', 'user@user.com')
 
-    cy.get('#password').type('dylanmail1')
-    cy.get('#password').should('have.value', 'dylanmail1')
+    cy.get('#password').type('theperfectpath')
+    cy.get('#password').should('have.value', 'theperfectpath')
 
     cy.get('#submit').click()
   })
@@ -70,8 +70,8 @@ describe('Sign Up Page', () => {
     cy.get('#email').type('fake@fakemail.com')
     cy.get('#email').should('have.value', 'fake@fakemail.com')
 
-    cy.get('#password').type('dylanmail1')
-    cy.get('#password').should('have.value', 'dylanmail1')
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
 
     cy.get('#submit').click()
   })
@@ -112,11 +112,11 @@ describe('Login Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
     
     cy.get('#submit').click()
 
@@ -135,11 +135,11 @@ describe('Profile Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
     
     cy.get('#submit').click()
 
@@ -167,11 +167,11 @@ describe('Edit Name Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
     
     cy.get('#submit').click()
 
@@ -193,11 +193,11 @@ describe('Edit Email Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
     
     cy.get('#submit').click()
 
@@ -207,7 +207,7 @@ describe('Edit Email Page', () => {
 
     cy.url().should('include', 'http://localhost:4200/profile/email')
 
-    cy.get('#email').type('dct@ufl.edu')
+    cy.get('#email').type('updatedemail@fakemail.edu')
     cy.get('#submit').click()
 
     cy.url().should('include', 'http://localhost:4200/profile')
@@ -219,11 +219,11 @@ describe('Edit Password Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
     
     cy.get('#submit').click()
 
@@ -233,11 +233,410 @@ describe('Edit Password Page', () => {
 
     cy.url().should('include', 'http://localhost:4200/profile/pass')
 
-    cy.get('#password').type('dylandylan')
+    cy.get('#password').type('theperfectuser')
     cy.get('#submit').click()
 
     cy.url().should('include', 'http://localhost:4200/profile')
   })
+})
+
+//
+//Both Types of Users Pages
+//
+
+describe('Classes Page', () => {
+  it('Successfully navigate to Classes page from Navbar', () => { 
+
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
+
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('#classestab').click()
+
+    cy.url().should('include', 'http://localhost:4200/classes')
+  })
+})
+
+describe('Spells Page', () => {
+
+  //Before each test, login and navigate to the /spells page
+  beforeEach(() => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
+
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    // Go to spells page
+    cy.get('#spells').click()
+
+    cy.url().should('include', 'http://localhost:4200/spells')
+  })
+
+  it('Spells Page Renders with all spells loaded', () => {
+    cy.get('#tabl').contains('td', 'Sniper Shot')
+    cy.get('#tabl').contains('td', 'Hamstring')
+    cy.get('#tabl').contains('td', 'Sing')
+  })
+
+  it('Selecting Barbarian From Dropdown Works', () => {
+    //Select Barbarian option from dropdown
+    cy.get('#classes').select(3).trigger('click')
+
+    cy.get('#tabl').contains('td', 'Mortal Strike')
+    cy.get('#tabl').contains('td', 'Hamstring')
+  })
+})
+
+describe('Items Page', () => {
+
+  //Before each test, login and navigate to the /items page
+  beforeEach(() => {
+    //Login
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
+
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
+    
+    cy.get('#submit').click()
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    //Go to items page via Navbar
+    cy.get('#items').click()
+
+    cy.url().should('include', 'http://localhost:4200/items')
+  })
+  
+  it('Items page renders with all items loaded', () => {
+    cy.get('#tabl').contains('td', 'Frost Wand')
+    cy.get('#tabl').contains('td', 'Spiky Club')
+    cy.get('#tabl').contains('td', 'Flute')
+  })
+
+  it('Selecting Sorcerer From Dropdown Works', () => {
+    //Select Sorcerer option from dropdown
+    cy.get('#classes').select(2).trigger('click')
+
+    cy.get('#tabl').contains('td', 'Frost Wand')
+    cy.get('#tabl').contains('td', 'Fire Wand')
+  })
+})
+
+describe('Create A New Character Page', () => {
+
+  //Before each test, login and navigate to the /profile/create-character page
+  beforeEach(() => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
+
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('#chars').select(1).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/create-character')
+  })
+
+  it('Successfully Creates a New Character', () => {
+    // Character should be submitted properly
+    cy.get('#Name').type('Tlachtga')
+    cy.get('#Name').should('have.value', 'Tlachtga')
+
+    cy.get('#Desc').type('A powerful druidess from Irish mythology.')
+    cy.get('#Desc').should('have.value', 'A powerful druidess from Irish mythology.')
+
+    cy.get('#character_dropdown').select(20).trigger('click')
+
+    cy.get('#class_dropdown').select(4).trigger('click')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile/create-character')
+  })
+})
+
+describe('Character Spells Page', () => {
+
+  //Before each test, login and navigate to /profile/spells page
+  beforeEach(() => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
+
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('#chars').select(3).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/spells')
+  })
+
+  it('Successfully add a spell to a character', () => {
+    cy.intercept('POST', '**/spells/get').as('getSpells')
+    cy.intercept('POST', '**/characters/addspell').as('addSpell')
+
+    cy.get('#spellChars').select('Tlachtga - Druid')
+    cy.get('#spellChars').select('Tlachtga - Druid')
+
+    cy.wait('@getSpells')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Unowned')
+    .should('be.visible')
+
+    cy.get("tr td:nth-child(5)")       //Gets the Add column (5th column)
+    .eq(0)                            //Get the 2nd row
+    .click()
+
+    cy.wait('@addSpell')
+
+    cy.reload(true)
+
+    cy.get('#spellChars').select('Tlachtga - Druid')
+    cy.get('#spellChars').select('Tlachtga - Druid')
+
+    cy.wait('@getSpells')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Owned')
+    .should('be.visible')
+  })
+
+  it('Successfully remove a spell from a character', () => {
+    cy.intercept('POST', '**/spells/get').as('getSpells')
+    cy.intercept('DELETE', '**/characters/removespell').as('removeSpell')
+
+    cy.get('#spellChars').select('Tlachtga - Druid')
+    cy.get('#spellChars').select('Tlachtga - Druid')
+
+    cy.wait('@getSpells')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Owned')
+    .should('be.visible')
+
+    cy.get("tr td:nth-child(6)")       //Gets the Delete column (6th column)
+    .eq(0)                            //Get the 2nd row
+    .click()
+
+    cy.wait('@removeSpell')
+
+    cy.reload(true)
+
+    cy.get('#spellChars').select('Tlachtga - Druid')
+    cy.get('#spellChars').select('Tlachtga - Druid')
+
+    cy.wait('@getSpells')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Unowned')
+    .should('be.visible')
+  })  
+})
+
+describe('Character Items Page', () => {
+  //Before each test, login and navigate to /profile/items page
+  beforeEach(() => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
+
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('#chars').select(4).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/items')
+  })
+
+  it('Successfully add an item to a character', () => {
+    cy.intercept('POST', '**/items/get').as('getItems')
+    cy.intercept('POST', '**/characters/additem').as('addItem')
+
+    cy.get('#itemChars').select('Tlachtga - Druid')
+    cy.get('#itemChars').select('Tlachtga - Druid')
+
+    cy.wait('@getItems')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Unowned')
+    .should('be.visible')
+
+    cy.get("tr td:nth-child(5)")       //Gets the Add column (5th column)
+    .eq(0)                            //Get the 2nd row
+    .click()
+
+    cy.wait('@addItem')
+
+    cy.reload(true)
+
+    cy.get('#itemChars').select('Tlachtga - Druid')
+    cy.get('#itemChars').select('Tlachtga - Druid')
+
+    cy.wait('@getItems')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Owned')
+    .should('be.visible')
+  })
+
+  it('Successfully remove an item from a character', () => {
+    cy.intercept('POST', '**/items/get').as('getItems')
+    cy.intercept('DELETE', '**/characters/removeitem').as('removeItem')
+
+    cy.get('#itemChars').select('Tlachtga - Druid')
+    cy.get('#itemChars').select('Tlachtga - Druid')
+
+    cy.wait('@getItems')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Owned')
+    .should('be.visible')
+
+    cy.get("tr td:nth-child(6)")       //Gets the Delete column (6th column)
+    .eq(0)                            //Get the 2nd row
+    .click()
+
+    cy.wait('@removeItem')
+
+    cy.reload(true)
+
+    cy.get('#itemChars').select('Tlachtga - Druid')
+    cy.get('#itemChars').select('Tlachtga - Druid')
+
+    cy.wait('@getItems')
+
+    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
+    .eq(0)                            //Get the 2nd row
+    .contains('td', 'Unowned')
+    .should('be.visible')
+  })  
+})
+
+describe('View All Characters Page', () => {
+
+  //Before each test, navigate to the /profile/characters page
+  beforeEach(() => {
+    cy.visit('http://localhost:4200/login')
+    cy.url().should('include', 'http://localhost:4200/login')
+
+    cy.get('#username').type('testuser10')
+    cy.get('#username').should('have.value', 'testuser10')
+
+    cy.get('#password').type('theperfectuser')
+    cy.get('#password').should('have.value', 'theperfectuser')
+
+    cy.get('#submit').click();
+
+    cy.url().should('include', 'http://localhost:4200/profile')
+
+    cy.get('#chars').select(2).trigger('click')
+
+    cy.url().should('include', 'http://localhost:4200/profile/characters')
+  })
+
+  it('Successfully Shows All Characters', () => {
+    // Table should have all characters that were created
+    cy.get('#tabl').contains('td', 'Tlachtga').should('be.visible')
+  })
+
+  it('Successfully Edit a Character', () => {
+    cy.intercept('POST', '**/characters/get').as('getChars')
+    cy.intercept('PUT', '**/characters/update').as('updateChar')
+
+    //cy.wait('@getChars')
+
+    //Insert a new name
+    cy.get("tr td:nth-child(1)")       
+    .eq(1)           
+    .contains('td', 'Tlachtga')                 
+    .clear()
+    .type('New Druid Name')
+
+    //Update
+    cy.get("tr td:nth-child(6)")       //Gets the Edit column (6th column)
+    .eq(0)                            
+    .click()
+
+    cy.wait('@updateChar')
+
+    cy.reload(true)
+
+    //Check the name to verify update was successful
+    cy.get("tr td:nth-child(1)")
+    .eq(1)
+    .contains('td', 'NEW DRUID NAME')  
+  })
+
+  it('Successfully Delete a Character', () => {
+    cy.intercept('POST', '**/characters/get').as('getChars')
+    cy.intercept('DELETE', '**/characters/delete').as('deleteChar')
+
+    //cy.wait('@getChars')
+
+    //Delete Character
+    cy.get("tr td:nth-child(5)")       //Gets the Delete column (5th column)
+    .eq(0)                            
+    .click()
+
+    cy.wait('@deleteChar')
+
+    cy.reload(true)
+
+    //cy.wait('@getChars')
+
+    //Check the name to verify deletion was successful
+    cy.get("tr td:nth-child(1)")
+    .eq(1)                            
+    .should('not.exist')
+  })  
 })
 
 //
@@ -251,11 +650,11 @@ describe('Admin Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan5')
-    cy.get('#username').should('have.value', 'dylan5')
+    cy.get('#username').type('admin')
+    cy.get('#username').should('have.value', 'admin')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectpath')
+    cy.get('#password').should('have.value', 'theperfectpath')
     
     cy.get('#submit').click()
 
@@ -285,11 +684,11 @@ describe('View Existing Users Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan5')
-    cy.get('#username').should('have.value', 'dylan5')
+    cy.get('#username').type('admin')
+    cy.get('#username').should('have.value', 'admin')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectpath')
+    cy.get('#password').should('have.value', 'theperfectpath')
 
     cy.get('#submit').click();
 
@@ -301,8 +700,36 @@ describe('View Existing Users Page', () => {
   })
 
   it('Successfully Edit a User', () => {
-    //CHARLENE
-    //TODO - Add Test
+    cy.intercept('POST', '**/users/getall').as('getAllUsers')
+    cy.intercept('PUT', '**/users/admin_update').as('updateUser')
+
+    //Check the name
+    cy.get("tr td:nth-child(1)")       //Gets the Name column (1st column)
+    .eq(5)                            //Get the last row
+    .contains('td', 'Dylan')
+    .should('be.visible')
+
+    //Get user to edit from dropdown
+    cy.get('#chooseUser').select('testuser10')
+
+    //Fill in Form
+    cy.get('#name').type('Test User')
+    cy.get('#name').should('have.value', 'Test User')
+
+    //Submit update
+    cy.get('#edit').click()
+
+    cy.wait('@updateUser')
+
+    cy.reload(true)
+
+    cy.wait('@getAllUsers')
+
+    //Check if user information updated
+    cy.get("tr td:nth-child(1)")       //Gets the Name column (1st column)
+    .eq(5)                            //Get the last row
+    .contains('td', 'Test User')
+    .should('be.visible')
   })
 
   it('Successfully Delete a User', () => {
@@ -310,7 +737,7 @@ describe('View Existing Users Page', () => {
     cy.intercept('DELETE', '**/users/delete').as('deleteUser')
 
     cy.get("tr td:nth-child(6)")       //Gets the Delete User column (6th column)
-    .eq(19)                            //Get the 19th row
+    .eq(4)                            //Get the 19th row
     .click()
 
     cy.wait('@deleteUser')
@@ -318,6 +745,11 @@ describe('View Existing Users Page', () => {
     cy.reload(true)
 
     cy.wait('@getAllUsers')
+
+    //Check that the user deletion was successful
+    cy.get("tr td:nth-child(1)")
+    .eq(5)                            
+    .should('not.exist')
   })
 })
 
@@ -328,11 +760,11 @@ describe('Create Spells or Items Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan5')
-    cy.get('#username').should('have.value', 'dylan5')
+    cy.get('#username').type('admin')
+    cy.get('#username').should('have.value', 'admin')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectpath')
+    cy.get('#password').should('have.value', 'theperfectpath')
 
     cy.get('#submit').click();
 
@@ -344,11 +776,11 @@ describe('Create Spells or Items Page', () => {
   })
 
   it('Test Item Reset and Successfully Create Item', () => {
-    cy.get('#itemname').type('Dylan')
-    cy.get('#itemname').should('have.value', 'Dylan')
+    cy.get('#itemname').type('A new item')
+    cy.get('#itemname').should('have.value', 'A new item')
 
-    cy.get('#itemdescription').type('Dylan')
-    cy.get('#itemdescription').should('have.value', 'Dylan')
+    cy.get('#itemdescription').type('A new item')
+    cy.get('#itemdescription').should('have.value', 'A new item')
 
     cy.get('#character_dropdown_item').select(11).trigger('click')
 
@@ -356,11 +788,11 @@ describe('Create Spells or Items Page', () => {
 
     cy.get('#itemreset').click();
 
-    cy.get('#itemname').type('Fireball')
-    cy.get('#itemname').should('have.value', 'Fireball')
+    cy.get('#itemname').type('A new item')
+    cy.get('#itemname').should('have.value', 'A new item')
 
-    cy.get('#itemdescription').type('A fiery blast.')
-    cy.get('#itemdescription').should('have.value', 'A fiery blast.')
+    cy.get('#itemdescription').type('A new item')
+    cy.get('#itemdescription').should('have.value', 'A new item')
 
     cy.get('#character_dropdown_item').select(11).trigger('click')
 
@@ -370,11 +802,11 @@ describe('Create Spells or Items Page', () => {
   })
 
   it('Test Spell Reset and Successfully Create Spell', () => {
-    cy.get('#spellname').type('Dylan')
-    cy.get('#spellname').should('have.value', 'Dylan')
+    cy.get('#spellname').type('A new spell')
+    cy.get('#spellname').should('have.value', 'A new spell')
 
-    cy.get('#spelldescription').type('Dylan')
-    cy.get('#spelldescription').should('have.value', 'Dylan')
+    cy.get('#spelldescription').type('A new spell')
+    cy.get('#spelldescription').should('have.value', 'A new spell')
 
     cy.get('#character_dropdown_spell').select(11).trigger('click')
 
@@ -382,11 +814,11 @@ describe('Create Spells or Items Page', () => {
 
     cy.get('#spellreset').click();
 
-    cy.get('#spellname').type('Fireball')
-    cy.get('#spellname').should('have.value', 'Fireball')
+    cy.get('#spellname').type('A new spell')
+    cy.get('#spellname').should('have.value', 'A new spell')
 
-    cy.get('#spelldescription').type('A fiery blast.')
-    cy.get('#spelldescription').should('have.value', 'A fiery blast.')
+    cy.get('#spelldescription').type('A new spell')
+    cy.get('#spelldescription').should('have.value', 'A new spell')
 
     cy.get('#character_dropdown_spell').select(11).trigger('click')
 
@@ -403,11 +835,11 @@ describe('Delete Spells or Items Page', () => {
     cy.visit('http://localhost:4200/login')
     cy.url().should('include', 'http://localhost:4200/login')
 
-    cy.get('#username').type('dylan5')
-    cy.get('#username').should('have.value', 'dylan5')
+    cy.get('#username').type('admin')
+    cy.get('#username').should('have.value', 'admin')
 
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
+    cy.get('#password').type('theperfectpath')
+    cy.get('#password').should('have.value', 'theperfectpath')
 
     cy.get('#submit').click();
 
@@ -419,388 +851,106 @@ describe('Delete Spells or Items Page', () => {
   })
 
   it('Successfully Edit an Item', () => {
-    //CHARLENE
-    //TODO - Add Test
+    cy.intercept('POST', '**/items/get').as('getItems')
+    cy.intercept('PUT', '**/items/update').as('updateItem')
+
+    //Insert a new name
+    cy.get('#itemTabl tr td:nth-child(1)')   
+    .eq(19)                            
+    .contains('td', 'A new item')
+    .clear()
+    .type('A paladin item')
+
+    //Update
+    cy.get("#itemTabl tr td:nth-child(6)")       //Gets the Edit column (6th column)
+    .eq(18)                            
+    .click()
+
+    cy.wait('@updateItem')
+
+    cy.reload(true)
+
+    cy.wait('@getItems')
+
+    //Check the name to verify update was successful
+    cy.get("#itemTabl tr td:nth-child(1)")       
+    .eq(19)                            
+    .contains('td', 'A PALADIN ITEM')
   })
 
   it('Successfully Delete an Item', () => {
-    //CHARLENE
-    //TODO - Add Test
+    cy.intercept('POST', '**/items/get').as('getItems')
+    cy.intercept('DELETE', '**/items/delete').as('deleteItem')
+
+    //Check the name
+    cy.get("#itemTabl tr td:nth-child(1)")       
+    .eq(19)                            
+    .contains('td', 'A PALADIN ITEM')
+
+    //Delete the item
+    cy.get("#itemTabl tr td:nth-child(5)")       //Gets the Delete column (5th column)
+    .eq(18)                            
+    .click()
+
+    cy.wait('@deleteItem')
+
+    cy.reload(true)
+
+    cy.wait('@getItems')
+
+    //Check the name to verify deletion was successful
+    cy.get("#itemTabl tr td:nth-child(1)")       
+    .eq(19)                            
+    .should('not.exist')
   })
 
-  it('Successfully Edit a Spell', () => {
-    //CHARLENE
-    //TODO - Add Test
+  it('Successfully Edit an Spell', () => {
+    cy.intercept('POST', '**/spells/get').as('getSpells')
+    cy.intercept('PUT', '**/spells/update').as('updateSpell')
+
+    //Insert a new name
+    cy.get('#spellTabl tr td:nth-child(1)')   
+    .eq(21)                            
+    .contains('td', 'A new spell')
+    .clear()
+    .type('A paladin spell')
+
+    //Update
+    cy.get("#spellTabl tr td:nth-child(6)")       //Gets the Edit column (6th column)
+    .eq(20)                            
+    .click()
+
+    cy.wait('@updateSpell')
+
+    cy.reload(true)
+
+    cy.wait('@getSpells')
+
+    //Check the name to verify update was successful
+    cy.get("#spellTabl tr td:nth-child(1)")       
+    .eq(21)                            
+    .contains('td', 'A PALADIN SPELL')
   })
 
   it('Successfully Delete a Spell', () => {
-    //CHARLENE
-    //TODO - Add Test
-  })
-})
-
-//
-//Both Types of Users Pages
-//
-
-describe('Classes Page', () => {
-  it('Successfully navigate to Classes page from Navbar', () => { 
-
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
-
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
-
-    cy.get('#submit').click();
-
-    cy.url().should('include', 'http://localhost:4200/profile')
-
-    // Go to spells page
-    cy.get('#classestab').click()
-
-    cy.url().should('include', 'http://localhost:4200/classes')
-  })
-})
-
-describe('Spells Page', () => {
-
-  //Before each test, login and navigate to the /spells page
-  beforeEach(() => {
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
-
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
-
-    cy.get('#submit').click();
-
-    cy.url().should('include', 'http://localhost:4200/profile')
-
-    // Go to spells page
-    cy.get('#spells').click()
-
-    cy.url().should('include', 'http://localhost:4200/spells')
-  })
-
-  // Spells page renders correctly
-  it('Spells Page Renders with all spells loaded', () => {
-    //DYLAN
-    //TODO - Finish test when backend finishes seeding data
-
-    // Table should have all spells that were created
-    //cy.get('#tabl').contains('td', 'TREE BRANCH')
-  })
-
-  it('Selecting Barbarian From Dropdown Works', () => {
-    //Select Barbarian option from dropdown
-    cy.get('#classes').select(3).trigger('click')
-
-    //DYLAN
-    //TODO - Add item checks once backend finishes seeding database
-  })
-})
-
-describe('Items Page', () => {
-
-  //Before each test, login and navigate to the /items page
-  beforeEach(() => {
-    //Login
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
-
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
-    
-    cy.get('#submit').click()
-
-    cy.url().should('include', 'http://localhost:4200/profile')
-
-    //Go to items page via Navbar
-    cy.get('#items').click()
-
-    cy.url().should('include', 'http://localhost:4200/items')
-  })
-  
-  it('Items page renders with all items loaded', () => {
-    //DYLAN
-    //TODO - Finish test when backend finishes seeding data
-
-    // Table should have all items that were created
-    //cy.get('#tabl').contains('td', 'TREE BRANCH')
-  })
-
-  it('Selecting Sorcerer From Dropdown Works', () => {
-    //Select Sorcerer option from dropdown
-    cy.get('#classes').select(2).trigger('click')
-
-    //DYLAN
-    //TODO - Add item checks once backend finishes seeding database
-  })
-})
-
-describe('Create A New Character Page', () => {
-
-  //Before each test, login and navigate to the /profile/create-character page
-  beforeEach(() => {
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
-
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
-
-    cy.get('#submit').click();
-
-    cy.url().should('include', 'http://localhost:4200/profile')
-
-    cy.get('#chars').select(1).trigger('click')
-
-    cy.url().should('include', 'http://localhost:4200/profile/create-character')
-  })
-
-  it('Successfully Creates a New Character', () => {
-    // Character should be submitted properly
-    cy.get('#Name').type('Aslan')
-    cy.get('#Name').should('have.value', 'Aslan')
-
-    cy.get('#Desc').type('The Lion')
-    cy.get('#Desc').should('have.value', 'The Lion')
-
-    cy.get('#character_dropdown').select(2).trigger('click')
-
-    cy.get('#class_dropdown').select(2).trigger('click')
-
-    cy.get('#submit').click();
-
-    cy.url().should('include', 'http://localhost:4200/profile/create-character')
-  })
-})
-
-describe('View All Characters Page', () => {
-
-  //Before each test, navigate to the /profile/characters page
-  beforeEach(() => {
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.get('#username').type('Toretto')
-    cy.get('#username').should('have.value', 'Toretto')
-
-    cy.get('#password').type('fastfurious')
-    cy.get('#password').should('have.value', 'fastfurious')
-
-    cy.get('#submit').click();
-
-    cy.url().should('include', 'http://localhost:4200/admin')
-
-    cy.get('#chars').select(2).trigger('click')
-
-    cy.url().should('include', 'http://localhost:4200/profile/characters')
-  })
-
-  it('Successfully Shows All Characters', () => {
-    // Table should have all characters that were created
-    cy.get('#tabl').contains('td', 'Test2').should('be.visible')
-    cy.get('#tabl').contains('td', 'Eustace').should('be.visible')
-    cy.get('#tabl').contains('td', 'Jadis').should('be.visible')
-  })
-
-  it('Successfully Edit a Character', () => {
-    //CHARLENE
-    //TODO - Add Test
-  })
-
-  it('Successfully Delete a Character', () => {
-    //CHARLENE
-    //TODO - Add Test
-  })  
-})
-
-describe('Character Spells Page', () => {
-
-  //Before each test, login and navigate to /profile/spells page
-  beforeEach(() => {
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
-
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
-
-    cy.get('#submit').click();
-
-    cy.url().should('include', 'http://localhost:4200/profile')
-
-    cy.get('#chars').select(3).trigger('click')
-
-    cy.url().should('include', 'http://localhost:4200/profile/spells')
-  })
-
-  it('Successfully add a spell to a character', () => {
     cy.intercept('POST', '**/spells/get').as('getSpells')
-    cy.intercept('POST', '**/characters/addspell').as('addSpell')
+    cy.intercept('DELETE', '**/spell/delete').as('deleteSpell')
 
-    cy.get('#spellChars').select('Dylan - Druid')
-    cy.get('#spellChars').select('Dylan - Druid')
+    //Check the name
+    cy.get("#spellTabl tr td:nth-child(1)")       
+    .eq(21)                            
+    .contains('td', 'A PALADIN SPELL')
 
-    cy.wait('@getSpells')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(0)                            //Get the 2nd row
-    .contains('td', 'Unowned')
-    .should('be.visible')
-
-    cy.get("tr td:nth-child(5)")       //Gets the Add column (5th column)
-    .eq(0)                            //Get the 2nd row
+    //Delete the spell
+    cy.get("#spellTabl tr td:nth-child(5)")       //Gets the Delete column (5th column)
+    .eq(20)                            
     .click()
-
-    cy.wait('@addSpell')
 
     cy.reload(true)
 
-    cy.get('#spellChars').select('Dylan - Druid')
-    cy.get('#spellChars').select('Dylan - Druid')
-
-    cy.wait('@getSpells')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(0)                            //Get the 2nd row
-    .contains('td', 'Owned')
-    .should('be.visible')
+    //Check the name to verify deletion was successful
+    cy.get("#spellTabl tr td:nth-child(1)")       
+    .eq(21)                            
+    .should('not.exist')
   })
-
-  it('Successfully remove an item from a character', () => {
-    cy.intercept('POST', '**/spells/get').as('getSpells')
-    cy.intercept('DELETE', '**/characters/removespell').as('removeSpell')
-
-    cy.get('#spellChars').select('Dylan - Druid')
-    cy.get('#spellChars').select('Dylan - Druid')
-
-    cy.wait('@getSpells')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(0)                            //Get the 2nd row
-    .contains('td', 'Owned')
-    .should('be.visible')
-
-    cy.get("tr td:nth-child(6)")       //Gets the Delete column (6th column)
-    .eq(0)                            //Get the 2nd row
-    .click()
-
-    cy.wait('@removeSpell')
-
-    cy.reload(true)
-
-    cy.get('#spellChars').select('Dylan - Druid')
-    cy.get('#spellChars').select('Dylan - Druid')
-
-    cy.wait('@getSpells')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(0)                            //Get the 2nd row
-    .contains('td', 'Unowned')
-    .should('be.visible')
-  })  
-})
-
-describe('Character Items Page', () => {
-  //Before each test, login and navigate to /profile/items page
-  beforeEach(() => {
-    cy.visit('http://localhost:4200/login')
-    cy.url().should('include', 'http://localhost:4200/login')
-
-    cy.get('#username').type('dylan10')
-    cy.get('#username').should('have.value', 'dylan10')
-
-    cy.get('#password').type('dylandylan')
-    cy.get('#password').should('have.value', 'dylandylan')
-
-    cy.get('#submit').click();
-
-    cy.url().should('include', 'http://localhost:4200/profile')
-
-    cy.get('#chars').select(4).trigger('click')
-
-    cy.url().should('include', 'http://localhost:4200/profile/items')
-  })
-
-  it('Successfully add an item to a character', () => {
-    cy.intercept('POST', '**/items/get').as('getItems')
-    cy.intercept('POST', '**/characters/additem').as('addItem')
-
-    cy.get('#itemChars').select('Dylan - Shaman')
-    cy.get('#itemChars').select('Dylan - Shaman')
-
-    cy.wait('@getItems')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(1)                            //Get the 2nd row
-    .contains('td', 'Unowned')
-    .should('be.visible')
-
-    cy.get("tr td:nth-child(5)")       //Gets the Add column (5th column)
-    .eq(1)                            //Get the 2nd row
-    .click()
-
-    cy.wait('@addItem')
-
-    cy.reload(true)
-
-    cy.get('#itemChars').select('Dylan - Shaman')
-    cy.get('#itemChars').select('Dylan - Shaman')
-
-    cy.wait('@getItems')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(1)                            //Get the 2nd row
-    .contains('td', 'Owned')
-    .should('be.visible')
-  })
-
-  it('Successfully remove an item from a character', () => {
-    cy.intercept('POST', '**/items/get').as('getItems')
-    cy.intercept('DELETE', '**/characters/removeitem').as('removeItem')
-
-    cy.get('#itemChars').select('Dylan - Shaman')
-    cy.get('#itemChars').select('Dylan - Shaman')
-
-    cy.wait('@getItems')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(1)                            //Get the 2nd row
-    .contains('td', 'Owned')
-    .should('be.visible')
-
-    cy.get("tr td:nth-child(6)")       //Gets the Delete column (6th column)
-    .eq(1)                            //Get the 2nd row
-    .click()
-
-    cy.wait('@removeItem')
-
-    cy.reload(true)
-
-    cy.get('#itemChars').select('Dylan - Shaman')
-    cy.get('#itemChars').select('Dylan - Shaman')
-
-    cy.wait('@getItems')
-
-    cy.get("tr td:nth-child(4)")       //Gets the Owned column (4th column)
-    .eq(1)                            //Get the 2nd row
-    .contains('td', 'Unowned')
-    .should('be.visible')
-  })  
 })

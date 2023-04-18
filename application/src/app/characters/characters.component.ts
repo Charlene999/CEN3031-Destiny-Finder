@@ -9,7 +9,6 @@ import { HttpClient} from '@angular/common/http';
 
 export class CharactersComponent {
 
-
   allClasses: Array<string>;
   allChars: character[];
   viewSubmitted: Boolean;
@@ -21,7 +20,6 @@ export class CharactersComponent {
     searchText: any;
   constructor(private http: HttpClient, private router: Router) {
     this.allChars = [];
-
     this.allClasses = ["All Characters", "Sorcerer", "Barbarian", "Bard", "Druid", "Shaman", "Hunter", "Necromancer", "Rogue", "Paladin", "Priest"];
     this.viewSubmitted = false;
     this.curClass = "All Characters";
@@ -80,7 +78,7 @@ export class CharactersComponent {
               chars[i].ClassType = "Priest";
               break;
             default:
-              //alert("Invalid class choice.");
+              alert("Invalid class choice.");
               break;
           }
 
@@ -155,7 +153,7 @@ export class CharactersComponent {
               chars[i].ClassType = "Priest";
               break;
             default:
-              //alert("Invalid class choice.");
+              alert("Invalid class choice.");
               break;
           }
 
@@ -264,9 +262,7 @@ export class CharactersComponent {
         break;
     }
 
-    //var myChar = new character(name, level as number, desc, myclass as number, char.ID);
     var myChar = new character(name, level as number, desc, myclass, char.ID);
-
 
     // Create character from edited info according to backend schema
     let Character = {
@@ -319,7 +315,7 @@ export class CharactersComponent {
             curChar.ClassReq = "Priest";
             break;
           default:
-            //alert("Invalid class choice.");
+            alert("Invalid class choice.");
             break;
         }
 
