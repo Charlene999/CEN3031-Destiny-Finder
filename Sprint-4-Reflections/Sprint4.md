@@ -17,11 +17,7 @@ A few tests added during Sprints 2 and 3 have been updated to reflect the additi
 ### Backend Accomplishments
 In total, three endpoints for the admin functionality were implemented, completing the backend API. The new admin get all users endpoint, admin update user endpoint, and admin delete user endpoint all require an admin account and offer some functionality not available to regular users. In addition to the endpoints themselves, multiple unit tests were added for each endpoint, completing the unit test suite. Finally, the database was populated with production-quality data for demonstration.
 
-## Frontend Cypress and Unit Tests
-
-### Cypress Tests
-
-#### E2E Tests
+### Frontend Cypress E2E Tests
 
 #### Sprints 2 & 3
 
@@ -54,15 +50,58 @@ In total, three endpoints for the admin functionality were implemented, completi
 
 #### Sprint 4
 
-#### Removed Tests
-
-
-
 #### New Tests
 
+- Sign Up Page
+    - New User Successfully Created - Tests that creating a new user via the /signup page works.
 
+- Classes Page
+    - Successfully navigate to Classes page from Navbar - Tests that Navbar button for classes successfully redirects to the classes page.
 
-### Angular Tests
+- Spells Page
+    - Spells Page Renders with all spells loaded - Tests that the /spells page loads will all spells displayed in the table onInit.
+    - Selecting Barbarian From Dropdown Works - Tests that selecting Barbarian from the dropdown will display all Barbarian spells available.
+
+- Items Page
+    - Items page renders with all items loaded - Tests that the /items page loads will all items displayed in the table onInit.
+    - Selecting Sorcerer From Dropdown Works - Tests that selecting Sorcerer from the dropdown will display all Sorcerer items available.
+
+- Create A New Character Page
+    - Successfully Creates a New Character - Tests that creating a new character via the /profile/create-character page works.
+
+- Character Spells Page
+    - Successfully add a spell to a character - Tests that adding a spell to an eligible character works.
+    - Successfully remove a spell from a character - Tests that removing a spell from an eligible character works.
+
+- Character Items Page 
+    - Successfully add an item to a character - Tests that adding an item to an eligible character works.
+    - Successfully remove an item from a character - Tests that removing an item from an eligible character works.
+
+- View All Characters Page
+    - Successfully Shows All Characters - Tests that the /profile/characters page loads will all characters displayed in the table onInit.
+    - Successfully Edit a Character - Tests that editing a character on the /profile/characters page works.
+    - Successfully Delete a Character - Tests that deleting a character on the /profile/characters page works.
+
+- Admin Page 
+    - View Existing Users Button Redirects Correctly - Tests that the user is correctly redirected to the /admin/view-users page from the /admin page.
+    - Create Spells or Items Button Redirects Correctly - Tests that the user is correctly redirected to the /admin/add-spells-and-items page from the /admin page.
+    - Remove Spells or Items Redirects Correctly - Tests that the user is correctly redirected to the /admin/delete-spells-and-items page from the /admin page.
+
+- View Existing Users Page
+    - Successfully Edit a User - Tests that editing a user on the /admin/view-users page works.
+    - Successfully Delete a User - Tests that deleting a user on the /admin/view-users page works.
+
+- Create Spells or Items Page
+    - Test Item Reset and Successfully Create Item - Tests that typing in input, reseting it, then typing input again and submitting successfully creates an item on the /admin/add-spells-and-items page.
+    - Test Spell Reset and Successfully Create Spell - Tests that typing in input, reseting it, then typing input again and submitting successfully creates an spell on the /admin/add-spells-and-items page.
+
+- Delete Spells or Items Page
+    - Successfully Edit an Item - Tests that editing an item on the /admin/delete-spells-and-items page page works.
+    - Successfully Delete an Item - Tests that deleting an item on the /admin/delete-spells-and-items page page works.
+    - Successfully Edit an Spell - Tests that editing a spell on the /admin/delete-spells-and-items page page works.
+    - Successfully Delete a Spell - Tests that deleting a spell on the /admin/delete-spells-and-items page works.
+
+### Frontend Angular Tests
 
 #### Sprints 2 & 3
 
@@ -184,12 +223,77 @@ In total, three endpoints for the admin functionality were implemented, completi
 
 #### Removed Tests
 
+- AdminAddComponent
+    - submitSpell
+        - User Input is Received - Tests that the ngForm data is populated successfully.
+        - Reason - AdminAddComponent no longer uses ngForm, so test was removed.
+    - submitItem
+        - User Input is Received - Tests that the ngForm data is populated successfully.
+        - Reason - AdminAddComponent no longer uses ngForm, so test was removed.
 
+- SpellsComponent
+    - Reason - Page functionality changed. All tests except /spells page renders moved to CharactersSpellsComponent.
+
+- ItemsComponent
+    - Reason - Page functionality changed. All tests except /items page renders moved to CharactersItemsComponent.
+
+- UsersComponent
+    - createCharacter
+        - Create A New Character Button Works - Tests that the button successfully calls the createCharacter function.
+        - Reason - The button has been removed and placed on the Navbar, so the test was removed.
+    - getCharacters
+        - View All Characters Button Works - Tests that the button successfully calls the getCharacters function.
+        - Reason - The button has been removed and placed on the Navbar, so the test was removed.
 
 #### New Tests
 
+- AdminAddComponent
+    - submitSpell
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Spell name field validity - Tests that various invalid name inputs are correctly identified invalid.
+        - Spell description field validity - Tests that various invalid description inputs are correctly identified invalid.
+    - submitItem
+        - Form invalid when empty - Tests that the form is invalid when empty, and therefore cannot be submitted.
+        - Item name field validity - Tests that various invalid name inputs are correctly identified invalid.
+        - Item description field validity - Tests that various invalid description inputs are correctly identified invalid.
 
+- LoginComponent
+    - onSubmit
+        - Login Button Works - Tests that the button successfully calls the onSubmit() function.
 
+- SpellsComponent
+    - Select Dropdown Works - Tests that the dropdown successfully calls the showSpells() function.
+
+- ItemsComponent
+    - Select Dropdown Works - Tests that the dropdown successfully calls the showItems() function.
+
+- CharactersItemsComponent
+    - The /profile/items page renders - Tests that the page renders successfully.
+    - Select Dropdown Works - Tests that the dropdown successfully calls the showItems() function.
+    - add
+        - ADD button works - Tests that the button successfully calls the add function.
+    - remove
+        - REMOVE button works - Tests that the button successfully calls the remove function.
+
+- CharactersSpellsComponent
+    - The /profile/spells page renders - Tests that the page renders successfully.
+    - Select Dropdown Works - Tests that the dropdown successfully calls the showSpells() function.
+    - add
+        - ADD button works - Tests that the button successfully calls the add function.
+    - remove
+        - REMOVE button works - Tests that the button successfully calls the remove function.
+
+- ClassesComponent
+    - Barbarian Button Works - Tests that the button successfully calls the submit(1) function.
+    - Druid Button Works - Tests that the button successfully calls the submit(2) function.
+    - Bard Button Works - Tests that the button successfully calls the submit(3) function.
+    - Sorcerer Button Works - Tests that the button successfully calls the submit(4) function.
+    - Rogue Button Works - Tests that the button successfully calls the submit(5) function.
+    - Hunter Button Works - Tests that the button successfully calls the submit(6) function.
+    - Priest Button Works - Tests that the button successfully calls the submit(7) function.
+    - Necromancer Button Works - Tests that the button successfully calls the submit(8) function.
+    - Shaman Button Works - Tests that the button successfully calls the submit(9) function.
+    - Paladin Button Works - Tests that the button successfully calls the submit(10) function.
 
 ## Backend API Unit Tests
 Unit tests were designed in order to test the functionality of each server endpoint. To faciliate this, the tests first start the router and controllers in the same fashion as during regular operation, but a connection to the special testing database is made rather than the main database. Each of the unit tests is contained in a singular function; they are listed below.
