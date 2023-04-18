@@ -20,4 +20,18 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('login', () => {
+    it('Login Button Works', async () => {
+      component.login();
+      expect(component.loginSubmitted).toBeTruthy();
+    });
+  });
+
+  describe('signup', () => {
+    it('Sign Up Button Works', async () => {
+      component.signup();
+      expect(component.signupSubmitted).toBeTruthy();
+    });
+  });
 });

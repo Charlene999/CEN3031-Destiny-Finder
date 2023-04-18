@@ -60,8 +60,6 @@ describe('SignupComponent', () => {
 
       name.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
       expect(name.hasError('maxlength')).toBeTruthy();
-
-      //Add additional username validity test cases for pattern
     });
 
     it('Username field validity', () => {
@@ -76,8 +74,6 @@ describe('SignupComponent', () => {
 
       username.setValue("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
       expect(username.hasError('maxlength')).toBeTruthy();
-
-      //Add additional password validity test cases for pattern
     });
 
     it('Email field validity', () => {
@@ -106,5 +102,4 @@ describe('SignupComponent', () => {
       expect(password.hasError('maxlength')).toBeTruthy();
     });
   });
-  //Test what happens when user enters account information already in DB
 });

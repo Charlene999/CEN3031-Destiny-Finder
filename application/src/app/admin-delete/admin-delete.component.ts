@@ -465,7 +465,6 @@ export class AdminDeleteComponent {
     this.SpellValid = false;
     return this.SpellValid;
   }
-
 }
 
 class Items {
