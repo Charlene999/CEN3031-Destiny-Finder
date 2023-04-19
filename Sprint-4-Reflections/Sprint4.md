@@ -10,7 +10,13 @@ The /admin/add-spells-and-items page forms were updated to check for input valid
 
 The /admin/view-users page was given functionality this sprint. Upon load, the page will display the information of all users in the database. This information includes the user’s name, username, email, database ID, and admin status. This table has one last column, which is delete user. Clicking on the box in a user’s row will prompt the admin if they are sure they want to delete the user. If the admin clicks ok, the user will be deleted from the database. Finally, by clicking on the View All Users and Hide All Users button, the admin can either view or hide the user information table.
 
+The /admin/view-users page was also given functionality to allow an admin to edit user info including a user's name, email, and password. The admin could also select if they wanted the user to become in admin. Once the admin clicked edit, that user info would be updated, , validation was also added to ensure an admin submitted valid info before editing.
+
+The admin was also given functionality this sprint to edit spell and item info by viewing a spell and typing the updated information for that spell and item and pressing edit, validation was also added to ensure an admin submitted valid info before editing.
+
 The /spells and /items pages received a complete redesign this sprint. The previous functionality of the /spells and /items pages has been moved to the /profile/spells and /profile/items pages respectively. These pages can be accessed via the new View All Spells By Character and View All Items By Character buttons on the /profile page. The /spells and /items page now prompt a user to select a class from the dropdown box instead of a character. Upon selecting one of ten characters, the tables for both pages will now display the name of the item or spell, its description, and the level required to use it. Additionally, for all 4 pages mentioned above, a new search bar has been added where a user can filter the results by typing in an item or spell’s name, description, or level required. 
+
+Lastly, the entire CSS design of the site was redesigned to ensure color schemes matched and data was centered and viewable to ensure a user can easily use the site.
 
 A few tests added during Sprints 2 and 3 have been updated to reflect the addition of new features. Many new tests have been added to Cypress and Angular to test the new functionality added during this sprint.
 
